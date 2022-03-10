@@ -1,1 +1,1 @@
-# ProjektIn-ynierski
+# ProjektIn-Inżynierski
