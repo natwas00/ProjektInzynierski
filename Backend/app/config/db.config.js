@@ -14,7 +14,7 @@
 module.exports = {
     HOST: "mysql.wmi.amu.edu.pl",
     USER: "s452743_proj",
-    PASSWORD: "ingstanitchanta",
+    PASSWORD: "",
     DB: "s452743_proj",
     dialect: "mysql",
     pool: {
