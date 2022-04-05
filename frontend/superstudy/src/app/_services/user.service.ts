@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'http://superstudy.projektstudencki.pl:8080/api/test';
+const API_URL = 'superstudy.projektstudencki.pl';
 
 @Injectable({
   providedIn: 'root',
