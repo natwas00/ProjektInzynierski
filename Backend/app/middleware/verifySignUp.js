@@ -4,13 +4,13 @@ const User = db.user;
 var passwordValidator = require('password-validator');
 var schema = new passwordValidator();
 schema
-.is().min(8)                                    // Minimum length 8
+.is().min(6)                                    // Minimum length 8
 .is().max(40)                                  // Maximum length 100
 .has().uppercase()                              // Must have uppercase letters
 .has().lowercase()                              // Must have lowercase letters
 .has().digits(2)                                // Must have at least 2 digits
 .has().not().spaces()                           // Should not have spaces
-.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
+
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   // Username
@@ -21,7 +21,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
   }).then(user => {
     if (user) {
       res.status(400).send({
-        message: "Failed! Login is already in use!"
+        message: "Użytkownik o podanym loginie już istnieje"
       });
       return;
     }
@@ -33,7 +33,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
     }).then(user => {
       if (user) {
         res.status(400).send({
-          message: "Failed! Email is already in use!"
+          message: "Użytkownik o podanym adesie e-mail już istnieje"
         });
         return;
       }
@@ -44,19 +44,47 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 };
 checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
-    for (let i = 0; i < req.body.roles.length; i++) {
-      if (!ROLES.includes(req.body.roles[i])) {
+      if (!ROLES.includes(req.body.roles)) {
         res.status(400).send({
-          message: "Failed! Role does not exist = " + req.body.roles[i]
+          message: "Nie można mieć takiej roli " + req.body.roles
         });
         return;
       }
-    }
+    
   }
   // Save User to Database
   if (schema.validate(req.body.password)==false){
+    var data = schema.validate(req.body.password, { details: true });
+    var mess= ""
+    mess += "Hasło musi mieć: "
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].validation == "min"){
+        mess += "minimum 6 znaków"
+      }
+      else if (data[i].validation == "digits"){
+        mess+="minimum 2 cyfry"
+      }
+      else if (data[i].validation == "uppercase"){
+        mess+="minimum jedną dużą literę"
+      }
+      else if (data[i].validation == "max"){
+        mess+="długą mniejszą niż 40"
+      }
+      else if (data[i].validation == "lowercase"){
+        mess+="minimum 1 małą literę"
+      }
+      else if (data[i].validation == "spaces"){
+        mess+="brak spacji"
+      }
+      if (i <data.length -1){
+        mess+=", "
+      }
+      else
+        mess+="."
+    }
+
     res.status(400).send({
-          message: schema.validate(req.body.password, { details: true })
+          message: mess
          });
          return;
   }
@@ -66,7 +94,7 @@ checkRolesExisted = (req, res, next) => {
 checkIfNotNull = (req, res, next) =>  {
   if (req.body.login == null || req.body.password == null || req.body.email == null || req.body.first_name == null || req.body.last_name == null){
     res.status(400).send({
-      message: "Empty data"
+      message: "Brakuje danych"
     });
     return;
   }

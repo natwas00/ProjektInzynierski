@@ -6,13 +6,13 @@ verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send({
-      message: "No token provided!"
+      message: "Brak tokena"
     });
   }
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
       return res.status(401).send({
-        message: "Unauthorized!"
+        message: "Nieautoryzowany dostęp"
       });
     }
     req.userId = decoded.id;
@@ -29,7 +29,7 @@ isAdmin = (req, res, next) => {
         }
       }
       res.status(403).send({
-        message: "Require Admin Role!"
+        message: "Potrzebna rola administratora"
       });
       return;
     });
@@ -45,7 +45,7 @@ isUser =  (req, res, next) => {
         }
       }
       res.status(403).send({
-        message: "Require user Role!"
+        message: "Potrzebna rola użytkownika"
       });
     });
   });
@@ -60,7 +60,7 @@ isTeacher = (req, res, next) => {
         }
       }
       res.status(403).send({
-        message: "Require Teacher Role!"
+        message: "Potrzebna rola nauczyciela"
       });
     });
   });
@@ -79,7 +79,7 @@ isTeacherOrAdmin = (req, res, next) => {
         }
       }
       res.status(403).send({
-        message: "Require Teacher or Admin Role!"
+        message: "Potrzebna rola użytkownika lub nauczyciela"
       });
     });
   });

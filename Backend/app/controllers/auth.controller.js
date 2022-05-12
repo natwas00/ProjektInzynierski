@@ -23,17 +23,17 @@ exports.deleteUser = (req,res) =>{
   .then(num => {
     if (num == 1) {
       res.send({
-        message: "User was deleted successfully!"
+        message: "Użytkownik został usunięty"
       });
     } else {
       res.send({
-        message: `Cannot delete User with id=${id}.`
+        message: `Nie można usunąć użytkownika z id=${id}.`
       });
     }
   })
   .catch(err => {
     res.status(500).send({
-      message: "Could not delete User with id=" + id
+      message: "Nie można usunąć użytkownika z id=" + id
     });
   });
 };
@@ -42,39 +42,93 @@ exports.updateData= (req,res) => {
   User.findOne({where: {id: req.userId}})
   .then (data =>{
     const id = req.userId
-    // if (id != req.userId){
-    //   res.status(500).send({
-    //     message: "Not your data"
-    //   });
-    //   return;
-    // }
-    if (req.body.password != null){
-      if (schema.validate(req.body.password)==false){
-        res.status(400).send({
-              message: schema.validate(req.body.password, { details: true })
-             });
-             return;
+
+    if (req.body.new_password1 != null && req.body.new_password2 != null && req.body.old_password != null){
+    
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.old_password,
+        data.password
+      ); 
+      if (passwordIsValid ) {
+        if  (req.body.new_password1 == req.body.new_password2){
+        if (schema.validate(req.body.new_password1)==false){
+          var mess = ""
+          var data = schema.validate(req.body.new_password1, { details: true });
+          mess += "Hasło musi mieć: "
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].validation == "min"){
+              mess += "minimum 6 znaków"
+            }
+            else if (data[i].validation == "digits"){
+              mess+="minimum 2 cyfry"
+            }
+            else if (data[i].validation == "uppercase"){
+              mess+="minimum jedną dużą literę"
+            }
+            else if (data[i].validation == "max"){
+              mess+="długą mniejszą niż 40"
+            }
+            else if (data[i].validation == "lowercase"){
+              mess+="minimum 1 małą literę"
+            }
+            else if (data[i].validation == "spaces"){
+              mess+="brak spacji"
+            }
+            if (i <data.length -1){
+              mess+=", "
+            }
+            else
+              mess+="."
+          }
+          res.status(400).send({
+                message: mess
+               });
+               return;
+        }
+        var new_password =  bcrypt.hashSync(req.body.new_password1, 8)
+        var dat = {
+          "password": new_password
+        }
+        User.update( dat,{ where: {id: id}
+        })
+        .then(num => {
+          if (num == 1) {
+            res.send({
+              message: "Pomyślnie zaktualizowano dane"
+            });
+          } else {
+            res.send({
+              message: `Nie można zaktualizować użytkownika z id=${id}.`
+            });
+          };
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Nie można zaktualizować użytkownika z id=" + id
+          });
+        });
       }
-      req.body.password =  bcrypt.hashSync(req.body.password, 8)
+      else{
+        res.status(500).send({
+          message: "Podane hasła nie zgadzają się"
+        });
+      }
     }
-    User.update( req.body,{ where: {id: id}
-  })
-  .then(num => {
-    if (num == 1) {
-      res.send({
-        message: "User was updated successfully."
+      else{
+        res.status(500).send({
+          message: "Nieprawidłowe hasło"
+        });
+        return;
+      }
+
+    }
+    else{
+      res.status(500).send({
+        message: "Brak danych"
       });
-    } else {
-      res.send({
-        message: `Cannot update user with id=${id}. Maybe Tutorial was not found or req.body is empty!`
-      });
-    };
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: "Error updating user with id=" + id
-    });
-  });
+      return;
+    }
+
 });
   
 };
@@ -92,23 +146,22 @@ exports.signup = (req, res) => {
     .then(user => {
       if (req.body.roles) {
 
-        Role.findAll({
+        Role.findOne({
           where: {
-            name: {
-              [Op.or]: req.body.roles
-            }
+            name: req.body.roles
+            
           }
         }).then(roles => {
           user.setRoles(roles).then(() => {
             
-            res.send({ message: "User was registered successfully! :)" });
+            res.send({ message: "Użytkownik został pomyślnie dodany" });
           });
         });
       } else {
-        console.log("nie weszło")
+   
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "User was registered successfully!!!" });
+          res.send({ message: "Użytkownik został pomyślnie dodany" });
         });
       }
     })
@@ -124,7 +177,7 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({ message: "Błędny login lub hasło" });
       }
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
@@ -133,7 +186,7 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Nieprawidłowe hasło"
         });
       }
       var token = jwt.sign({ id: user.id }, config.secret, {
