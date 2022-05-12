@@ -25,7 +25,14 @@ export class TokenStorageService {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
-
+  public check_Role(): any{
+    var user = this.getUser()
+    if (user){
+      return user.roles
+    }
+    else
+      return ""
+  }
   public getUser(): any {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {

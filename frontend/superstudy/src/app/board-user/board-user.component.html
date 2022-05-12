@@ -1,5 +1,13 @@
 <div class="container">
+  <form
+  *ngIf="!isSuccessful"
+  name="form"
+  (ngSubmit)="f.form.valid && onSubmit()"
+  #f="ngForm"
+  novalidate
+>
   <header class="jumbotron">
     <p>{{ content }}</p>
   </header>
-</div>
+  
+  

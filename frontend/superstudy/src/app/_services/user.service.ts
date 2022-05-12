@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'superstudy.projektstudencki.pl';
+const API_URL = 'http://localhost:8080/api/test/';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,8 @@ export class UserService {
     return this.http.get(API_URL + 'user', { responseType: 'text' });
   }
 
-  getModeratorBoard(): Observable<any> {
-    return this.http.get(API_URL + 'mod', { responseType: 'text' });
+  getTeacherBoard(): Observable<any> {
+    return this.http.get(API_URL + 'teacher', { responseType: 'text' });
   }
 
   getAdminBoard(): Observable<any> {

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../_services/token-storage.service';
+import {NgbModal, ModalDismissReasons} 
+      from '@ng-bootstrap/ng-bootstrap';
+import {DataService} from "src/app/_services/updateAndDel.service"
 
 @Component({
   selector: 'app-profile',
@@ -8,9 +11,49 @@ import { TokenStorageService } from '../_services/token-storage.service';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
-  constructor(private token: TokenStorageService) {}
-
+  constructor(private token: TokenStorageService,
+    private modalService: NgbModal,
+    private changePassService: DataService) {}
+  closeResult = '';
+  open(content) {
+    this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then(
+    //  (result) 
+    //   => {
+    //   this.closeResult = `Closed with: ${result}`;
+    // }, 
+    (reason) => {
+      this.closeResult = 
+         `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  deleteUser():void{
+    this.changePassService.delete().subscribe(
+      response => {
+        console.log(response);
+        this.logout()
+      },
+      error => {
+        console.log(error);
+      });
+  }
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
+    
+  }
+  logout(): void {
+    this.token.signOut();
+  //  window.location.reload();
+    window.location.replace("/home")
   }
 }

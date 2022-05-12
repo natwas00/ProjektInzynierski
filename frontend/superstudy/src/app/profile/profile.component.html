@@ -19,5 +19,49 @@
       {{ role }}
     </li>
   </ul>
+  <ul routerLinkActive="active"></ul>
+  <a routerLink="/change_pass"><button class="btn btn-success pull-right" > Zmień hasło</button></a>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" 
+            id="modal-basic-title">
+            SuperStudy
+        </h4>
+        <button type="button" class="close"
+                aria-label="Close" (click)=
+                "modal.dismiss('Cross click')">
+  
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="ask">
+                    Czy na pewno chcesz usunąć konto?
+                </label>
+                
+            </div>
+        </form>
+        <button class="btn btn-success pull-right" 
+        (click)="deleteUser()">
+        Tak
+    </button>
+    <button class="btn btn-success pull-right" 
+    (click)="modal.dismiss('Cross click')">
+    Nie
+    </button>
+    </div>
+   
+
+</ng-template>
+  
+<button class="btn btn-success pull-right" 
+    (click)="open(content)">
+    Usuń konto
+</button>
 </div>
 <ng-template #loggedOut> Please login. </ng-template>
