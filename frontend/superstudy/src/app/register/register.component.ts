@@ -7,6 +7,11 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  selectedRole: string = '';
+  selectChangeHandler (event: any) {
+    //update the ui
+    this.selectedRole = event.target.value;
+  }
   form: any = {
     first_name: null,
     last_name: null,
@@ -24,8 +29,16 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     const { first_name, last_name, email, login, password } = this.form;
+
+    var roles 
+    if (this.selectedRole == "Nauczyciel"){
+      roles = "teacher"
+    }
+    else{
+      roles="user"
+    }
     this.authService
-      .register(first_name, last_name, email, login, password)
+      .register(first_name, last_name, email, login, password,roles )
       .subscribe(
         (data) => {
           console.log(data);
