@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotFoundComponent } from './not-found/not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BoardTeacherComponent,
     BoardUserComponent,
     ChangePassComponent,
+    NotFoundComponent,
 
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule,
