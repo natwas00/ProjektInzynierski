@@ -10,6 +10,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { ChangePassComponent } from './change_pass/change-pass.component';
 import { AuthGuard} from './_services/auth.guards';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { CreateSetComponent } from './create-set/create-set.component';
 const routes: Routes = [
   {path: 'change_pass', component: ChangePassComponent, canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent},
   { path: 'teacher', component: BoardTeacherComponent},
   { path: 'admin', component: BoardAdminComponent  },
+  { path: 'create-set', component: CreateSetComponent},
   { path: '404', component: NotFoundComponent  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {path: '**', redirectTo: '/404'}

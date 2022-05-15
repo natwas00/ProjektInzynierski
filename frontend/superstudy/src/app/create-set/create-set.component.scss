@@ -1,0 +1,60 @@
+.wrapper{
+    width: 100%;
+    padding: 30px;
+    min-height: 100%;
+    margin-bottom: 40px;
+    background-color: #E8AEB7;
+}
+
+.create-set-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 40px;
+    background-color: #E8AEB7;
+    flex-direction: column;
+}
+
+.set-name{
+box-sizing: border-box;
+
+/* Auto layout */
+
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 20px 10px;
+gap: 54px;
+
+/* White */
+
+background: #FFFFFF;
+border: 1.5px solid #ADADAD;
+border-radius: 12px;
+}
+
+.inputs{
+    display: flex;
+    justify-content: space-around;
+    input{
+        margin: 15px;
+    }
+    select{
+        margin: 15px;
+    }
+}
+
+.flashcards-row{
+    display: flex;
+    justify-content: space-around;
+}
+
+.add-flashcards-table{
+    width: 100%;
+}
+
+tr {
+    margin: 15px;
+}
