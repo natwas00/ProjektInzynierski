@@ -13,6 +13,7 @@ const uploadFiles = async (req, res) => {
     }
     Image.create({
       type: req.file.mimetype,
+      id_fishka: 0, // need to take current fishka id that is opened. 0 is placeholder
       name: req.file.originalname,
       data: fs.readFileSync(
         pathFileUploads + req.file.filename

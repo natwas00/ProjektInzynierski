@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       id_fishka: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       name: {
         type: DataTypes.STRING,
