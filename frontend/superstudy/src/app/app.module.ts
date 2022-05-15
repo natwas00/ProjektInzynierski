@@ -23,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { CreateSetComponent } from './create-set/create-set.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     BoardUserComponent,
     ChangePassComponent,
     NotFoundComponent,
+    CreateSetComponent,
 
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule,
@@ -43,7 +45,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatButtonModule,
     MatIconModule,
     NgbModule,
-    ShowHidePasswordModule
+    ShowHidePasswordModule,
+    FontAwesomeModule
 ],
     
   providers: [authInterceptorProviders, AuthGuard],
