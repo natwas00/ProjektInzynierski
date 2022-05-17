@@ -11,17 +11,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 const Role = db.role;
-db.sequelize.sync({force: false}).then(() => { //zmienić na true jeśli pierwszy raz się uruchamia
+const Set = db.set;
+db.sequelize.sync({force:false}).then(() => { //zmienić na true jeśli pierwszy raz się uruchamia
   console.log('Drop and Resync Db');
   //initial()
+ 
 });
+
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Hello" });
 });
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require('./app/routes/set.routes')(app);
 require('./app/routes/image.upload.routes')(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
@@ -35,7 +40,7 @@ function initial() {
  
   Role.create({
     id: 2,
-    name: "techaer"
+    name: "teacher"
   });
  
   Role.create({

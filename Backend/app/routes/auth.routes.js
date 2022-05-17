@@ -13,7 +13,8 @@ module.exports = function(app) {
     [
       verifySignUp.checkIfNotNull,
       verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
+      verifySignUp.checkRolesExisted,
+      verifySignUp.check_password
     ],
     controller.signup
   );

@@ -38,8 +38,10 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         return;
       }
 
-      next();
+  //    next();
     });
+    console.log("email sprawdzony")
+    next();
   });
 };
 checkRolesExisted = (req, res, next) => {
@@ -50,8 +52,13 @@ checkRolesExisted = (req, res, next) => {
         });
         return;
       }
+      else{
+        next();
+      }
     
   }
+};
+check_password = (req,res,next) => {
   // Save User to Database
   if (schema.validate(req.body.password)==false){
     var data = schema.validate(req.body.password, { details: true });
@@ -88,8 +95,9 @@ checkRolesExisted = (req, res, next) => {
          });
          return;
   }
-  
+  else{
   next();
+  }
 };
 checkIfNotNull = (req, res, next) =>  {
   if (req.body.login == null || req.body.password == null || req.body.email == null || req.body.first_name == null || req.body.last_name == null){
@@ -98,11 +106,15 @@ checkIfNotNull = (req, res, next) =>  {
     });
     return;
   }
+  else{
   next();
+  }
 }
 const verifySignUp = {
   checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
   checkRolesExisted: checkRolesExisted,
-  checkIfNotNull: checkIfNotNull
+  checkIfNotNull: checkIfNotNull,
+  check_password: check_password
+  
 };
 module.exports = verifySignUp;

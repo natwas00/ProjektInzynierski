@@ -7,6 +7,8 @@ const upload = require("../middleware/imageUploader");
 module.exports = function (app) {
     //to accsess image uploader
     router.get("/imageUpload", homeController.getHome); //temp! only for visualization
-    router.post("/upload", upload.single("file"), uploadController.uploadFiles);
+    router.post("/upload/:id", upload.single("file"), uploadController.uploadFiles);
+    router.get("/files", uploadController.getListFiles);
+    router.get("/files/:name", uploadController.download);
     return app.use("/", router);
 };

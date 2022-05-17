@@ -84,6 +84,7 @@ isTeacherOrAdmin = (req, res, next) => {
     });
   });
 };
+
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,

@@ -3,9 +3,6 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.STRING,
       },
-      id_fishka: {
-        type: DataTypes.INTEGER,
-      },
       name: {
         type: DataTypes.STRING,
       },

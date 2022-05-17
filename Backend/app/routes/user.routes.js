@@ -1,6 +1,8 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
 const controller2 = require("../controllers/auth.controller");
+const { verifySignUp } = require("../middleware");
+
 module.exports = function(app) {
   app.use(function(req, res, next) {
     res.header(
@@ -9,6 +11,7 @@ module.exports = function(app) {
     );
     next();
   });
+  
   app.get("/api/test/all", controller.allAccess);
   app.get(
     "/api/test/user",
@@ -27,7 +30,8 @@ module.exports = function(app) {
   );
   app.put(
     "/api/test/update",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken,verifySignUp.check_password],
+
     controller2.updateData
 
   )
@@ -36,4 +40,5 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller2.deleteUser
   )
+  
 };
