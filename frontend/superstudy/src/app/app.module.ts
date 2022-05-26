@@ -22,6 +22,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { CreateSetComponent } from './create-set/create-set.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,13 +35,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BoardTeacherComponent,
     BoardUserComponent,
     ChangePassComponent,
-
+    NotFoundComponent,
+    CreateSetComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule,
-   
-   
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    ShowHidePasswordModule,
+    FontAwesomeModule,
     NgbModule
-    
 ],
     
   providers: [authInterceptorProviders, AuthGuard],

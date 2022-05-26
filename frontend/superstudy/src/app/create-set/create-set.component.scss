@@ -58,3 +58,14 @@ border-radius: 12px;
 tr {
     margin: 15px;
 }
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    div {
+        width: 100%;
+    }
+}
