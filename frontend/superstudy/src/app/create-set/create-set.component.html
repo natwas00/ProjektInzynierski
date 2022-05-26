@@ -1,52 +1,57 @@
 <div class="wrapper">
-    <div class="create-set-container">
-        <h1>Utwórz zestaw</h1>
-        <div>
-            {{errorMessage}}
-        </div>
-        <br />
-        <form ngNativeValidate action="/" method="post" #user="ngForm">
-            <div class="inputs">
-                <input placeholder="Wpisz nazwę zestawu" type="text" name="title" class="set-title" required />
-                <select name="level" class="set-level" required >
-                    <option value="" disabled selected>Wybierz poziom</option>
-                    <option >I SP</option>
-                    <option>II SP</option>
-                    <option>III SP</option>
-                </select>
-                <select name="subject" class="set-subject" required>
-                    <option value="" disabled selected>Wybierz przedmiot</option>
-                    <option>j. polski</option>
-                    <option>matematyka</option>
-                    <option>historia</option>
-                </select>
-            </div>
-            <table class="add-flashcards-table">
-                <tbody>
-                    <tr class="flashcards-row">
-                    <td>
-                      <input class="flashcards-input" type="text" id="newFlashcardLeft" [(ngModel)]="newRow.left" name="newFlashcardLeft" />
-                    </td>
-                    <td>
-                      <input class="flashcards-input" type="text" id="newFlashcardRight" [(ngModel)]="newRow.right" name="newFlashcardRight" />
-                    </td>
-                    <td>
-                      <button class="button-add-flashcard" type="button" (click)="addRowToSet()"><i class="fa fa-plus"></i> Dodaj fiszkę</button>
-                    </td>
-                  </tr>
-                  <tr *ngFor="let flashcard of flashcardsSet; let i = index" class="flashcards-row">
-                    <td>
-                      <input [(ngModel)]="flashcard.left" class="flashcards-input" type="text" name="l-{{flashcard.left}}" />
-                    </td>
-                    <td>
-                      <input [(ngModel)]="flashcard.right" class="flashcards-input" type="text" name="r-{{flashcard.right}}" />
-                    </td>
-                    <td>
-                      <button class="button-delete"  type="button" (click)="deleteFieldValue(i)"><i class="fa fa-times"></i> Usuń fiszkę</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-        </form>
+  <div class="create-set-container">
+    <h1>Utwórz zestaw</h1>
+    <div>
+      {{errorMessage}}
     </div>
+    <br />
+    <form ngNativeValidate action="/" method="post" #addSetFrom="ngForm" (ngSubmit)="addSet(addSetFrom.value)">
+      <div class="inputs">
+        <input placeholder="Wpisz nazwę zestawu" type="text" name="title" class="set-title" ngModel required />
+        <select name="level" class="set-level" ngModel required>
+          <option value="" disabled selected>Wybierz poziom</option>
+          <option>Liceum</option>
+          <option>II SP</option>
+          <option>III SP</option>
+        </select>
+        <select name="subject" class="set-subject" ngModel required>
+          <option value="" disabled selected>Wybierz przedmiot</option>
+          <option>Język angielski</option>
+          <option>matematyka</option>
+          <option>historia</option>
+        </select>
+      </div>
+      <table class="add-flashcards-table">
+        <tbody>
+          <tr class="flashcards-row">
+            <td>
+              <input class="flashcards-input" type="text" id="newFlashcardLeft" [(ngModel)]="newRow.left"
+                name="newFlashcardLeft" />
+            </td>
+            <td>
+              <input class="flashcards-input" type="text" id="newFlashcardRight" [(ngModel)]="newRow.right"
+                name="newFlashcardRight" />
+            </td>
+            <td>
+              <button class="button-add-flashcard" type="button" (click)="addRowToSet()"><i class="fa fa-plus"></i>
+                Dodaj fiszkę</button>
+            </td>
+          </tr>
+          <tr *ngFor="let flashcard of flashcardsSet; let i = index" class="flashcards-row">
+            <td>
+              <input [(ngModel)]="flashcard.left" class="flashcards-input" type="text" name="l-{{flashcard.left}}" required/>
+            </td>
+            <td>
+              <input [(ngModel)]="flashcard.right" class="flashcards-input" type="text" name="r-{{flashcard.right}}" required/>
+            </td>
+            <td>
+              <button class="button-delete" type="button" (click)="deleteFieldValue(i)"><i class="fa fa-times"></i> Usuń
+                fiszkę</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button-create" type="submit">Dodaj zestaw</button>
+    </form>
+  </div>
 </div>
