@@ -70,5 +70,5 @@ const getListFiles = (req, res) => {
 module.exports = {
   uploadFiles,
   getListFiles,
-   download
+  download
 };

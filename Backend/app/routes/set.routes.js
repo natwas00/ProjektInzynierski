@@ -1,5 +1,8 @@
 const { authJwt, verifySet } = require("../middleware");
 const set_controller = require("../controllers/set.controller");
+const express = require("express");
+const router = express.Router();
+const upload = require("../middleware/csvUploader");
 module.exports = function(app) {
     app.use(function(req, res, next) {
       res.header(
@@ -8,11 +11,8 @@ module.exports = function(app) {
       );
       next();
     });
-    app.get(
-        "/set/:id",
-        [authJwt.verifyToken],
-        set_controller.findOneSet
-      );
+      app.get("/set/:id",
+        [authJwt.verifyToken],set_controller.findOneSet);
       app.post("/api/add_set/:id",
       [authJwt.verifyToken, verifySet.check_set],set_controller.add_to_exsist_set)
       app.get("/api/sets",
@@ -25,5 +25,11 @@ module.exports = function(app) {
 
       app.delete("/api/deleteset/:id",
       [authJwt.verifyToken, verifySet.check_delete_set],set_controller.deleteset)
-      
+
+      app.post("/api/csv/upload",
+      [authJwt.verifyToken], upload.single("file"),set_controller.uploadCsv)
+
+
+      app.get("/api/csv/download/:id",
+      [authJwt.verifyToken], set_controller.downloadCsv);
 }

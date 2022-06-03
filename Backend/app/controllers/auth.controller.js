@@ -2,7 +2,6 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
-const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 var passwordValidator = require('password-validator');
@@ -51,39 +50,39 @@ exports.updateData= (req,res) => {
       ); 
       if (passwordIsValid ) {
         if  (req.body.new_password1 == req.body.new_password2){
-        if (schema.validate(req.body.new_password1)==false){
-          var mess = ""
-          var data = schema.validate(req.body.new_password1, { details: true });
-          mess += "Hasło musi mieć: "
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].validation == "min"){
-              mess += "minimum 6 znaków"
+          if (schema.validate(req.body.new_password1)==false){
+            var mess = ""
+            var data = schema.validate(req.body.new_password1, { details: true });
+            mess += "Hasło musi mieć: "
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].validation == "min"){
+                mess += "minimum 6 znaków"
+              }
+              else if (data[i].validation == "digits"){
+                mess+="minimum 2 cyfry"
+              }
+              else if (data[i].validation == "uppercase"){
+                mess+="minimum jedną dużą literę"
+              }
+              else if (data[i].validation == "max"){
+                mess+="długą mniejszą niż 40"
+              }
+              else if (data[i].validation == "lowercase"){
+                mess+="minimum 1 małą literę"
+              }
+              else if (data[i].validation == "spaces"){
+                mess+="brak spacji"
+              }
+              if (i <data.length -1){
+                mess+=", "
+              }
+              else
+                mess+="."
             }
-            else if (data[i].validation == "digits"){
-              mess+="minimum 2 cyfry"
-            }
-            else if (data[i].validation == "uppercase"){
-              mess+="minimum jedną dużą literę"
-            }
-            else if (data[i].validation == "max"){
-              mess+="długą mniejszą niż 40"
-            }
-            else if (data[i].validation == "lowercase"){
-              mess+="minimum 1 małą literę"
-            }
-            else if (data[i].validation == "spaces"){
-              mess+="brak spacji"
-            }
-            if (i <data.length -1){
-              mess+=", "
-            }
-            else
-              mess+="."
-          }
-          res.status(400).send({
-                message: mess
-               });
-               return;
+            res.status(400).send({
+                  message: mess
+                });
+                return;
         }
         var new_password =  bcrypt.hashSync(req.body.new_password1, 8)
         var dat = {

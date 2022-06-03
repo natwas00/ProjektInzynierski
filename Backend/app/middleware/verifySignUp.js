@@ -37,10 +37,8 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         });
         return;
       }
-
-  //    next();
     });
-    console.log("email sprawdzony")
+    
     next();
   });
 };
@@ -52,9 +50,9 @@ checkRolesExisted = (req, res, next) => {
         });
         return;
       }
-      else{
+      
         next();
-      }
+      
     
   }
 };
@@ -100,7 +98,18 @@ check_password = (req,res,next) => {
   }
 };
 checkIfNotNull = (req, res, next) =>  {
-  if (req.body.login == null || req.body.password == null || req.body.email == null || req.body.first_name == null || req.body.last_name == null){
+  if (req.body.login == null || req.body.password == null || req.body.email == null || req.body.first_name == null || req.body.last_name == null || req.body.roles == null){
+    res.status(400).send({
+      message: "Brakuje danych"
+    });
+    return;
+  }
+  else{
+  next();
+  }
+}
+checkIfNotNullSignIn = (req, res, next) =>  {
+  if (req.body.login == null || req.body.password == null ){
     res.status(400).send({
       message: "Brakuje danych"
     });
@@ -111,6 +120,7 @@ checkIfNotNull = (req, res, next) =>  {
   }
 }
 const verifySignUp = {
+  checkIfNotNullSignIn: checkIfNotNullSignIn,
   checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
   checkRolesExisted: checkRolesExisted,
   checkIfNotNull: checkIfNotNull,

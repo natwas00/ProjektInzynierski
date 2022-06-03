@@ -1,0 +1,4 @@
+"id","title","description","published"
+1,"Node.js Tut#1","Tut#1 Description",false
+2,"Express Tut#2","Tut#2 desc",true
+3,"CSV file Tut#3","TUT3 desc",true

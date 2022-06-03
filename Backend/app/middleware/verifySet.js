@@ -3,7 +3,7 @@ const config = require("../config/auth.config");
 const Set = db.set;
 var levels = new Array("Szkoła podstawowa","Liceum","Technikum","Inny")
 var subjects =  new Array("Język angielski","Język niemiecki","Język hiszpański","Język francuski")
-const SetData  = db.fiszki;//require("../models");
+const SetData  = db.fiszki;
 function check_level(level){
     var value=false
     for (element in levels){

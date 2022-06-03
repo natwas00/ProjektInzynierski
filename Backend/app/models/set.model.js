@@ -1,9 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const Set = sequelize.define("sets", {
-      // id: {
-      //   type: Sequelize.INTEGER,
-      //   primaryKey: true
-      // },
     
       name: {
         type: Sequelize.STRING

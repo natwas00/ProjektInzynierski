@@ -30,8 +30,7 @@ module.exports = function(app) {
   );
   app.put(
     "/api/test/update",
-    [authJwt.verifyToken,verifySignUp.check_password],
-
+    [authJwt.verifyToken],
     controller2.updateData
 
   )
