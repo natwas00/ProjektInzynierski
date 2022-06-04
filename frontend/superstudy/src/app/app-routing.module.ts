@@ -11,6 +11,8 @@ import { ChangePassComponent } from './change_pass/change-pass.component';
 import { AuthGuard} from './_services/auth.guards';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CreateSetComponent } from './create-set/create-set.component';
+import { DisplayAllSetsComponent } from './display-all-sets/display-all-sets.component';
+import { FlashcardComponent } from './flashcard/flashcard.component';
 const routes: Routes = [
   {path: 'change_pass', component: ChangePassComponent, canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent },
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'teacher', component: BoardTeacherComponent},
   { path: 'admin', component: BoardAdminComponent  },
   { path: 'create-set', component: CreateSetComponent},
+  { path: 'all-sets', component: DisplayAllSetsComponent},
+  { path: 'set/:id', component: FlashcardComponent},
   { path: '404', component: NotFoundComponent  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {path: '**', redirectTo: '/404'}

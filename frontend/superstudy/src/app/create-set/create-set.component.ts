@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FlascardsService } from '../_services/flascards.service';
+import { FlashcardsService } from '../_services/flashcards.service';
 
 @Component({
   selector: 'app-create-set',
@@ -18,7 +18,7 @@ export class CreateSetComponent implements OnInit {
   public newRow: any = {};
 
 
-  constructor(private flascardsService: FlascardsService) { }
+  constructor(private flashcardsService: FlashcardsService) { }
 
   ngOnInit(): void {
   }
@@ -67,7 +67,7 @@ export class CreateSetComponent implements OnInit {
         second_side
       };
       // console.log(setData);
-      this.flascardsService.addSet(setData).subscribe(
+      this.flashcardsService.addSet(setData).subscribe(
         (res) => {
           console.log(res);
           this.flashcardsSet = [{
