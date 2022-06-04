@@ -25,6 +25,10 @@
         <tbody>
           <tr class="flashcards-row">
             <td>
+              <input class="flashcards-input" type="file" accept="image/png, image/jpeg" id="newFlashcardImage" [(ngModel)]="newRow.image"
+                     name="newFlashcardImage" />
+            </td>
+            <td>
               <input class="flashcards-input" type="text" id="newFlashcardLeft" [(ngModel)]="newRow.left"
                 name="newFlashcardLeft" />
             </td>

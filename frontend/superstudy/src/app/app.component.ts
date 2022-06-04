@@ -8,11 +8,13 @@ import { TokenStorageService } from './_services/token-storage.service';
 })
 export class AppComponent implements OnInit {
   title = 'superstudy';
-  private roles: string ;
+  private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
+  showModeratorBoard = false;
   showTeacherBoard = false;
   showUserBoard = false;
+
   login?: string;
 
   constructor(private tokenStorageService: TokenStorageService) {}
@@ -23,8 +25,7 @@ export class AppComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
-      this.showUserBoard = this.roles.includes("ROLE_USER")
+      this.showModeratorBoard = this.roles.includes('ROLES_MODERATOR');
       this.login = user.login;
     }
   }

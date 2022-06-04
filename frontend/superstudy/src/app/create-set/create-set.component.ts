@@ -9,6 +9,7 @@ import { FlascardsService } from '../_services/flascards.service';
 })
 export class CreateSetComponent implements OnInit {
   public flashcardsSet = [{
+    image: 'C:\\\\fakepath\\\\filename.jpg',
     left: 'przyklad',
     right: 'example'
   }];
@@ -42,14 +43,21 @@ export class CreateSetComponent implements OnInit {
   }
 
   public addSet(value: any) {
+    console.log('addSet...');
     if (this.flashcardsSet.length === 0) {
       console.log('empty set')
     } else {
       let first_side = [];
       let second_side = [];
       this.flashcardsSet.forEach(flascard=>{
-        first_side.push(flascard.left);
-        second_side.push(flascard.right);
+        first_side.push({
+          text: flascard.left,
+          image: flascard.image
+        });
+        second_side.push({
+          text: flascard.right,
+          image: flascard.image
+        });
       })
       const setData = {
         name: value.title,
@@ -58,11 +66,12 @@ export class CreateSetComponent implements OnInit {
         first_side,
         second_side
       };
-      console.log(setData);
+      // console.log(setData);
       this.flascardsService.addSet(setData).subscribe(
         (res) => {
           console.log(res);
           this.flashcardsSet = [{
+            image: 'test',
             left: 'przyklad',
             right: 'example'
           }];
