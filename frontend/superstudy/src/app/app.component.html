@@ -4,6 +4,12 @@
       <li class="nav-item">
         <a href="/home" class="nav-link" routerLink="home">Home </a>
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="/all-sets" class="nav-link" routerLink="all-sets">Wszystkie zestawy</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="/create-set" class="nav-link" routerLink="create-set">Dodaj zestaw</a>
+      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>

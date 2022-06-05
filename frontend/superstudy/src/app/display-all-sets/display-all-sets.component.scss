@@ -1,0 +1,41 @@
+.sets-container {
+    display: flex;
+    max-width: 90%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    .set-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-basis: 200px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding: 20px;
+        margin: 20px;
+        background-color: rgb(174, 210, 252);
+
+        .title {
+            font-size: 20px;
+            padding-bottom: 10px;
+            text-align: center;
+            flex-basis: 100%;
+        }
+
+        .level {
+            font-size: 10px;
+            flex-basis: 50%;
+            align-self: stretch;
+            text-align: right;
+        }
+
+        .subject {
+            font-size: 10px;
+            flex-basis: 50%;
+            align-self: stretch;
+            text-align: left;
+        }
+    }
+}

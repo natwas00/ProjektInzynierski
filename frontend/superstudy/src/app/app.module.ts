@@ -24,6 +24,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CreateSetComponent } from './create-set/create-set.component';
+import { DisplayAllSetsComponent } from './display-all-sets/display-all-sets.component';
+import { FlashcardComponent } from './flashcard/flashcard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +39,8 @@ import { CreateSetComponent } from './create-set/create-set.component';
     ChangePassComponent,
     NotFoundComponent,
     CreateSetComponent,
+    DisplayAllSetsComponent,
+    FlashcardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div class="sets-container">
+    <div *ngFor="let set of allSets" class="set-wrapper" (click)="navigateToSet(set?.id)">
+        <div class="title">{{set.name}}</div>
+        <div class="subject">{{set.subject}}</div>
+        <div class="level">{{set.level}}</div>
+    </div>
+</div>
