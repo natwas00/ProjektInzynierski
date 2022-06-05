@@ -1,4 +1,5 @@
 <div class="wrapper">
+  <div class="success" *ngIf="success"><div class="success-text">Pomyślnie utworzono zestaw</div></div>
   <div class="create-set-container">
     <h1>Utwórz zestaw</h1>
     <div>
@@ -11,14 +12,10 @@
         <select name="level" class="set-level" ngModel required>
           <option value="" disabled selected>Wybierz poziom</option>
           <option>Liceum</option>
-          <option>II SP</option>
-          <option>III SP</option>
         </select>
         <select name="subject" class="set-subject" ngModel required>
           <option value="" disabled selected>Wybierz przedmiot</option>
           <option>Język angielski</option>
-          <option>matematyka</option>
-          <option>historia</option>
         </select>
       </div>
       <table class="add-flashcards-table">

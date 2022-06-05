@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlashcardsService } from '../_services/flashcards.service';
 
@@ -7,16 +7,21 @@ import { FlashcardsService } from '../_services/flashcards.service';
   templateUrl: './display-all-sets.component.html',
   styleUrls: ['./display-all-sets.component.scss']
 })
-export class DisplayAllSetsComponent implements OnInit {
+export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   public allSets = [];
+  public getAllSetsSubscription;
 
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
 
   ngOnInit(): void {
-    this.flashcardsService.getAllSets().subscribe((response)=>{
+    this.getAllSetsSubscription = this.flashcardsService.getAllSets().subscribe((response)=>{
       console.log(response);
       this.allSets = response;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.getAllSetsSubscription?.unsubscribe();
   }
   
   navigateToSet(id) {
