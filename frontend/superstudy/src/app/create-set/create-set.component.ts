@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FlashcardsService } from '../_services/flashcards.service';
 
 @Component({
@@ -7,20 +8,23 @@ import { FlashcardsService } from '../_services/flashcards.service';
   templateUrl: './create-set.component.html',
   styleUrls: ['./create-set.component.scss']
 })
-export class CreateSetComponent implements OnInit {
-  public flashcardsSet = [{
-    image: 'C:\\\\fakepath\\\\filename.jpg',
-    left: 'przyklad',
-    right: 'example'
-  }];
+export class CreateSetComponent implements OnInit, OnDestroy {
+  @ViewChild('addSetFrom') addSetFrom;
 
+  public flashcardsSet = [];
+  public addSetSubscription;
   public errorMessage = '';
   public newRow: any = {};
+  public success = false;
 
 
-  constructor(private flashcardsService: FlashcardsService) { }
+  constructor(private flashcardsService: FlashcardsService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.addSetSubscription?.unsubscribe();
   }
 
   public addRowToSet() {
@@ -49,15 +53,9 @@ export class CreateSetComponent implements OnInit {
     } else {
       let first_side = [];
       let second_side = [];
-      this.flashcardsSet.forEach(flascard=>{
-        first_side.push({
-          text: flascard.left,
-          image: flascard.image
-        });
-        second_side.push({
-          text: flascard.right,
-          image: flascard.image
-        });
+      this.flashcardsSet.forEach(flashcard => {
+        first_side.push(flashcard.left);
+        second_side.push(flashcard.right);
       })
       const setData = {
         name: value.title,
@@ -66,19 +64,19 @@ export class CreateSetComponent implements OnInit {
         first_side,
         second_side
       };
-      // console.log(setData);
-      this.flashcardsService.addSet(setData).subscribe(
+      console.log(setData);
+      this.addSetSubscription = this.flashcardsService.addSet(setData).subscribe(
         (res) => {
           console.log(res);
-          this.flashcardsSet = [{
-            image: 'test',
-            left: 'przyklad',
-            right: 'example'
-          }];
-
+          this.flashcardsSet = [];
+          this.addSetFrom.reset();
           this.errorMessage = '';
           this.newRow = {};
           this.errorMessage = res.message;
+          this.success = true;
+          setTimeout(() => {
+            this.router.navigate([`all-sets`]);
+          },2000);
         },
         (error: HttpErrorResponse) => {
           console.error(error)

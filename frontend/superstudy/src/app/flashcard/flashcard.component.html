@@ -1,1 +1,51 @@
-<p>flashcard works!</p>
+<div class="flashcards-container">
+    <div class="success" *ngIf="success">
+        <div class="success-text">Pomyślnie usunięto zestaw</div>
+    </div>
+    <div class="name">
+        {{setDetails.name}}
+        <div class="icons">
+            <i class="fa fa-trash" aria-hidden="true" title="Usuń zestaw" (click)="deleteSet()"></i>
+            <div class="add-flashcard" (click)="enableAddFlashcardMode()">
+                Dodaj fiszkę <i class="fa fa-plus" aria-hidden="true" title="Dodaj fiszkę"></i>
+            </div>
+
+        </div>
+    </div>
+    <form (ngSubmit)="confirmAddNewFlashcard()" ngNativeValidate action="/" method="post" *ngIf="addFlashcardMode"
+        class="flashcard-row">
+        <div class="flashcard-wrapper">
+            <div class="first-side">
+                <input placeholder="Lewa strona" type="text" name="first_side" class="set-title"
+                    [(ngModel)]="newFlashcard.first_side[0]" required />
+            </div>
+            <div class="second-side">
+                <input placeholder="Prawa strona" type="text" name="second_side" class="set-title"
+                    [(ngModel)]="newFlashcard.second_side[0]" required />
+            </div>
+        </div>
+        <button type="submit" class="edit-confirm"><i class="fa fa-check" aria-hidden="true"
+                title="Potwierdź"></i></button>
+        <i class="fa fa-times" aria-hidden="true" title="Anuluj" (click)="cancelAddNewFlashcard()"></i>
+    </form>
+    <form *ngFor="let flashcard of set; let i = index" (ngSubmit)="confirmEdit(i, flashcard.id)" ngNativeValidate
+        action="/" method="post" class="flashcard-row">
+        <div class="flashcard-wrapper">
+            <div class="first-side">
+                <input *ngIf="flashcard?.editMode" type="text" name="first_side" class="set-title"
+                    [(ngModel)]="flashcard.first_side" required />
+                <span *ngIf="!flashcard?.editMode">{{flashcard.first_side}}</span>
+            </div>
+            <div class="second-side">
+                <input *ngIf="flashcard?.editMode" type="text" name="second_side" class="set-title"
+                    [(ngModel)]="flashcard.second_side" required />
+                <span *ngIf="!flashcard?.editMode">{{flashcard.second_side}}</span>
+            </div>
+        </div>
+        <i *ngIf="!flashcard?.editMode" class="fa fa-pencil" aria-hidden="true" title="Edytuj fiszkę"
+            (click)="enableEditFlashcard(i)"></i>
+        <button *ngIf="flashcard?.editMode" type="submit" class="edit-confirm"><i class="fa fa-check" aria-hidden="true"
+                title="Potwierdź"></i></button>
+        <i (click)="deleteFlashcard(flashcard.id)" class="fa fa-trash" aria-hidden="true" title="Usuń"></i>
+    </form>
+</div>
