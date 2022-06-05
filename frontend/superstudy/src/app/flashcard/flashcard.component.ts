@@ -18,7 +18,9 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   };
   public getSetSubscription;
   public deleteSetSubscription;
-  public  editSubscription;
+  public editFlashcardSubscription;
+  public deleteFlashcardSubscription;
+  public addNewFlashcardSubscription;
   public setDetails = {
     name: 'Przykladowa nazwa'
   };
@@ -43,6 +45,9 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     console.log('destroy');
     this.deleteSetSubscription?.unsubscribe();
     this.getSetSubscription?.unsubscribe();
+    this.editFlashcardSubscription?.unsubscribe();
+    this.deleteFlashcardSubscription?.unsubscribe();
+    this.addNewFlashcardSubscription?.unsubscribe();
   }
 
   public deleteSet() {
@@ -51,7 +56,6 @@ export class FlashcardComponent implements OnInit, OnDestroy {
       this.success = true;
       setTimeout(() => {
         this.router.navigate([`all-sets`]);
-        this.getSetSubscription.unsubscribe();
       }, 2000);
     });
   }
@@ -65,7 +69,7 @@ export class FlashcardComponent implements OnInit, OnDestroy {
       first_side: this.set[index].first_side,
       second_side: this.set[index].second_side
     };
-    this.editSubscription = this.flashcardsService.editFlashcard(requestBody, id).subscribe((d) => {
+    this.editFlashcardSubscription = this.flashcardsService.editFlashcard(requestBody, id).subscribe((d) => {
       console.log(index, id);
       console.log(d);
       this.set[index].editMode = false;
@@ -76,7 +80,7 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   }
 
   public deleteFlashcard(id){
-    this.editSubscription = this.flashcardsService.deleteFlashcard(id).subscribe((d) => {
+    this.deleteFlashcardSubscription = this.flashcardsService.deleteFlashcard(id).subscribe((d) => {
       console.log(id);
       console.log(d);
       this.getSet();
@@ -92,7 +96,7 @@ export class FlashcardComponent implements OnInit, OnDestroy {
 
   public confirmAddNewFlashcard() {
     console.log(this.newFlashcard, this.id);
-    this.editSubscription = this.flashcardsService.addNewFlashcard(this.newFlashcard, this.id).subscribe((d) => {
+    this.addNewFlashcardSubscription = this.flashcardsService.addNewFlashcard(this.newFlashcard, this.id).subscribe((d) => {
       console.log(d);
       this.getSet();
       this.newFlashcard = {
