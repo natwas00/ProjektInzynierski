@@ -1,4 +1,4 @@
-<div class="col-md-6" style="float: right">
+<!-- <div class="col-md-6" style="float: right">
   <div class="card card-container">
     <form
       *ngIf="!isSuccessful"
@@ -130,6 +130,96 @@
     </form>
     <div class="alert alert-success" *ngIf="isSuccessful">
       Your registration is successful!
+    </div>
+  </div>
+</div> -->
+
+<div class="container-fluid">
+  <div class="left-section">
+    <div class="main-image">
+    </div>
+  </div>
+  <div class="right-section">
+    <div class="register-section">
+      <div class="register-wrapper">
+        <h2 class="register-header">Register</h2>
+        <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="first-name-input">
+            <label class="input-label" for="first_name">First Name</label>
+            <input type="text" class="form-control" name="first_name" [(ngModel)]="form.first_name" required
+              minlength="3" maxlength="30" #first_name="ngModel" />
+            <div class="alert-danger" *ngIf="first_name.errors && f.submitted">
+              <div *ngIf="first_name.errors.required">First name is required</div>
+              <div *ngIf="first_name.errors.minlength">
+                First name must be at least 3 characters
+              </div>
+              <div *ngIf="first_name.errors.maxlength">
+                First name must be at most 30 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="last-name-input">
+            <label class="input-label" for="last_name">Last Name</label>
+            <input type="text" class="form-control" name="last_name" [(ngModel)]="form.last_name" required minlength="3"
+              maxlength="30" #last_name="ngModel" />
+            <div class="alert-danger" *ngIf="last_name.errors && f.submitted">
+              <div *ngIf="last_name.errors.required">Last name is required</div>
+              <div *ngIf="last_name.errors.minlength">
+                Last name must be at least 3 characters
+              </div>
+              <div *ngIf="last_name.errors.maxlength">
+                Last name must be at most 30 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="login-input">
+            <label class="input-label" for="login">Login</label>
+            <input type="text" class="form-control" name="login" [(ngModel)]="form.login" required minlength="3"
+              maxlength="20" #login="ngModel" />
+            <div class="alert-danger" *ngIf="login.errors && f.submitted">
+              <div *ngIf="login.errors.required">Login is required</div>
+              <div *ngIf="login.errors.minlength">
+                Login must be at least 3 characters
+              </div>
+              <div *ngIf="login.errors.maxlength">
+                Login must be at most 20 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="password-input">
+            <label class="input-label" for="password">Password</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
+              minlength="6" #password="ngModel" />
+            <div class="alert-danger" *ngIf="password.errors && f.submitted">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="select-role">     
+            <label class="input-label"> Rola: </label>
+            <select (change)="selectChangeHandler($event)">
+                <option value="Uczeń">Uczeń</option>
+                <option value="Nauczyciel">Nauczyciel</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary btn-block">Sign Up</button>
+          <div class="form-group">
+            <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+              Signup failed!<br />{{ errorMessage }}
+            </div>
+          </div>
+        </form>
+        <div class="alert alert-success" *ngIf="isLoggedIn">
+          Logged in as {{ roles }}.
+        </div>
+      </div>
     </div>
   </div>
 </div>

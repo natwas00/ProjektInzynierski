@@ -1,41 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Poppins:wght@300;400&display=swap');
 
-body{
-    margin: 0;
-    padding: 0;
-}
+// body{
+    
+// }
 
+// :root {
+//     .body {
+//         width: 100%;
+//     height: 100%;
+//     margin: 0;
+//     padding: 0;
+//     }
+    
+// }
 
-.container {
+.container-fluid {
     display: flex;
+    justify-content: space-between;
     font-family: 'Open Sans', sans-serif;
     font-family: 'Poppins', sans-serif;
-    height: 750px;
+    margin: 0px;
+    padding: 0px;
+    height: 800px;
+    width: 1600px;
 }
 
 .left-section{
+    display: flex;
     background-color: aqua;
     width: 60%;
-    justify-content: center;
-    display: contents;
+    align-content: right;
+    // justify-content: center;
+    // display:contents;
 }
 
 .main-image {
     float:right;
-    height:auto;
-    /* display: contents; */
-    width: 984px;
+    height: 100%;;
+    width: 100%;
+    
 
     background-image: url("../../assets/Login/login-main.png");
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center;    
     background-size: cover;
 }
 
 .right-section{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;    
     width: 40%;
     height: 100%;
     background-color: #009ADE;
@@ -47,7 +61,7 @@ body{
 }
 
 .login-section {
-    width: 70%;
+    width: 65%;
     height: 80%;
     margin: auto;
     background: #FFFFFF;
@@ -58,19 +72,12 @@ body{
 .login-section{
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
 }
 
-
-.adas{
-    display: flex;
-    justify-content: space-between;
-}
-
-
 .input-label{
     display: block;
+    margin-top: 20px;
 }
 
 .form-control{
@@ -83,4 +90,8 @@ body{
 .login-header{
     font-size: 40px;
     margin-top: 105px;
+}
+
+.btn {
+    margin-top: 20px;
 }
