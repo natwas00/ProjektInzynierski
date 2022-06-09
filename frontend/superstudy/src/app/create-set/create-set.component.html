@@ -1,10 +1,17 @@
 <div class="wrapper">
-  <div class="success" *ngIf="success"><div class="success-text">Pomyślnie utworzono zestaw</div></div>
+  <div class="success" *ngIf="success">
+    <div class="success-text">Pomyślnie utworzono zestaw</div>
+  </div>
   <div class="create-set-container">
     <h1>Utwórz zestaw</h1>
     <div>
       {{errorMessage}}
     </div>
+    <br />
+    <span>Wybierz plik CSV aby wgrać z niego fiszki</span>
+    <input #inputFile type="file" accept=".csv" (change)="setFile($event)">
+    <button (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
+    <button (click)="removeCSV()" [disabled]="!selectedFiles">Usuń plik</button>
     <br />
     <form ngNativeValidate action="/" method="post" #addSetFrom="ngForm" (ngSubmit)="addSet(addSetFrom.value)">
       <div class="inputs">
@@ -22,8 +29,8 @@
         <tbody>
           <tr class="flashcards-row">
             <td>
-              <input class="flashcards-input" type="file" accept="image/png, image/jpeg" id="newFlashcardImage" [(ngModel)]="newRow.image"
-                     name="newFlashcardImage" />
+              <input class="flashcards-input" type="file" accept="image/png, image/jpeg" id="newFlashcardImage"
+                [(ngModel)]="newRow.image" name="newFlashcardImage" />
             </td>
             <td>
               <input class="flashcards-input" type="text" id="newFlashcardLeft" [(ngModel)]="newRow.left"
@@ -40,10 +47,12 @@
           </tr>
           <tr *ngFor="let flashcard of flashcardsSet; let i = index" class="flashcards-row">
             <td>
-              <input [(ngModel)]="flashcard.left" class="flashcards-input" type="text" name="l-{{flashcard.left}}" required/>
+              <input [(ngModel)]="flashcard.left" class="flashcards-input" type="text" name="l-{{flashcard.left}}"
+                required />
             </td>
             <td>
-              <input [(ngModel)]="flashcard.right" class="flashcards-input" type="text" name="r-{{flashcard.right}}" required/>
+              <input [(ngModel)]="flashcard.right" class="flashcards-input" type="text" name="r-{{flashcard.right}}"
+                required />
             </td>
             <td>
               <button class="button-delete" type="button" (click)="deleteFieldValue(i)"><i class="fa fa-times"></i> Usuń
