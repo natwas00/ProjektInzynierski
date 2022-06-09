@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlashcardsService } from '../_services/flashcards.service';
 
@@ -16,6 +16,10 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public errorMessage = '';
   public newRow: any = {};
   public success = false;
+  public selectedFiles: FileList;
+  private currentFileUpload: File;
+  private addSetCSVSub;
+  @ViewChild('inputFile') myInputVariable: ElementRef;
 
 
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
@@ -83,5 +87,36 @@ export class CreateSetComponent implements OnInit, OnDestroy {
           this.errorMessage = error.error.message;
         })
     }
+  }
+
+  public setFile(event) {
+    this.selectedFiles = event.target.files;
+    this.currentFileUpload = this.selectedFiles.item(0);
+  }
+
+  public sendFile() {
+    const formdata: FormData = new FormData();
+    formdata.append('file', this.currentFileUpload);
+    console.log(formdata.get('file'));
+    this.addSetCSVSub = this.flashcardsService.addSetCSV( formdata ).subscribe((res) => {
+      if(res[0].first_side && res[0].second_side){
+        const flashcardsFromCsv = res.map((elem)=>{
+          return { left: elem.first_side, right: elem.second_side };
+        });
+        this.flashcardsSet = flashcardsFromCsv;
+      }
+      console.log(res);
+    }, (e)=>{
+      console.error(e);
+      this.addSetCSVSub?.unsubscribe();
+    }, ()=>{
+      this.addSetCSVSub?.unsubscribe();
+    });
+    console.log(this.selectedFiles);
+  }
+
+  public removeCSV() {
+    this.myInputVariable.nativeElement.value = "";
+    this.selectedFiles = null;
   }
 }

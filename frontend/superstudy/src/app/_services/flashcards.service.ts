@@ -18,6 +18,13 @@ export class FlashcardsService {
     return this.http.post(`${baseUrl}/api/add_set`, data, httpOptions);
   }
 
+  addSetCSV(data: any): Observable<any> {
+    const httpOptionsUpload = {
+      headers: new HttpHeaders({ 'Accept': 'application/json' }),
+    };
+    return this.http.post(`${baseUrl}/api/csv/upload`, data, httpOptionsUpload);
+  }
+
   getAllSets(): Observable<any> {
     return this.http.get(`${baseUrl}/api/sets`, httpOptions);
   }
