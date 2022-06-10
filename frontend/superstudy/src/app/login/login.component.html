@@ -6,6 +6,7 @@
   <div class="right-section">
     <div class="login-section">
       <div class="login-wrapper">
+        <a routerLink="/register">Sign Up</a>
         <h2 class="login-header">LOG IN TO</h2>
         <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
           <div class="login-input">

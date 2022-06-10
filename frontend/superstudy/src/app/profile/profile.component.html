@@ -1,4 +1,4 @@
-<div class="container" *ngIf="currentUser; else loggedOut">
+<!-- <div class="container" *ngIf="currentUser; else loggedOut">
   <header class="jumbotron">
     <h3>
       <strong>{{ currentUser.login }}</strong> Profile
@@ -57,4 +57,82 @@
     Usuń konto
 </button>
 </div>
-<ng-template #loggedOut> Please login. </ng-template>
+<ng-template #loggedOut> Please login. </ng-template> -->
+
+<div class="container">
+  <div class="title">
+    Your profile
+  </div>
+  <div class="name-section">
+    <div class="first-name">
+      <p>Name</p>
+      <p>{{currentUser.first_name}}</p>
+    </div>
+
+    <div class="last-name">
+      <p>Last Name</p>
+      <p>{{currentUser.last_name}}</p>
+    </div>
+
+  </div>
+
+  <div class="mail">
+    <p>Mail</p>
+    <p>{{currentUser.email}}</p>
+  </div>
+
+  <div class="login">
+    <p>Login</p>
+    <p>{{currentUser.login}}</p>
+  </div>
+
+  <div class="role">
+    <p>Role</p>
+    <p>{{getUserRole()}}</p>
+  </div>
+
+  <div class="navigation">
+    <button class="btn btn-primary btn-block" (click)="open(content)">
+      Usuń konto
+    </button>
+    <a routerLink="/change_pass">
+      <button class="btn btn-primary btn-block"> Zmień hasło</button>
+    </a>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          SuperStudy
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form>
+          <div class="form-group">
+              <label for="ask">
+                  Czy na pewno chcesz usunąć konto?
+              </label>
+              
+          </div>
+      </form>
+      <button class="btn btn-primary btn-block" 
+      (click)="deleteUser()">
+      Tak
+  </button>
+  <button class="btn btn-primary btn-block" 
+  (click)="modal.dismiss('Cross click')">
+  Nie
+  </button>
+  </div>
+ 
+
+</ng-template>

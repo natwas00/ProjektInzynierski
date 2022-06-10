@@ -1,3 +1,20 @@
 button {
 
-    margin-left :20px }
+    margin-left: 20px
+}
+
+.title {
+    text-align: center;
+}
+
+.name-section {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+}
