@@ -222,6 +222,7 @@
           </div>
 
           <button class="btn btn-primary btn-block">Sign Up</button>
+          <a routerLink="/login">Alread have an account? Log In</a>
           <div class="form-group">
             <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
               Signup failed!<br />{{ errorMessage }}
