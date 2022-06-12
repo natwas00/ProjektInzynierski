@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Poppins:wght@300;400&display=swap');
 .container-fluid {
     width: 1400px;
     display: flex;
@@ -11,4 +12,7 @@
 .text-color {
     color: black;
     text-decoration-thickness: 2px;
+}
+:root {
+    font-family: 'Poppins', sans-serif;
 }
