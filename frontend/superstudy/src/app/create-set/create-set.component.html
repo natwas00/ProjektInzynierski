@@ -4,18 +4,12 @@
   </div>
   <div class="create-set-container">
     <h1>Utwórz zestaw</h1>
-    <div>
-      {{errorMessage}}
-    </div>
     <br />
-    <span>Wybierz plik CSV aby wgrać z niego fiszki</span>
-    <input #inputFile type="file" accept=".csv" (change)="setFile($event)">
-    <button (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
-    <button (click)="removeCSV()" [disabled]="!selectedFiles">Usuń plik</button>
-    <br />
+
     <form ngNativeValidate action="/" method="post" #addSetFrom="ngForm" (ngSubmit)="addSet(addSetFrom.value)">
       <div class="inputs">
-        <input placeholder="Wpisz nazwę zestawu" type="text" name="title" class="set-title" ngModel required />
+        <input class="input-control" placeholder="Wpisz nazwę zestawu" type="text" name="title" class="set-title"
+          ngModel required />
         <select name="level" class="set-level" ngModel required>
           <option value="" disabled selected>Wybierz poziom</option>
           <option>Liceum</option>
@@ -25,43 +19,63 @@
           <option>Język angielski</option>
         </select>
       </div>
+      <div class="add-csv-warapper">
+        <!-- <span>Wybierz plik CSV aby wgrać z niego fiszki</span> -->
+        <label class="uploader-style" for="upload-csv">
+          <span>Wybierz plik CSV aby wgrać z niego fiszki</span>
+          <img class="img-conteiner-csv" src="../../assets/Add Set/csv-icon.png" alt="file upload">
+          <input #inputFile type="file" accept=".csv" (change)="setFile($event)" id="upload-csv">
+        </label>
+      </div>
+      <div class="add-csv-btn-warapper">
+        <button class="btn btn-primary" (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
+        <button class="btn btn-primary" (click)="removeCSV()" [disabled]="!selectedFiles">Usuń plik</button>
+      </div>
+      <br />
       <table class="add-flashcards-table">
-        <tbody>
+        <tbody class="table-style" [style.--bColor]="bColorVar">
           <tr class="flashcards-row">
-            <td>
-              <input class="flashcards-input" type="file" accept="image/png, image/jpeg" id="newFlashcardImage"
+            <!-- <td>
+              <label class="uploader-style" for="upload-img">
+                <img class="img-conteiner-csv" src="../../assets/Add Set/img-icon.png" alt="file upload">
+              </label>
+              <input class="flashcards-input" type="file" accept="image/png, image/jpeg" id="upload-img"
                 [(ngModel)]="newRow.image" name="newFlashcardImage" />
-            </td>
+            </td> -->
+            <div class="input-flashcards">
+              <td>
+                <input class="flashcards-input input-control" type="text" id="newFlashcardLeft"
+                  [(ngModel)]="newRow.left" name="newFlashcardLeft" />
+              </td>
+              <td>
+                <input class="flashcards-input input-control" type="text" id="newFlashcardRight"
+                  [(ngModel)]="newRow.right" name="newFlashcardRight" />
+              </td>
+            </div>
             <td>
-              <input class="flashcards-input" type="text" id="newFlashcardLeft" [(ngModel)]="newRow.left"
-                name="newFlashcardLeft" />
-            </td>
-            <td>
-              <input class="flashcards-input" type="text" id="newFlashcardRight" [(ngModel)]="newRow.right"
-                name="newFlashcardRight" />
-            </td>
-            <td>
-              <button class="button-add-flashcard" type="button" (click)="addRowToSet()"><i class="fa fa-plus"></i>
-                Dodaj fiszkę</button>
+              <button class="btn btn-primary" type="button" (click)="addRowToSet()"><i
+                  class="fa fa-plus"></i></button>
             </td>
           </tr>
           <tr *ngFor="let flashcard of flashcardsSet; let i = index" class="flashcards-row">
+            <div class="input-flashcards">
+              <td>
+                <input [(ngModel)]="flashcard.left" class="flashcards-input input-control" type="text"
+                  name="l-{{flashcard.left}}" required />
+              </td>
+              <td>
+                <input [(ngModel)]="flashcard.right" class="flashcards-input input-control" type="text"
+                  name="r-{{flashcard.right}}" required />
+              </td>
+            </div>
             <td>
-              <input [(ngModel)]="flashcard.left" class="flashcards-input" type="text" name="l-{{flashcard.left}}"
-                required />
-            </td>
-            <td>
-              <input [(ngModel)]="flashcard.right" class="flashcards-input" type="text" name="r-{{flashcard.right}}"
-                required />
-            </td>
-            <td>
-              <button class="button-delete" type="button" (click)="deleteFieldValue(i)"><i class="fa fa-times"></i> Usuń
-                fiszkę</button>
+              <button class="btn btn-primary delete-btn" type="button" (click)="deleteFieldValue(i)"><i
+                  class="fa fa-times"></i></button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button class="button-create" type="submit">Dodaj zestaw</button>
+      <button class="button-create  btn btn-primary" type="submit">Dodaj zestaw</button>
     </form>
   </div>
 </div>

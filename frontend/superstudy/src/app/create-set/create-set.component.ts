@@ -34,6 +34,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public addRowToSet() {
     const isRowEmpty = !this.newRow?.left || !this.newRow?.right;
     if (isRowEmpty) {
+      alert('Uzupełnij obie strony fiszki!');
       this.errorMessage = 'Uzupełnij obie strony fiszki!';
       setTimeout(() => {
         this.errorMessage = '';
@@ -77,6 +78,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
           this.errorMessage = '';
           this.newRow = {};
           this.errorMessage = res.message;
+          alert(res.message);
           this.success = true;
           setTimeout(() => {
             this.router.navigate([`all-sets`]);
@@ -85,6 +87,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
         (error: HttpErrorResponse) => {
           console.error(error)
           this.errorMessage = error.error.message;
+          alert(error.error.message);
         })
     }
   }

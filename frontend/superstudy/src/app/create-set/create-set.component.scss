@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Poppins:wght@300;400&display=swap');
 .wrapper {
+    font-family: 'Poppins', sans-serif;
     width: 100%;
     padding: 30px;
     min-height: 100%;
     margin-bottom: 40px;
-    background-color: #E8AEB7;
+    // background-color: #E8AEB7;
     position: relative;
 
     .success {
@@ -30,7 +32,6 @@
     justify-content: center;
     align-content: center;
     margin-bottom: 40px;
-    background-color: #E8AEB7;
     flex-direction: column;
 }
 
@@ -48,35 +49,53 @@
 
     /* White */
 
-    background: #FFFFFF;
-    border: 1.5px solid #ADADAD;
+    // background: #FFFFFF;
+    // border: 1.5px solid #ADADAD;
     border-radius: 12px;
 }
 
 .inputs {
     display: flex;
-    justify-content: space-around;
-
+    flex-direction: column;
+    align-self: flex-start;
+    max-width: 450px;
     input {
+        font-size: 24px;
+        height: 50px;
         margin: 15px;
     }
 
     select {
+        font-size: 24px;
+        height: 50px;
         margin: 15px;
     }
 }
 
 .flashcards-row {
     display: flex;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button {
+        padding: none;
+        margin: none;
+    }
 }
 
 .add-flashcards-table {
     width: 100%;
 }
 
-tr {
-    margin: 15px;
+td {
+    // margin: 15px;
+    padding: none;
+    margin: none;
+    align-self: center;
+    input {
+        
+        justify-content: space-around;
+    }
 }
 
 form {
@@ -88,4 +107,110 @@ form {
     div {
         width: 100%;
     }
+}
+
+.uploader-style {
+    font-size: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 50px;
+    // background: url(../../assets/Login/logo-main.png);
+    cursor: pointer;
+}
+
+.img-conteiner-csv {
+    align-content: flex-end;
+    width: 50px;
+    height: 50px;
+}
+#upload-csv, #upload-img {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+ }
+
+ img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.add-csv-warapper {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 30px;
+    background:  #BDDCFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 60px;
+    width: 250px;
+    height: 70px;
+    button {
+        margin: 5px;
+    }
+    
+}
+.add-csv-warapper:hover {
+    background-color: #FFD7E7;
+  }
+.add-csv-btn-warapper {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+    border-radius: 60px;
+    width: 250px;
+    height: 70px;
+    button {
+        margin-right: 20px;
+    }
+    
+}
+
+.input-control{
+    width: 100%;
+    box-sizing: border-box;
+    height: 45px;
+    font-size: 16px;
+}
+
+.table-style {
+    padding: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--bColor,#BDDCFF );
+    // background:  #BDDCFF;
+    border-radius: 40px;
+    // width: 250px;
+    // height: 90px;
+    // align-items;
+    button {
+        border-radius: 0px 40px 40px 0px;
+        height: 90px;
+    }
+    
+}
+
+.input-flashcards {
+    margin: auto;
+    margin-left: 30px;
+    display: flex;
+    justify-content: space-evenly;
+
+    input {
+        width: 250px;
+    }
+}
+.delete-btn:hover {
+    background-color: #FFD7E7;
+    color: red;
+}
+
+.button-create {
+    margin-top: 40px;
 }
