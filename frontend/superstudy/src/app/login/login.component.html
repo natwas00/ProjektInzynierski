@@ -11,13 +11,15 @@
         <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
           <div class="login-input">
             <label class="input-label" for="login">Login</label>
-            <input type="text" class="form-control" name="login" [(ngModel)]="form.login" required #login="ngModel" />
+            <input type="text" class="form-control" name="login" [(ngModel)]="form.login" required #login="ngModel" (click)="resetOnSubmit()" />
+            <div class="alert alert-danger" role="alert" *ngIf="login.errors">
+              Login is required!
+            </div>
           </div>
           <div class="password-input">
             <label class="input-label" for="password">Password</label>
-            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
-              minlength="6" #password="ngModel" />
-            <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required #password="ngModel" (click)="resetOnSubmit()" />
+            <div class="alert alert-danger" role="alert" *ngIf="password.errors">
               <div *ngIf="password.errors.required">Password is required</div>
               <div *ngIf="password.errors.minlength">
                 Password must be at least 6 characters
@@ -25,11 +27,10 @@
             </div>
           </div>
           <button class="btn btn-primary btn-block">Login</button>
-          <div class="form-group">
-            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
-              {{ errorMessage }}
+            <div class="alert alert-danger" role="alert" *ngIf="submitPressed && isLoginFailed">
+              {{ getError() }}
             </div>
-          </div>
+          
         </form>
         <div class="alert alert-success" *ngIf="isLoggedIn">
           Logged in as {{ roles }}.
