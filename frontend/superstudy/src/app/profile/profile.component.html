@@ -65,30 +65,40 @@
   </div>
   <div class="name-section">
     <div class="first-name">
-      <p>Name</p>
-      <p>{{currentUser.first_name}}</p>
+      <p class="common">Name</p>
+      <p class="data">{{currentUser.first_name}}</p>
     </div>
 
     <div class="last-name">
-      <p>Last Name</p>
-      <p>{{currentUser.last_name}}</p>
+      <p class="common">Last Name</p>
+      <p class="data">{{currentUser.last_name}}</p>
     </div>
 
   </div>
+  <div class="line">
+  </div>
 
   <div class="mail">
-    <p>Mail</p>
-    <p>{{currentUser.email}}</p>
+    <p class="common"> Mail</p>
+    <p class="data">{{currentUser.email}}</p>
+  </div>
+
+  <div class="line">
   </div>
 
   <div class="login">
-    <p>Login</p>
-    <p>{{currentUser.login}}</p>
+    <p class="common">Login</p>
+    <p class="data">{{currentUser.login}}</p>
   </div>
 
+  <div class="line">
+  </div>
   <div class="role">
-    <p>Role</p>
-    <p>{{getUserRole()}}</p>
+    <p class="common">Role</p>
+    <p class="data">{{getUserRole()}}</p>
+  </div>
+
+  <div class="line">
   </div>
 
   <div class="navigation">
@@ -102,35 +112,32 @@
 </div>
 <ng-template #content let-modal>
   <div class="modal-header">
-      <h4 class="modal-title" 
-          id="modal-basic-title">
-          SuperStudy
-      </h4>
-      <button type="button" class="close"
-              aria-label="Close" (click)=
-              "modal.dismiss('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">
+      SuperStudy
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
 
-          <span aria-hidden="true">
-              ×
-          </span>
-      </button>
+      <span aria-hidden="true">
+        ×
+      </span>
+    </button>
   </div>
   <div class="modal-body">
-      <form>
-          <div class="form-group">
-              <label for="ask">
-                  Czy na pewno chcesz usunąć konto?
-              </label>
-              
-          </div>
-      </form>
-      <button class="btn btn-primary btn-block" 
-      (click)="deleteUser()">
-      Tak
-  </button>
-  <button class="btn btn-primary btn-block" 
-  (click)="modal.dismiss('Cross click')">
-  Nie
-  </button>
+    <form>
+      <div class="form-group">
+        <label for="ask">
+          Czy na pewno chcesz usunąć konto?
+        </label>
+
+      </div>
+    </form>
+    <div class="template-nav">
+      <button class="btn btn-primary" (click)="deleteUser()">
+        Tak
+      </button>
+      <button class="btn btn-primary" (click)="modal.dismiss('Cross click')">
+        Nie
+      </button>
+    </div>
   </div>
 </ng-template>

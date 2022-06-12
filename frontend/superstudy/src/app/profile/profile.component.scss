@@ -1,20 +1,77 @@
 button {
-
-    margin-left: 20px
+    height: 50px;
+    width: 200px;
+    border-radius: 10px;
 }
 
 .title {
+    margin-top: 5%;
     text-align: center;
+    font-size: larger;
 }
 
 .name-section {
     display: flex;
     justify-content: space-between;
     width: 300px;
+    margin: auto;
+    margin-top: 10%;
+    //text-align: center;
 }
+
 
 .navigation {
     display: flex;
     justify-content: space-between;
-    width: 700px;
+    width: 500px;
+    margin-top: 10%;
+}
+
+.line {
+    background-color: #545454;
+    height: 1px;
+    width: 350px;
+    margin: auto;
+}
+
+.mail {
+    text-align: center;
+    margin-top: 3%;
+}
+.login {
+    text-align: center;
+    margin-top: 3%;
+}
+.role {
+    text-align: center;
+    margin-top: 3%;
+}
+.common {
+    color: #545454;
+    font-family: 'Poppins', sans-serif;
+    font-size: larger;
+    text-align: center;
+}
+.data {
+    color: #0064FF;
+    font-size: larger;
+    text-align: center;
+}
+.container {
+    font-family: 'Poppins', sans-serif;
+    margin: auto;
+}
+
+.template-nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    button {
+        width: 20px;
+        margin-right: 10px;
+    }
 }
