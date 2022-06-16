@@ -1,72 +1,72 @@
 <div class="container" *ngIf="currentUser">
-<div style="text-align:center">
- 
-  <head>
-    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
-  </head>
-  <h1>
+  <div style="text-align:center">
    
-    
-  </h1>
-  <form>
+    <head>
+      <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+    </head>
+    <h1>
+     
+      
+    </h1>
+    <form>
+      <div class="form-group inner-addon right-addon" style="width: 800px;">
+        <div class="input-group col-6 mx-auto" >
+          <input name="old_password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control pwd-control"
+              [(ngModel)]="currentUser.old_password"
+              id="old_password" placeholder="Wpisz obecne hasło">
+          <div>
+            <i alt="show" class="far fa-eye eye-show" 
+            (click)="showPassword = !showPassword"
+            [class.hide]="showPassword"></i>
+            <i alt="hide" class="far fa-eye-slash eye-hide" 
+            (click)="showPassword = !showPassword"
+            [class.hide]="!showPassword"></i>
+          </div>
+        </div>
+      </div>
+      <div class="form-group inner-addon right-addon">
+        <div class="input-group col-6 mx-auto">
+          <input name="new_password1"
+              [(ngModel)]="currentUser.new_password1"
+              [type]="showPassword2 ? 'text' : 'password'"
+              class="form-control pwd-control"
+              id="new_password1" placeholder="Wpisz nowe hasło" >
+          <div>
+            <i alt="show" class="far fa-eye eye-show" 
+            (click)="showPassword2 = !showPassword2"
+            [class.hide]="showPassword2"></i>
+            <i alt="hide" class="far fa-eye-slash eye-hide" 
+            (click)="showPassword2 = !showPassword2"
+            [class.hide]="!showPassword2"></i>
+          </div>
+        </div>
+      </div>
+    </form>
     <div class="form-group inner-addon right-addon">
       <div class="input-group col-6 mx-auto">
-        <input name="old_password"
-            [type]="showPassword ? 'text' : 'password'"
+        <input name="new_password2"
+            [type]="showPassword3 ? 'text' : 'password'"
+            [(ngModel)]="currentUser.new_password2"
             class="form-control pwd-control"
-            [(ngModel)]="currentUser.old_password"
-            id="old_password" placeholder="Wpisz obecne hasło">
+            id="new_password2" placeholder="Wpisz ponownie nowe hasło">
         <div>
           <i alt="show" class="far fa-eye eye-show" 
-          (click)="showPassword = !showPassword"
-          [class.hide]="showPassword"></i>
+          (click)="showPassword3 = !showPassword3"
+          [class.hide]="showPassword3"></i>
           <i alt="hide" class="far fa-eye-slash eye-hide" 
-          (click)="showPassword = !showPassword"
-          [class.hide]="!showPassword"></i>
+          (click)="showPassword3 = !showPassword3"
+          [class.hide]="!showPassword3"></i>
         </div>
       </div>
     </div>
-    <div class="form-group inner-addon right-addon">
-      <div class="input-group col-6 mx-auto">
-        <input name="new_password1"
-            [(ngModel)]="currentUser.new_password1"
-            [type]="showPassword2 ? 'text' : 'password'"
-            class="form-control pwd-control"
-            id="new_password1" placeholder="Wpisz nowe hasło">
-        <div>
-          <i alt="show" class="far fa-eye eye-show" 
-          (click)="showPassword2 = !showPassword2"
-          [class.hide]="showPassword2"></i>
-          <i alt="hide" class="far fa-eye-slash eye-hide" 
-          (click)="showPassword2 = !showPassword2"
-          [class.hide]="!showPassword2"></i>
-        </div>
-      </div>
-    </div>
-  </form>
-  <div class="form-group inner-addon right-addon">
-    <div class="input-group col-6 mx-auto">
-      <input name="new_password2"
-          [type]="showPassword3 ? 'text' : 'password'"
-          [(ngModel)]="currentUser.new_password2"
-          class="form-control pwd-control"
-          id="new_password2" placeholder="Wpisz ponownie nowe hasło">
-      <div>
-        <i alt="show" class="far fa-eye eye-show" 
-        (click)="showPassword3 = !showPassword3"
-        [class.hide]="showPassword3"></i>
-        <i alt="hide" class="far fa-eye-slash eye-hide" 
-        (click)="showPassword3 = !showPassword3"
-        [class.hide]="!showPassword3"></i>
-      </div>
-    </div>
+    <button
+  type="submit"
+  class="btn btn-primary"
+  (click)="updatePass()"
+  >
+  Zmień
+  </button>
+  <p>{{ message }}</p>
   </div>
-  <button
-type="submit"
-class="btn btn-primary"
-(click)="updatePass()"
->
-Zmień
-</button>
-<p>{{ message }}</p>
-</div>
