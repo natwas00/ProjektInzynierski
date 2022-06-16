@@ -1,5 +1,6 @@
 const db = require("../models");
 const config = require("../config/auth.config");
+const { fiszki, set } = require("../models");
 const Set = db.set;
 var levels = new Array("Szkoła podstawowa","Liceum","Technikum","Inny")
 var subjects =  new Array("Język angielski","Język niemiecki","Język hiszpański","Język francuski")
@@ -24,6 +25,42 @@ function check_level(level){
     }
     return value
   }
+check_flashcard = (req,res,next)=>{
+    fiszki.findOne({where: {id: req.params.id}}).then(
+      data => {
+        // console.log(data)
+        // return res.status(404).send({
+        //   message: "elo"
+        // });
+       
+        if (data){
+         
+          Set.findOne({where: { id: data.setId}}).then(
+            setdata =>{
+              if (setdata.userId != req.userId){
+                return res.status(404).send({
+                  message: `Nieautoryzowany dostęp`
+                });
+              }
+              next();
+            }
+          )
+        }
+        else{
+          return res.status(404).send({
+            message: "Podana fiszka nie istnieje"
+          });
+          
+
+        }
+      }
+    )
+    .catch ( err =>{
+      return res.status(404).send({
+        message: err
+      });
+    })
+}
 check_set = (req,res,next)=>{
     const id = req.params.id;
     Set.findOne({where:{id: id,
@@ -49,10 +86,10 @@ check_create_set = (req,res,next)=>{
         userId: req.userId}})
         .then(data => {
             if (data){
-            res.status(400).send({ message: "Istnieje juz taki zestaw" });
-            return;
+              res.status(400).send({ message: "Istnieje juz taki zestaw" });
+              return;
             }
-            else if (req.body.name == null || req.body.level == null || req.body.subject == null){
+            else if (req.body.name == null || req.body.name == "" || req.body.level == null || req.body.subject == null){
                 res.status(400).send({ message: "Brakuje danych" });
                 return;
               }
@@ -65,10 +102,10 @@ check_create_set = (req,res,next)=>{
                 res.status(400).send({ message: "Należy podać odpowiedni przedmiot" });
                 return;
               }
-            else if (req.body.first_side == null || req.body.second_side == null){
-                res.status(400).send({ message: "Brakuje danych" });
-                return;
-              }
+            // else if (req.body.first_side == null || req.body.second_side == null){
+            //     res.status(400).send({ message: "Brakuje danych" });
+            //     return;
+            //   }
               next();
         })
      
@@ -118,6 +155,7 @@ const verifySet = {
     check_set: check_set,
     check_create_set: check_create_set,
     check_delete_set:check_delete_set,
-    check_delete_card: check_delete_card
+    check_delete_card: check_delete_card,
+    check_flashcard: check_flashcard
 }
 module.exports = verifySet;

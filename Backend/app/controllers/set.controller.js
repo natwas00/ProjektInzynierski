@@ -7,8 +7,9 @@ const csv = require("fast-csv");
 const CsvParser = require("json2csv").Parser;
 var all=[]
 const path = require("path");
-
 const Path = path.join(`${__dirname}/../resources/static/assets/uploads/`)
+
+
 exports.downloadCsv= (req, res) => {
   all=[]
   const id = req.params.id;
@@ -41,7 +42,7 @@ exports.downloadCsv= (req, res) => {
             const csvData = csvParser.parse(flashcards);
 
             res.setHeader("Content-Type", "text/csv");
-            res.setHeader("Content-Disposition", "attachment; filename=tutorials.csv");
+            res.setHeader("Content-Disposition", "attachment; filename=words.csv");
 
             res.status(200).end(csvData);
       }
@@ -51,13 +52,13 @@ exports.downloadCsv= (req, res) => {
 
 })
 }
-exports.uploadCsv = async (req, res) => {
+exports.uploadCsvToDatabase = async (req, res) => {
   try {
     if (req.file == undefined) {
       return res.status(400).send("Please upload a CSV file!");
     }
 
-    let tutorials = [];
+    let words = [];
     let path =  Path + req.file.filename;
 
     fs.createReadStream(path)
@@ -66,12 +67,58 @@ exports.uploadCsv = async (req, res) => {
         throw error.message;
       })
       .on("data", (row) => {
-        tutorials.push(row);
+        words.push(row);
+      })
+      .on("end", () => {
+        for (i in words){
+            var data = {
+              "first_side": words[i].first_side,
+              "second_side": words[i].second_side,
+              "setId": req.params.id
+            }
+            fiszki.create(data)
+            .catch((error) => {
+              res.status(500).send({
+                message: "Fail to import data into database!",
+                error: error.message,
+              });
+            });
+          }  
+          res.status(200).send({
+            message: "Dodano nowe słowa"
+           } );
+          
+          
+  
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Could not upload the file: " + req.file.originalname,
+    });
+  }
+};
+exports.uploadCsv = async (req, res) => {
+  try {
+    if (req.file == undefined) {
+      return res.status(400).send("Please upload a CSV file!");
+    }
+
+    let words = [];
+    let path =  Path + req.file.filename;
+
+    fs.createReadStream(path)
+      .pipe(csv.parse({ headers: true }))
+      .on("error", (error) => {
+        throw error.message;
+      })
+      .on("data", (row) => {
+        words.push(row);
       })
       .on("end", () => {
         
             res.status(200).send(
-            tutorials
+            words
             );
           
   
@@ -85,24 +132,32 @@ exports.uploadCsv = async (req, res) => {
 };
 exports.add_to_exsist_set = (req,res) =>{
     const id = req.params.id;
-    Set.findOne({where:{id: id,
-      userId: req.userId}}).then(data2=>{
-      
-        
-          for (i in req.body.first_side){
+    fiszki.findOne({where:{ 
+      first_side: req.body.first_side, second_side: req.body.second_side}})
+    . then(data=>{
+      if (data){
+        res.status(400).send("Istnieje już taka fiszka")
+        return
+      }
+      else{
+        Set.findOne({where:{id: id,
+          userId: req.userId}}).then(data2=>{
             fiszki.create({
-              first_side: req.body.first_side[i],
-              second_side: req.body.second_side[i],
+              first_side: req.body.first_side[0],
+              second_side: req.body.second_side[0],
               setId: id,
               link: null
+            }).then(id =>{
+              res.send({ message: "Dodano fiszkę", id: id.id });
+              return;
             })
            
+       
           
-         
-        }
-        res.send({ message: "Pomyślnie dodano nowe słowa" });
-        return;
-      })
+          })
+      }
+    })
+
   
   };
   exports.all_sets = (req,res) =>{
@@ -111,11 +166,10 @@ exports.add_to_exsist_set = (req,res) =>{
       return;
     })
     .catch(err => {
-      res.status(500).send({ message: "coś nie tak" });
+      res.status(500).send({ message: err });
     });
   }
   exports.create_set = (req,res) => {
-   
     Set.create({
       name: req.body.name,
       userId: req.userId,
@@ -123,25 +177,32 @@ exports.add_to_exsist_set = (req,res) =>{
       level: req.body.level,
       subject:req.body.subject
     }).then (set => {
-      Set.findOne({where:{name: req.body.name,
-        userId: req.userId}}).then(id => {
-             
+              array_with_data=[]
               for (i in req.body.first_side){
-                fiszki.create({
+                array_with_data.push({
                   first_side: req.body.first_side[i],
                   second_side: req.body.second_side[i],
-                  setId: id.id
+                  setId: set.id
                 })
                
+               
               }
+              if (array_with_data){
+                fiszki.bulkCreate(
+                  array_with_data
+                ).then(data=>{
+                  
+                })
+            }
+              setData = {
+                id: set.id,
+                message: "Utworzono zestaw"
+              }
+              res.send(setData);
+              return;
             
-          res.send({ message: "Pomyślnie utworzono zestaw" });
-          return;
-        }
-          )
-          .catch(err => {
-            res.status(500).send({ message: "coś nie tak" });
-          });
+          
+
           
       });
     
@@ -191,15 +252,62 @@ exports.deleteset = (req,res) =>{
         });
       });
     };
+exports.editFlashcard = (req, res) =>{
+  id = req.params.id;
+  fiszki.findOne({where:{ 
+    first_side: req.body.first_side, second_side: req.body.second_side}})
+  . then(data=>{
+    if (data){
+      res.status(400).send("Istnieje już taka fiszka")
+      return
+    }
+    else{
+      var dat = {
+        "first_side": req.body.first_side,
+        "second_side": req.body.second_side
+      }
+      fiszki.update( dat,{ where: {id: id}
+      })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Pomyślnie zaktualizowano dane"
+          });
+        } else {
+          res.send({
+            message: `Nie można zaktualizować fiszki z id=${id}.`
+          });
+        };
+    
+    })
+    }
+  })
 
-exports.findOneSet = (req, res,next) => {
+}
+exports.find_set_name = (req,res) =>{
+  const id = req.params.id;
+  Set.findOne({
+    attributes: ['name'],
+    where: {
+      id: id
+    }
+  }).then (name =>{
+    res.send(name)
+    return;
+  })
+}
+exports.findOneSet = (req, res) => {
       all=[]
       const id = req.params.id;
       fiszki.findAll({
-        attributes: ['first_side', 'second_side',"link"],
+        attributes: ['id','first_side', 'second_side','link'],
         where: {
-          setId: id
+          setId: id,
         },
+        order: [
+          ['id', 'DESC'],
+          
+      ],
       
       }).then(data =>{
         Set.findOne({where:{id: id,
@@ -212,22 +320,7 @@ exports.findOneSet = (req, res,next) => {
                 
               }
               else if (data) {
-              
-                
-                let newData={}
-                for (i in data){
-               
-                    
-                    newData = {
-                      "first_side":data[i].dataValues.first_side,
-                      "second_side": data[i].dataValues.second_side,
-                      "link": data[i].link
-                    }
-                    all.push(newData)
-                  
-                 
-              }
-                 res.send(all);
+                 res.send(data);
                  return;
         
                

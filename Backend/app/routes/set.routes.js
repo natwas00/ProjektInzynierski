@@ -11,6 +11,8 @@ module.exports = function(app) {
       );
       next();
     });
+      app.get("/set_name/:id",
+      [authJwt.verifyToken],set_controller.find_set_name);
       app.get("/set/:id",
         [authJwt.verifyToken],set_controller.findOneSet);
       app.post("/api/add_set/:id",
@@ -21,14 +23,18 @@ module.exports = function(app) {
       [authJwt.verifyToken, verifySet.check_create_set],set_controller.create_set)
 
       app.delete("/api/deleteCard/:id",
-      [authJwt.verifyToken, verifySet.check_delete_card],set_controller.deletecards)
+      [authJwt.verifyToken],set_controller.deletecards)
 
       app.delete("/api/deleteset/:id",
       [authJwt.verifyToken, verifySet.check_delete_set],set_controller.deleteset)
 
       app.post("/api/csv/upload",
       [authJwt.verifyToken], upload.single("file"),set_controller.uploadCsv)
-
+      app.post("/csv/upload/:id",
+      [authJwt.verifyToken], upload.single("file"),set_controller.uploadCsvToDatabase)
+      app.put("/api/editFlashcard/:id",
+      [authJwt.verifyToken,verifySet.check_flashcard],set_controller.editFlashcard)
+      
 
       app.get("/api/csv/download/:id",
       [authJwt.verifyToken], set_controller.downloadCsv);
