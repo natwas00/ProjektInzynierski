@@ -19,6 +19,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public selectedFiles: FileList;
   private currentFileUpload: File;
   private addSetCSVSub;
+  public csvname = "Wybierz plik csv"
   @ViewChild('inputFile') myInputVariable: ElementRef;
 
 
@@ -39,8 +40,16 @@ export class CreateSetComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.errorMessage = '';
       }, 3000);
+    }    
+     else if ( this.flashcardsSet.find(element => element.left == this.newRow.left && element.right == this.newRow.right)){
+      alert('Dodano już taką fiszkę');
+      this.errorMessage = 'Dodano już taką fiszkę';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
+      this.newRow = {};
     } else {
-      this.flashcardsSet.push(this.newRow);
+      this.flashcardsSet.unshift(this.newRow);
       this.errorMessage = '';
       this.newRow = {};
     }
@@ -54,7 +63,13 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public addSet(value: any) {
     console.log('addSet...');
     if (this.flashcardsSet.length === 0) {
+      alert('Zestaw nie może być pusty');
+
       console.log('empty set')
+      this.errorMessage = "Zestaw nie może być pusty"
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
     } else {
       let first_side = [];
       let second_side = [];
@@ -85,9 +100,12 @@ export class CreateSetComponent implements OnInit, OnDestroy {
           },2000);
         },
         (error: HttpErrorResponse) => {
-          console.error(error)
+         
+          alert('Błąd');
           this.errorMessage = error.error.message;
-          alert(error.error.message);
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
         })
     }
   }
@@ -95,6 +113,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public setFile(event) {
     this.selectedFiles = event.target.files;
     this.currentFileUpload = this.selectedFiles.item(0);
+    this.csvname = this.selectedFiles[0].name
   }
 
   public sendFile() {
@@ -121,5 +140,6 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public removeCSV() {
     this.myInputVariable.nativeElement.value = "";
     this.selectedFiles = null;
+    this.csvname = "Wybierz plik csv"
   }
 }

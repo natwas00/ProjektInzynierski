@@ -24,7 +24,9 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent, canActivate: [AuthGuard]  },
   { path: 'create-set', component: CreateSetComponent, canActivate: [AuthGuard]},
   { path: 'all-sets', component: DisplayAllSetsComponent, canActivate: [AuthGuard]},
-  { path: 'set/:id', component: FlashcardComponent, canActivate: [AuthGuard]},
+  { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
+  // { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
+  // { path: 'editset/:id', component: FlashcardComponent, data :{ message: true},canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {path: '**', redirectTo: '/404'}

@@ -12,21 +12,35 @@
           ngModel required />
         <select name="level" class="set-level" ngModel required>
           <option value="" disabled selected>Wybierz poziom</option>
+          <option>Szkoła podstawowa</option>
+          <option>Technikum</option>
           <option>Liceum</option>
+          <option>Inny</option>
         </select>
         <select name="subject" class="set-subject" ngModel required>
           <option value="" disabled selected>Wybierz przedmiot</option>
           <option>Język angielski</option>
+          <option>Język niemiecki</option>
+          <option>Język francuski</option>
+          <option>Język hiszpański</option>
         </select>
       </div>
       <div class="add-csv-warapper">
         <!-- <span>Wybierz plik CSV aby wgrać z niego fiszki</span> -->
         <label class="uploader-style" for="upload-csv">
-          <span>Wybierz plik CSV aby wgrać z niego fiszki</span>
+          <span>{{ csvname }}</span>
           <img class="img-conteiner-csv" src="../../assets/Add Set/csv-icon.png" alt="file upload">
+          
           <input #inputFile type="file" accept=".csv" (change)="setFile($event)" id="upload-csv">
+         
         </label>
       </div>
+
+      <!-- <br />
+      <span>Wybierz plik CSV aby wgrać z niego fiszki</span>
+      <input #inputFile type="file" accept=".csv" (change)="setFile($event)">
+
+      <br /> -->
       <div class="add-csv-btn-warapper">
         <button class="btn btn-primary" (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
         <button class="btn btn-primary" (click)="removeCSV()" [disabled]="!selectedFiles">Usuń plik</button>

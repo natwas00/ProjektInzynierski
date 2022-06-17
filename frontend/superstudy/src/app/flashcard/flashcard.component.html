@@ -4,14 +4,37 @@
     </div>
     <div class="name">
         {{setDetails.name}}
+       
+
         <div class="icons">
-            <i class="fa fa-trash" aria-hidden="true" title="Usuń zestaw" (click)="deleteSet()"></i>
-            <div class="add-flashcard" (click)="enableAddFlashcardMode()">
+            <i *ngIf="editset" class="fa fa-trash" aria-hidden="true" title="Usuń zestaw" (click)="deleteSet()"></i>
+            <!-- <i  class="fa fa-pencil" aria-hidden="true" title="Edytuj zestaw"
+            (click)="edit_set()"></i> -->
+            <div *ngIf="editset" class="add-flashcard" (click)="enableAddFlashcardMode()">
                 Dodaj fiszkę <i class="fa fa-plus" aria-hidden="true" title="Dodaj fiszkę"></i>
             </div>
-
+            <div *ngIf="editset" class="add-flashcard" (click)="enableCsv()">
+                Dodaj plik csv <i class="fa fa-plus" aria-hidden="true" title="Dodaj fiszkę"></i>
+            </div>
+            
         </div>
+        
     </div>
+    <br />
+    <form  *ngIf="enableCSV">
+        <div class="form-group" >
+    <span>Wybierz plik CSV aby wgrać z niego fiszki:</span>
+</div>
+<div class="form-group" *ngIf="editset" >
+    <input #inputFile type="file" accept=".csv" (change)="setFile($event)">
+</div>
+    <div class="form-group" >
+    
+    <button (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
+    <button (click)="removeCSV()" [disabled]="!selectedFiles" style = "left: 400px; position: absolute;">Usuń plik</button>
+    <br />
+</div>
+    </form>
     <form (ngSubmit)="confirmAddNewFlashcard()" ngNativeValidate action="/" method="post" *ngIf="addFlashcardMode"
         class="flashcard-row">
         <div class="flashcard-wrapper">
@@ -23,6 +46,8 @@
                 <input placeholder="Prawa strona" type="text" name="second_side" class="set-title"
                     [(ngModel)]="newFlashcard.second_side[0]" required />
             </div>
+            <p>{{ error_mess }}</p>
+
         </div>
         <button type="submit" class="edit-confirm"><i class="fa fa-check" aria-hidden="true"
                 title="Potwierdź"></i></button>
@@ -41,11 +66,12 @@
                     [(ngModel)]="flashcard.second_side" required />
                 <span *ngIf="!flashcard?.editMode">{{flashcard.second_side}}</span>
             </div>
+            <p>{{ flashcard?.error_mess }}</p>
         </div>
-        <i *ngIf="!flashcard?.editMode" class="fa fa-pencil" aria-hidden="true" title="Edytuj fiszkę"
+        <i *ngIf="!flashcard?.editMode && editset" class="fa fa-pencil" aria-hidden="true" title="Edytuj fiszkę"
             (click)="enableEditFlashcard(i)"></i>
         <button *ngIf="flashcard?.editMode" type="submit" class="edit-confirm"><i class="fa fa-check" aria-hidden="true"
                 title="Potwierdź"></i></button>
-        <i (click)="deleteFlashcard(flashcard.id)" class="fa fa-trash" aria-hidden="true" title="Usuń"></i>
+        <i (click)="deleteFlashcard(flashcard.id)" *ngIf="editset"class="fa fa-trash" aria-hidden="true" title="Usuń"></i>
     </form>
 </div>

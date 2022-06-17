@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild  } from '@angular/core';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import { FlashcardsService } from '../_services/flashcards.service';
 
 @Component({
@@ -9,18 +9,26 @@ import { FlashcardsService } from '../_services/flashcards.service';
 })
 export class FlashcardComponent implements OnInit, OnDestroy {
   private id;
+  private addSetCSVSub;
   public set = [];
+  public editset = true
   public success = false;
   public addFlashcardMode = false;
+  public error_mess = "";
+  public error_mess_edit = ""
+  enableCSV = false;
   public newFlashcard = {
     first_side: [''],
     second_side: ['']
   };
+  public selectedFiles: FileList;
+  private currentFileUpload: File;
   public getSetSubscription;
   public deleteSetSubscription;
   public editFlashcardSubscription;
   public deleteFlashcardSubscription;
   public addNewFlashcardSubscription;
+  @ViewChild('inputFile') myInputVariable: ElementRef;
   public setDetails = {
     name: 'Przykladowa nazwa'
   };
@@ -30,6 +38,9 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getSet();
+    // this.route.data.subscribe((data:Data) =>{
+    //   this.editset = data['message'];
+    // })
   }
 
   public getSet(): void {
@@ -40,7 +51,9 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     });
     console.log(this.id);
   }
-
+  enableCsv():void{
+    this.enableCSV = !this.enableCSV
+  }
   ngOnDestroy(): void {
     console.log('destroy');
     this.deleteSetSubscription?.unsubscribe();
@@ -62,6 +75,7 @@ export class FlashcardComponent implements OnInit, OnDestroy {
 
   public enableEditFlashcard(index) {
     this.set[index].editMode = true;
+    this.set[index].error_mess = "";
   }
 
   public confirmEdit(index, id){
@@ -73,8 +87,10 @@ export class FlashcardComponent implements OnInit, OnDestroy {
       console.log(index, id);
       console.log(d);
       this.set[index].editMode = false;
+      this.set[index].error_mess = ""
     }, (error)=>{
       console.error(error);
+      this.set[index].error_mess = error.error
     })
     
   }
@@ -89,7 +105,9 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     })
     
   }
-
+  public edit_set(){
+    this.editset = !this.editset
+  }
   public enableAddFlashcardMode(){
     this.addFlashcardMode = true;
   }
@@ -103,13 +121,45 @@ export class FlashcardComponent implements OnInit, OnDestroy {
         first_side: [''],
         second_side: ['']
       };
+      this.error_mess = ""
     }, (error)=>{
       console.error(error);
+      this.error_mess = error.error
     })
   }
 
   public cancelAddNewFlashcard(){
     this.addFlashcardMode = false;
+    
+  }
+  public setFile(event) {
+    this.selectedFiles = event.target.files;
+    this.currentFileUpload = this.selectedFiles.item(0);
+  }
+  public sendFile() {
+    const formdata: FormData = new FormData();
+    formdata.append('file', this.currentFileUpload);
+    console.log(formdata.get('file'));
+    this.addSetCSVSub = this.flashcardsService.sendCSV( formdata, this.id ).subscribe((res) => {
+     
+      setTimeout(() => {
+        this.getSet();
+    }, 100);
+      console.log(res);
+    }, (e)=>{
+      console.error(e);
+      this.addSetCSVSub?.unsubscribe();
+    }, ()=>{
+      this.addSetCSVSub?.unsubscribe();
+    });
+    console.log(this.selectedFiles);
+    this.getSet()
+    this.removeCSV()
+  }
+
+  public removeCSV() {
+    this.myInputVariable.nativeElement.value = "";
+    this.selectedFiles = null;
   }
 
 }

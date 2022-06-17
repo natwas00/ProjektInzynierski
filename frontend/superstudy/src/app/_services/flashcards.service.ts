@@ -48,4 +48,10 @@ export class FlashcardsService {
   addNewFlashcard(data: any, id: number): Observable<any> {
     return this.http.post(`${baseUrl}/api/add_set/${id}`, data, httpOptions);
   }
+  sendCSV(data: any, id: number): Observable<any> {
+    const httpOptionsUpload = {
+      headers: new HttpHeaders({ 'Accept': 'application/json' }),
+    };
+    return this.http.post(`${baseUrl}/csv/upload/${id}`, data, httpOptionsUpload);
+  }
 }
