@@ -14,6 +14,13 @@
       <li class="nav-item" *ngIf="isLoggedIn">
         <a href="/create-set" class="nav-link" routerLink="create-set">Dodaj zestaw</a>
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a  class="nav-link"
+    (click)="open(content)" style="color: #007bff">
+    Dodaj zestaw ver2
+      </a>
+        
+      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
@@ -47,3 +54,70 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Stwórz nowy zestaw
+      </h4>
+      <!-- <button type="button" class="close" 
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+
+          <span aria-hidden="true">
+              
+          </span>
+      </button> -->
+      <span class="close" (click)=
+      "exit()">&times;</span>
+
+      
+  </div>
+  <div class="modal-body">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group" >
+        <div class="email-input">
+          <label class="input-label" for="email">Podaj nazwę</label>
+          <input type="email" class="form-control" name="email"  [(ngModel)]="name" />
+        </div>
+        </div>
+          <div class="form-group" >
+            <p>Wybierz poziom:</p>
+            <select class="form-control" (change)="selectChangeHandlerLevel($event)" name="cars" id="cars">
+              
+              <option value="Szkoła podstawowa">Szkoła podstawowa</option>
+              <option value="Liceum">Liceum</option>
+              <option value="Technikum">Technikum</option>
+              <option value="Inny">Inny</option>
+            </select>
+              
+          </div>
+          <div class="form-group" >
+            <p>Wybierz przedmiot:</p>
+            <select class="form-control"(change)="selectChangeHandlerSubject($event)">
+   
+              <option value="Język angielski">Język angielski</option>
+              <option value="Język niemiecki">Język niemiecki</option>
+              <option value="Język hiszpański">Język hiszpański</option>
+              <option value="Język francuski">Język francuski</option>
+            </select>
+              
+          </div>
+          
+            <button  class="btn btn-primary btn-block"
+            >
+            Utwórz
+        </button>
+        <div class="form-group">
+          <div class="alert alert-warning" *ngIf="SetFailed">
+            Błąd: <br />{{ errorMessage }}
+          </div>
+        </div>
+   
+      </form>
+      
+  
+  </div>
+ 
+
+</ng-template>
