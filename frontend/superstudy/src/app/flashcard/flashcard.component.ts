@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild  } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { FlashcardsService } from '../_services/flashcards.service';
 
@@ -16,7 +16,8 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   public addFlashcardMode = false;
   public error_mess = "";
   public error_mess_edit = ""
-  enableCSV = false;
+  public enableCSV = false;
+  public displayRemoveModal = false;
   public newFlashcard = {
     first_side: [''],
     second_side: ['']
@@ -28,6 +29,8 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   public editFlashcardSubscription;
   public deleteFlashcardSubscription;
   public addNewFlashcardSubscription;
+  public getSetnameSubscription;
+  public addImageSubscription;
   @ViewChild('inputFile') myInputVariable: ElementRef;
   public setDetails = {
     name: 'Przykladowa nazwa'
@@ -44,14 +47,18 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   }
 
   public getSet(): void {
-    this.getSetSubscription =this.flashcardsService.getSet(this.id).subscribe((d) => {
+    this.getSetnameSubscription = this.flashcardsService.getSetName(this.id).subscribe((name) => {
+      this.setDetails.name = name.name;
+      this.getSetnameSubscription?.unsubscribe();
+    });
+    this.getSetSubscription = this.flashcardsService.getSet(this.id).subscribe((d) => {
       console.log(d);
       this.set = d;
-      this.getSetSubscription.unsubscribe();
+      this.getSetSubscription?.unsubscribe();
     });
     console.log(this.id);
   }
-  enableCsv():void{
+  enableCsv(): void {
     this.enableCSV = !this.enableCSV
   }
   ngOnDestroy(): void {
@@ -61,11 +68,14 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     this.editFlashcardSubscription?.unsubscribe();
     this.deleteFlashcardSubscription?.unsubscribe();
     this.addNewFlashcardSubscription?.unsubscribe();
+    this.getSetnameSubscription?.unsubscribe();
+    this.addImageSubscription?.unsubscribe();
   }
 
   public deleteSet() {
     this.deleteSetSubscription = this.flashcardsService.deleteSet(this.id).subscribe((d) => {
       console.log(d);
+      this.displayRemoveModal = false;
       this.success = true;
       setTimeout(() => {
         this.router.navigate([`all-sets`]);
@@ -78,7 +88,15 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     this.set[index].error_mess = "";
   }
 
-  public confirmEdit(index, id){
+  public confirmEdit(index, id) {
+    if (this.set[index].file) {
+      this.addImageSubscription = this.flashcardsService.addImage(this.set[index].file, id).subscribe((d) => {
+        console.log(d);
+        this.addImageSubscription?.unsubscribe();
+      }, (error) => {
+        // console.error(error);
+      });
+    }
     const requestBody = {
       first_side: this.set[index].first_side,
       second_side: this.set[index].second_side
@@ -88,27 +106,30 @@ export class FlashcardComponent implements OnInit, OnDestroy {
       console.log(d);
       this.set[index].editMode = false;
       this.set[index].error_mess = ""
-    }, (error)=>{
+    }, (error) => {
       console.error(error);
       this.set[index].error_mess = error.error
+    }, () => {
+      this.getSet();
+      this.addImageSubscription?.unsubscribe();
     })
-    
+
   }
 
-  public deleteFlashcard(id){
+  public deleteFlashcard(id) {
     this.deleteFlashcardSubscription = this.flashcardsService.deleteFlashcard(id).subscribe((d) => {
       console.log(id);
       console.log(d);
       this.getSet();
-    }, (error)=>{
+    }, (error) => {
       console.error(error);
     })
-    
+
   }
-  public edit_set(){
+  public edit_set() {
     this.editset = !this.editset
   }
-  public enableAddFlashcardMode(){
+  public enableAddFlashcardMode() {
     this.addFlashcardMode = true;
   }
 
@@ -122,15 +143,15 @@ export class FlashcardComponent implements OnInit, OnDestroy {
         second_side: ['']
       };
       this.error_mess = ""
-    }, (error)=>{
+    }, (error) => {
       console.error(error);
       this.error_mess = error.error
     })
   }
 
-  public cancelAddNewFlashcard(){
+  public cancelAddNewFlashcard() {
     this.addFlashcardMode = false;
-    
+
   }
   public setFile(event) {
     this.selectedFiles = event.target.files;
@@ -140,16 +161,16 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     const formdata: FormData = new FormData();
     formdata.append('file', this.currentFileUpload);
     console.log(formdata.get('file'));
-    this.addSetCSVSub = this.flashcardsService.sendCSV( formdata, this.id ).subscribe((res) => {
-     
+    this.addSetCSVSub = this.flashcardsService.sendCSV(formdata, this.id).subscribe((res) => {
+
       setTimeout(() => {
         this.getSet();
-    }, 100);
+      }, 100);
       console.log(res);
-    }, (e)=>{
+    }, (e) => {
       console.error(e);
       this.addSetCSVSub?.unsubscribe();
-    }, ()=>{
+    }, () => {
       this.addSetCSVSub?.unsubscribe();
     });
     console.log(this.selectedFiles);
@@ -160,6 +181,23 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   public removeCSV() {
     this.myInputVariable.nativeElement.value = "";
     this.selectedFiles = null;
+  }
+
+  public openRemoveModal() {
+    this.displayRemoveModal = true;
+  }
+
+  public closeRemoveModal() {
+    this.displayRemoveModal = false;
+  }
+
+  public setImage(event: any, index: number): void {
+    const currentFileUpload = event.target.files.item(0);
+    const formdata: FormData = new FormData();
+    formdata.append('file', currentFileUpload, currentFileUpload.name);
+    this.set[index].file = formdata;
+    console.log(this.set[index].file);
+
   }
 
 }
