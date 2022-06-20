@@ -41,7 +41,7 @@
         <div class="form-group">
 
             <button (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
-            <button (click)="removeCSV()" [disabled]="!selectedFiles" style="left: 400px; position: absolute;">Usuń
+            <button (click)="removeCSV()" [disabled]="!selectedFiles" style="left: 650px; position: absolute;">Usuń
                 plik</button>
             <br />
         </div>
@@ -53,17 +53,45 @@
                 <input placeholder="Lewa strona" type="text" name="first_side" class="set-title"
                     [(ngModel)]="newFlashcard.first_side[0]" required />
             </div>
+            <div class="select-file">
+                <div >
+                    <input
+                    #fileInput
+                      class="flashcards-image-input"
+                      type="file"
+                      accept=".png, .jpeg"
+                      id="newFlashcardImage"
+                      (change)="setImage($event,null)"
+                      name="newFlashcardImage"/>
+                </div>
+              
+               
+            </div>
+            
             <div class="second-side">
                 <input placeholder="Prawa strona" type="text" name="second_side" class="set-title"
                     [(ngModel)]="newFlashcard.second_side[0]" required />
+                    
             </div>
+          
+            
+           
+            
             <p>{{ error_mess }}</p>
 
         </div>
+       
+      
+          
         <button type="submit" class="edit-confirm"><i class="fa fa-check" aria-hidden="true"
                 title="Potwierdź"></i></button>
         <i class="fa fa-times" aria-hidden="true" title="Anuluj" (click)="cancelAddNewFlashcard()"></i>
     </form>
+    <div>
+                
+        <img *ngFor='let preview of previews' [src]="preview" class="preview"  width="100" 
+        height="100" >
+      </div>
     <form *ngFor="let flashcard of set; let i = index" (ngSubmit)="confirmEdit(i, flashcard.id)" ngNativeValidate
         action="/" method="post" class="flashcard-row">
         <div class="flashcard-wrapper">
