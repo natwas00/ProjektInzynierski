@@ -9,6 +9,7 @@ import { FlashcardsService } from '../_services/flashcards.service';
 })
 export class FlashcardComponent implements OnInit, OnDestroy {
   private id;
+  previews: string[] = [];
   private addSetCSVSub;
   public set = [];
   public editset = true
@@ -32,6 +33,8 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   public getSetnameSubscription;
   public addImageSubscription;
   @ViewChild('inputFile') myInputVariable: ElementRef;
+  @ViewChild('fileInput') myInputVariable2: ElementRef;
+
   public setDetails = {
     name: 'Przykladowa nazwa'
   };
@@ -137,6 +140,20 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     console.log(this.newFlashcard, this.id);
     this.addNewFlashcardSubscription = this.flashcardsService.addNewFlashcard(this.newFlashcard, this.id).subscribe((d) => {
       console.log(d);
+      if (this.set[0].file) {
+        this.addImageSubscription = this.flashcardsService.addImage(this.set[0].file, d.id).subscribe((d) => {
+          console.log(d);
+       
+          
+        }, (error) => {
+        });
+        this.previews = []
+        setTimeout(() => {
+         this.getSet();
+       }, 1000);
+       this.myInputVariable2.nativeElement.value = "";
+      }
+
       this.getSet();
       this.newFlashcard = {
         first_side: [''],
@@ -151,6 +168,7 @@ export class FlashcardComponent implements OnInit, OnDestroy {
 
   public cancelAddNewFlashcard() {
     this.addFlashcardMode = false;
+    this.previews = []
 
   }
   public setFile(event) {
@@ -195,8 +213,26 @@ export class FlashcardComponent implements OnInit, OnDestroy {
     const currentFileUpload = event.target.files.item(0);
     const formdata: FormData = new FormData();
     formdata.append('file', currentFileUpload, currentFileUpload.name);
-    this.set[index].file = formdata;
-    console.log(this.set[index].file);
+      
+       if (index == null){
+          const reader = new FileReader();
+
+          reader.onload = (e: any) => {
+            console.log(e.target.result);
+            this.previews = []
+            this.previews.push(e.target.result);
+          
+          };
+
+          reader.readAsDataURL(currentFileUpload);
+          this.set[0].file = formdata;
+
+    }
+    else {
+      this.set[index].file = formdata;
+      console.log(this.set[index].file);
+    }
+    
 
   }
 
