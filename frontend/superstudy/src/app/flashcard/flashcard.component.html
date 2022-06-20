@@ -1,13 +1,23 @@
+<div *ngIf="displayRemoveModal" class="warning-modal">
+    <div class="warning-body">
+        <div>Czy na pewno chcesz usunąć zestaw?</div>
+        <div>
+            <button (click)="deleteSet()">Tak</button>
+            <button (click)="closeRemoveModal()">Nie</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="displayRemoveModal" class="warning-modal-overlay"></div>
 <div class="flashcards-container">
     <div class="success" *ngIf="success">
         <div class="success-text">Pomyślnie usunięto zestaw</div>
     </div>
     <div class="name">
         {{setDetails.name}}
-       
+
 
         <div class="icons">
-            <i *ngIf="editset" class="fa fa-trash" aria-hidden="true" title="Usuń zestaw" (click)="deleteSet()"></i>
+            <i *ngIf="editset" class="fa fa-trash" aria-hidden="true" title="Usuń zestaw" (click)="openRemoveModal()"></i>
             <!-- <i  class="fa fa-pencil" aria-hidden="true" title="Edytuj zestaw"
             (click)="edit_set()"></i> -->
             <div *ngIf="editset" class="add-flashcard" (click)="enableAddFlashcardMode()">
@@ -16,24 +26,25 @@
             <div *ngIf="editset" class="add-flashcard" (click)="enableCsv()">
                 Dodaj plik csv <i class="fa fa-plus" aria-hidden="true" title="Dodaj fiszkę"></i>
             </div>
-            
+
         </div>
-        
+
     </div>
     <br />
-    <form  *ngIf="enableCSV">
-        <div class="form-group" >
-    <span>Wybierz plik CSV aby wgrać z niego fiszki:</span>
-</div>
-<div class="form-group" *ngIf="editset" >
-    <input #inputFile type="file" accept=".csv" (change)="setFile($event)">
-</div>
-    <div class="form-group" >
-    
-    <button (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
-    <button (click)="removeCSV()" [disabled]="!selectedFiles" style = "left: 400px; position: absolute;">Usuń plik</button>
-    <br />
-</div>
+    <form *ngIf="enableCSV">
+        <div class="form-group">
+            <span>Wybierz plik CSV aby wgrać z niego fiszki:</span>
+        </div>
+        <div class="form-group" *ngIf="editset">
+            <input #inputFile type="file" accept=".csv" (change)="setFile($event)">
+        </div>
+        <div class="form-group">
+
+            <button (click)="sendFile()" [disabled]="!selectedFiles">Dodaj plik</button>
+            <button (click)="removeCSV()" [disabled]="!selectedFiles" style="left: 400px; position: absolute;">Usuń
+                plik</button>
+            <br />
+        </div>
     </form>
     <form (ngSubmit)="confirmAddNewFlashcard()" ngNativeValidate action="/" method="post" *ngIf="addFlashcardMode"
         class="flashcard-row">
@@ -61,6 +72,18 @@
                     [(ngModel)]="flashcard.first_side" required />
                 <span *ngIf="!flashcard?.editMode">{{flashcard.first_side}}</span>
             </div>
+            <div class="select-file">
+                <div *ngIf="flashcard?.editMode">
+                    <input
+                      class="flashcards-image-input"
+                      type="file"
+                      accept=".png, .jpeg"
+                      id="newFlashcardImage"
+                      (change)="setImage($event, i)"
+                      name="newFlashcardImage"/>
+                </div>
+                  <img id="{{'image-upload' + i}}" class="flashcard-image" *ngIf="!flashcard?.editMode && !!flashcard?.link" [src]="flashcard.link" alt="Nie znaleziono obrazka">
+            </div>
             <div class="second-side">
                 <input *ngIf="flashcard?.editMode" type="text" name="second_side" class="set-title"
                     [(ngModel)]="flashcard.second_side" required />
@@ -72,6 +95,7 @@
             (click)="enableEditFlashcard(i)"></i>
         <button *ngIf="flashcard?.editMode" type="submit" class="edit-confirm"><i class="fa fa-check" aria-hidden="true"
                 title="Potwierdź"></i></button>
-        <i (click)="deleteFlashcard(flashcard.id)" *ngIf="editset"class="fa fa-trash" aria-hidden="true" title="Usuń"></i>
+        <i (click)="deleteFlashcard(flashcard.id)" *ngIf="editset" class="fa fa-trash" aria-hidden="true"
+            title="Usuń"></i>
     </form>
 </div>

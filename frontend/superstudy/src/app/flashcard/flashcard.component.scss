@@ -105,10 +105,9 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            flex-basis:600px;
+            flex-basis:1000px;
             justify-content: center;
             align-items: center;
-            padding: 20px;
             margin: 20px;
             background-color: rgb(174, 210, 252);
             border-radius: 50px;
@@ -122,19 +121,85 @@
 
             .first-side {
                 font-size: 20px;
-                padding-bottom: 10px;
                 text-align: center;
-                flex-basis: 50%;
+                flex-basis: 33%;
+            }
+
+            .flashcard-image {
+                max-height: 90px;
+            }
+
+            .select-file {
+                flex-basis: 33%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .second-side {
                 font-size: 20px;
-                padding-bottom: 10px;
                 text-align: center;
-                flex-basis: 50%;
+                flex-basis: 33%;
             }
 
         }
+    }
+}
+
+:host {
+    position: relative;
+    min-height: 100%;
+    flex-grow: 1;
+}
+
+.warning-modal {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.warning-modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    z-index: 9;
+    opacity: 0.5;
+}
+
+.warning-body {
+    border-radius: 0.3rem;
+    z-index: 11;
+    width: 500px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    opacity: 1;
+
+    button {
+        margin: 10px;
+        font-size: 20px;
+        line-height: 20px;
+        background-color: #4590F7;
+        color: white;
+        height: 50px;
+        border-radius: 50px;
+        border:none;
+        padding: 15px;
+        cursor: pointer;
     }
 }
 
