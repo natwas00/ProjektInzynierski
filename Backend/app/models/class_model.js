@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       classLevel: {
-        typr: Sequelize.STRING
+        type: Sequelize.STRING
       },
       userId:{
         type: Sequelize.INTEGER,
