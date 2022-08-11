@@ -26,6 +26,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { DisplayAllSetsComponent } from './display-all-sets/display-all-sets.component';
 import { FlashcardComponent } from './flashcard/flashcard.component';
+import { ClassRoomComponent } from './class-room/class-room.component';
+import { AllClassesComponent } from './all-classes/all-classes.component';
+import { ClassInfoComponent } from './class-info/class-info.component';
+import { CreateClassComponent } from './create-class/create-class.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +46,10 @@ import { FlashcardComponent } from './flashcard/flashcard.component';
     CreateSetComponent,
     DisplayAllSetsComponent,
     FlashcardComponent,
+    ClassRoomComponent,
+    AllClassesComponent,
+    ClassInfoComponent,
+    CreateClassComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +64,7 @@ import { FlashcardComponent } from './flashcard/flashcard.component';
     FontAwesomeModule,
     NgbModule
 ],
-    
+
   providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],
 })

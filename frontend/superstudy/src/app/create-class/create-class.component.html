@@ -1,0 +1,60 @@
+<div class="sets-container">
+  <form class="form">
+    <div class="form-wrapper">
+      <input
+        name="class-name"
+        class="form-control pwd-control"
+        placeholder="Podaj nazwę klasy"
+      />
+
+      <input
+        name="class-description"
+        class="form-control pwd-control"
+        placeholder="Podaj opis klasy"
+      />
+
+      <select class="form-control">
+        <option value="">Wybierz poziom</option>
+        <option value="class1">Klasa 1</option>
+        <option value="class2">Klasa 2</option>
+        <option value="class3">Klasa 3</option>
+        <option value="class4">Klasa 4</option>
+      </select>
+    </div>
+
+    <div class="my-5 text-center">
+      <p class="text-gray">Wpisz login ucznia aby dodać go do klasy.</p>
+      <div class="form-wrapper-login">
+        <input
+          name="class-student-login"
+          class="form-control pwd-control"
+          placeholder="Podaj login"
+        />
+
+        <div class="add-login">
+          <i class="fa fa-plus" aria-hidden="true" title="Dodaj login"></i>
+        </div>
+      </div>
+    </div>
+
+    <ul class="list">
+      <li *ngFor="let set of allSets; let i = index" class="list-item">
+        <div class="item-number">
+          <p>
+            {{ i + 1 }}
+          </p>
+        </div>
+        <div class="item-name">
+          {{ set.name }}
+        </div>
+        <div class="item-delete">
+          <img src="assets/ClassInfo/Delete.png" />
+        </div>
+      </li>
+    </ul>
+
+    <div class="button-wrapper">
+      <button class="btn btn-primary" type="submit">Utwórz klasę</button>
+    </div>
+  </form>
+</div>

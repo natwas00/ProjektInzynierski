@@ -1,0 +1,104 @@
+.sets-container {
+  width: 100%;
+
+  .title {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 35px;
+
+    img {
+      height: 60px;
+      margin-right: 10px;
+    }
+  }
+
+  .table {
+    margin: 0 auto 55px;
+    max-width: 600px;
+
+    td {
+      width: 50%;
+      font-size: 20px;
+      font-weight: 600;
+      background-color: #e3f1ff;
+      border: 1px solid #ffffff;
+    }
+
+    tr:first-child td:first-child {
+      border-top-left-radius: 15px;
+    }
+
+    tr:first-child td:last-child {
+      border-top-right-radius: 15px;
+    }
+
+    tr:last-child td:first-child {
+      border-bottom-left-radius: 15px;
+    }
+
+    tr:last-child td:last-child {
+      border-bottom-right-radius: 15px;
+    }
+  }
+
+  .list {
+    list-style: none;
+    margin: 0 auto 55px;
+    max-width: 600px;
+    padding: 0;
+
+    .list-item {
+      display: flex;
+      background-color: #e3f1ff;
+      font-size: 20px;
+      font-weight: 600;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      padding: 0.75rem;
+
+      .item-number {
+        margin-right: 30px;
+
+        p {
+          padding: 10px;
+          border-radius: 50%;
+          margin: 0;
+          width: 40px;
+          height: 40px;
+          text-align: center;
+          line-height: 0.85;
+        }
+      }
+
+      .item-name {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .item-points {
+        display: flex;
+        align-items: center;
+
+        .item-star {
+          height: 20px;
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .list-item:nth-of-type(1) .item-number p {
+      background-color: #fbd980;
+    }
+
+    .list-item:nth-of-type(2) .item-number p {
+      background-color: #c4c4c4;
+    }
+
+    .list-item:nth-of-type(3) .item-number p {
+      background-color: #c09898;
+    }
+  }
+}

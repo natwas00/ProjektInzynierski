@@ -1,0 +1,18 @@
+<div class="sets-container">
+  <h1 class="title">Wszystkie klasy</h1>
+
+  <div class="buttons-wrapper">
+    <button class="btn btn-primary" (click)="addNewSet()">Utwórz klasę</button>
+  </div>
+
+  <div class="set-wrapper">
+    <div *ngFor="let set of allSets" class="card-wrapper">
+      <div class="card">
+        <button *ngIf="isTeacherRole" class="card-icon">
+          <i class="fa fa-check" aria-hidden="true"></i>
+        </button>
+        <h3 class="card-title">{{set.name}}</h3>
+      </div>
+    </div>
+  </div>
+</div>
