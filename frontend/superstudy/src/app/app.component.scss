@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Poppins:wght@300;400&display=swap');
+//.container-fluid {
+//    width: 1400px;
+//    display: flex;
+//    justify-content: center;
+//}
 .container-fluid {
-    width: 1400px;
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 70px 15px;
+    margin: 0 auto;
 }
 
 .navbar-background {
