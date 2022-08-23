@@ -31,12 +31,13 @@ const MOCK_SETS: any[] = [
 ];
 
 @Component({
-  selector: 'app-class-info',
-  templateUrl: './class-info.component.html',
-  styleUrls: ['./class-info.component.scss'],
+  selector: 'app-class-edit',
+  templateUrl: './class-edit.component.html',
+  styleUrls: ['./class-edit.component.scss'],
 })
-export class ClassInfoComponent implements OnInit, OnDestroy {
+export class ClassEditComponent implements OnInit, OnDestroy {
   public allSets = [];
+  constructor() {}
 
   ngOnInit(): void {
     this.allSets = MOCK_SETS;

@@ -30,6 +30,7 @@ import { ClassRoomComponent } from './class-room/class-room.component';
 import { AllClassesComponent } from './all-classes/all-classes.component';
 import { ClassInfoComponent } from './class-info/class-info.component';
 import { CreateClassComponent } from './create-class/create-class.component';
+import { ClassEditComponent } from './class-edit/class-edit.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { CreateClassComponent } from './create-class/create-class.component';
     AllClassesComponent,
     ClassInfoComponent,
     CreateClassComponent,
+    ClassEditComponent,
   ],
   imports: [
     BrowserModule,

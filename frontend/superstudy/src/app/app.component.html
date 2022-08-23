@@ -1,31 +1,46 @@
 <div id="app">
-  <nav class="navbar navbar-expand navbar-background ">
+  <nav class="navbar navbar-expand navbar-background">
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <a class="navbar-brand text-color "  routerLink="home">
-        <img src="../assets/Login/logo-main.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      <a class="navbar-brand text-color" routerLink="home">
+        <img
+          src="../assets/Login/logo-main.png"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        />
         SuperStudy
       </a>
       <!-- <li class="nav-item">
         <a href="/home" class="nav-link" routerLink="home">Home </a>
       </li> -->
       <li class="nav-item" *ngIf="isLoggedIn">
-        <a href="/all-sets" class="nav-link" routerLink="all-sets">Wszystkie zestawy</a>
+        <a href="/all-sets" class="nav-link" routerLink="all-sets"
+          >Wszystkie zestawy</a
+        >
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
-        <a href="/create-set" class="nav-link" routerLink="create-set">Dodaj zestaw</a>
+        <a href="/all-classes" class="nav-link" routerLink="all-classes"
+          >Wszystkie klasy</a
+        >
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
-        <a  class="nav-link"
-    (click)="open(content)" style="color: #007bff">
-    Dodaj zestaw ver2
-      </a>
-        
+        <a href="/create-set" class="nav-link" routerLink="create-set"
+          >Dodaj zestaw</a
+        >
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" (click)="open(content)" style="color: #007bff">
+          Dodaj zestaw ver2
+        </a>
       </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
       <li class="nav-item" *ngIf="showTeacherBoard">
-        <a href="/teacher" class="nav-link" routerLink="teacher">Teacher Board</a>
+        <a href="/teacher" class="nav-link" routerLink="teacher"
+          >Teacher Board</a
+        >
       </li>
       <li class="nav-item" *ngIf="showUserBoard">
         <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user"
@@ -56,11 +71,8 @@
 </div>
 <ng-template #content let-modal>
   <div class="modal-header">
-      <h4 class="modal-title" 
-          id="modal-basic-title">
-          Stwórz nowy zestaw
-      </h4>
-      <!-- <button type="button" class="close" 
+    <h4 class="modal-title" id="modal-basic-title">Stwórz nowy zestaw</h4>
+    <!-- <button type="button" class="close" 
               aria-label="Close" (click)=
               "modal.dismiss('Cross click')">
 
@@ -68,56 +80,54 @@
               
           </span>
       </button> -->
-      <span class="close" (click)=
-      "exit()">&times;</span>
-
-      
+    <span class="close" (click)="exit()">&times;</span>
   </div>
   <div class="modal-body">
-      <form (ngSubmit)="onSubmit()">
-        <div class="form-group" >
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
         <div class="email-input">
           <label class="input-label" for="email">Podaj nazwę</label>
-          <input type="email" class="form-control" name="email"  [(ngModel)]="name" />
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="name"
+          />
         </div>
-        </div>
-          <div class="form-group" >
-            <p>Wybierz poziom:</p>
-            <select class="form-control" (change)="selectChangeHandlerLevel($event)" name="cars" id="cars">
-              
-              <option value="Szkoła podstawowa">Szkoła podstawowa</option>
-              <option value="Liceum">Liceum</option>
-              <option value="Technikum">Technikum</option>
-              <option value="Inny">Inny</option>
-            </select>
-              
-          </div>
-          <div class="form-group" >
-            <p>Wybierz przedmiot:</p>
-            <select class="form-control"(change)="selectChangeHandlerSubject($event)">
-   
-              <option value="Język angielski">Język angielski</option>
-              <option value="Język niemiecki">Język niemiecki</option>
-              <option value="Język hiszpański">Język hiszpański</option>
-              <option value="Język francuski">Język francuski</option>
-            </select>
-              
-          </div>
-          
-            <button  class="btn btn-primary btn-block"
-            >
-            Utwórz
-        </button>
-        <div class="form-group">
-          <div class="alert alert-warning" *ngIf="SetFailed">
-            Błąd: <br />{{ errorMessage }}
-          </div>
-        </div>
-   
-      </form>
-      
-  
-  </div>
- 
+      </div>
+      <div class="form-group">
+        <p>Wybierz poziom:</p>
+        <select
+          class="form-control"
+          (change)="selectChangeHandlerLevel($event)"
+          name="cars"
+          id="cars"
+        >
+          <option value="Szkoła podstawowa">Szkoła podstawowa</option>
+          <option value="Liceum">Liceum</option>
+          <option value="Technikum">Technikum</option>
+          <option value="Inny">Inny</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <p>Wybierz przedmiot:</p>
+        <select
+          class="form-control"
+          (change)="selectChangeHandlerSubject($event)"
+        >
+          <option value="Język angielski">Język angielski</option>
+          <option value="Język niemiecki">Język niemiecki</option>
+          <option value="Język hiszpański">Język hiszpański</option>
+          <option value="Język francuski">Język francuski</option>
+        </select>
+      </div>
 
+      <button class="btn btn-primary btn-block">Utwórz</button>
+      <div class="form-group">
+        <div class="alert alert-warning" *ngIf="SetFailed">
+          Błąd: <br />{{ errorMessage }}
+        </div>
+      </div>
+    </form>
+  </div>
 </ng-template>

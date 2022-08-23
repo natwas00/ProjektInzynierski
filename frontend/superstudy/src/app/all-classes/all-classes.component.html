@@ -2,7 +2,9 @@
   <h1 class="title">Wszystkie klasy</h1>
 
   <div class="buttons-wrapper">
-    <button class="btn btn-primary" (click)="addNewSet()">Utwórz klasę</button>
+    <button class="btn btn-primary" routerLink="/create-class">
+      Utwórz klasę
+    </button>
   </div>
 
   <div class="set-wrapper">
@@ -11,7 +13,7 @@
         <button *ngIf="isTeacherRole" class="card-icon">
           <i class="fa fa-check" aria-hidden="true"></i>
         </button>
-        <h3 class="card-title">{{set.name}}</h3>
+        <h3 class="card-title">{{ set.name }}</h3>
       </div>
     </div>
   </div>

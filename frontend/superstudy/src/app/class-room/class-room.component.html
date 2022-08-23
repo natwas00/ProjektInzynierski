@@ -1,9 +1,13 @@
 <div class="sets-container">
-  <h1 class="title">{{level}}</h1>
+  <h1 class="title">{{ level }}</h1>
 
   <div class="buttons-wrapper">
-    <button class="btn btn-primary spacer" (click)="addNewSet()">Dodaj nowy zestaw</button>
-    <button class="btn btn-primary" (click)="stats()">Statystyki</button>
+    <button class="btn btn-primary spacer" routerLink="/create-set">
+      Dodaj nowy zestaw
+    </button>
+    <button class="btn btn-primary" routerLink="/edit-class">
+      Edytuj klasę
+    </button>
   </div>
 
   <div class="set-wrapper">
@@ -12,7 +16,7 @@
         <button *ngIf="isTeacherRole" class="card-icon">
           <i class="fa fa-check" aria-hidden="true"></i>
         </button>
-        <h3 class="card-title">{{set.name}}</h3>
+        <h3 class="card-title">{{ set.name }}</h3>
       </div>
     </div>
   </div>
