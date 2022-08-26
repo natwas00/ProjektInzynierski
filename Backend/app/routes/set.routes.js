@@ -11,11 +11,11 @@ module.exports = function(app) {
       );
       next();
     });
-      app.get("/set_name/:id",
-      [authJwt.verifyToken],set_controller.find_set_name);
-      app.get("/set/:id",
-        [authJwt.verifyToken],set_controller.findOneSet);
-      app.post("/api/add_set/:id",
+      app.get("/set_name/:setId",
+      [authJwt.verifyToken,verifySet.check_access],set_controller.find_set_name);
+      app.get("/set/:setId",
+        [authJwt.verifyToken,verifySet.check_access],set_controller.findOneSet);
+      app.post("/api/add_set/:setId",
       [authJwt.verifyToken, verifySet.check_set],set_controller.add_to_exsist_set)
       app.get("/api/sets",
       [authJwt.verifyToken],set_controller.all_sets)

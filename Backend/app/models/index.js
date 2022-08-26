@@ -28,6 +28,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.class = require("../models/class_model.js")(sequelize, Sequelize);
 db.final_test = require("../models/final_test-model.js")(sequelize, Sequelize);
 db.classList = require("../models/ClassList.model")(sequelize, Sequelize);
+db.UsersAndsets = require("../models/users&sets.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
@@ -52,11 +53,23 @@ db.user.belongsToMany(db.class,{
   otherKey:"studentId",
   allowNull: false
  })
- db.user.hasMany(db.set,{
-  foreignKey: "userId",
+//  db.user.hasMany(db.set,{
+//   foreignKey: "userId",
+//   allowNull: false
+//  });
+// db.set.belongsTo(db.user)
+db.user.belongsToMany(db.set,{
+  through: "users&sets",
+  foreignKey: "studentId",
+  otherKey:"setId",
   allowNull: false
- });
-db.set.belongsTo(db.user)
+ })
+ db.set.belongsToMany(db.user,{
+  through: "users&sets",
+  foreignKey: "setId",
+  otherKey:"studentId",
+  allowNull: false
+ })
 db.set.hasMany(db.fiszki,{
   foreignKey: "setId",
   allowNull: false

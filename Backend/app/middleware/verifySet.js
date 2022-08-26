@@ -5,6 +5,7 @@ const Set = db.set;
 var levels = new Array("Szkoła podstawowa","Liceum","Technikum","Inny")
 var subjects =  new Array("Język angielski","Język niemiecki","Język hiszpański","Język francuski")
 const SetData  = db.fiszki;
+const userAndset = db.UsersAndsets
 function check_level(level){
     var value=false
     for (element in levels){
@@ -34,15 +35,19 @@ check_flashcard = (req,res,next)=>{
         // });
        
         if (data){
-         
-          Set.findOne({where: { id: data.setId}}).then(
+          userAndset.findOne({where: { setId: data.setId}}).then(
             setdata =>{
-              if (setdata.userId != req.userId){
+              console.log(setdata.userId)
+              console.log(req.userId)
+              if (setdata.studentId != req.userId){
                 return res.status(404).send({
                   message: `Nieautoryzowany dostęp`
                 });
               }
-              next();
+              else{
+                next();
+              }
+              
             }
           )
         }
@@ -62,9 +67,9 @@ check_flashcard = (req,res,next)=>{
     })
 }
 check_set = (req,res,next)=>{
-    const id = req.params.id;
-    Set.findOne({where:{id: id,
-      userId: req.userId}}).then(data2=>{
+    const id = req.params.setId;
+    userAndset.findOne({where:{setId: id,
+      studentId: req.userId}}).then(data2=>{
       
           if (data2 == null ){
             return res.status(404).send({
@@ -82,14 +87,8 @@ check_set = (req,res,next)=>{
         
     }
 check_create_set = (req,res,next)=>{
-    Set.findOne({where:{name: req.body.name,
-        userId: req.userId}})
-        .then(data => {
-            if (data){
-              res.status(400).send({ message: "Istnieje juz taki zestaw" });
-              return;
-            }
-            else if (req.body.name == null || req.body.name == "" || req.body.level == null || req.body.subject == null){
+
+            if (req.body.name == null || req.body.name == "" || req.body.level == null || req.body.subject == null){
                 res.status(400).send({ message: "Brakuje danych" });
                 return;
               }
@@ -107,20 +106,23 @@ check_create_set = (req,res,next)=>{
             //     return;
             //   }
               next();
-        })
+
      
      
       
 }
 check_delete_set = (req,res,next)=>{
-    Set.findOne({where:{id: req.params.id,
-        userId: req.userId}})
+    userAndset.findOne({where:{setId: req.params.setId,
+        studentId: req.userId}})
         .then(data => {
             if (data==null){
             res.status(404).send({ message: "Podany zestaw nie istnieje" });
             return;
             }
-            next();
+            else{
+              next();
+            }
+           
         })
         
 }
@@ -151,11 +153,26 @@ check_delete_card = (req,res,next)=>{
         })
         
 }
+check_access = (req,res,next)=>{
+
+
+  userAndset.findOne({where:{setId: req.params.setId, studentId: req.userId}}).then(data=>{
+      if(data){
+         next()
+      }
+      else{
+          res.status(400).send("Nie masz dostępu tego zestawu")
+      }
+     
+  })
+
+}
 const verifySet = {
     check_set: check_set,
     check_create_set: check_create_set,
     check_delete_set:check_delete_set,
     check_delete_card: check_delete_card,
-    check_flashcard: check_flashcard
+    check_flashcard: check_flashcard,
+    check_access: check_access
 }
 module.exports = verifySet;
