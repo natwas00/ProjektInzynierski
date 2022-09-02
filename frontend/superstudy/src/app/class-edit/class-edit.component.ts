@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FlashcardsService } from '../_services/flashcards.service';
+import { ActivatedRoute } from '@angular/router';
+import { StudentsService } from '../_services/students.service';
+import { Subscription } from 'rxjs';
 
 const MOCK_SETS: any[] = [
   {
@@ -37,13 +38,38 @@ const MOCK_SETS: any[] = [
 })
 export class ClassEditComponent implements OnInit, OnDestroy {
   public allSets = [];
-  constructor() {}
+  public editModeGeneralInfo = false;
+  public editModeStudentsList = false;
+
+  public studentsList: any[] = [];
+
+  private getAllSetsSubscription: Subscription;
+
+  constructor(
+    private studentsService: StudentsService,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.allSets = MOCK_SETS;
+
+    const setId = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.getAllSetsSubscription = this.studentsService.getStudentsList(setId)
+      .subscribe((studentsList) => {
+        this.studentsList = studentsList;
+      });
   }
 
   ngOnDestroy(): void {
-    // TODO: anulowanie subskrypcji
+    this.getAllSetsSubscription?.unsubscribe();
+  }
+
+  public toogleEditModeGeneralInfo(): void {
+    this.editModeGeneralInfo = !this.editModeGeneralInfo;
+  }
+
+  public toogleEditModeStudentsList(): void {
+    this.editModeStudentsList = !this.editModeStudentsList;
   }
 }

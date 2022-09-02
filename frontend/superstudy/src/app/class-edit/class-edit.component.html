@@ -1,6 +1,9 @@
 <div class="sets-container">
-  <h1 class="title">Informacje ogólne</h1>
-  <!-- <i class="fa fa-pencil" title="Edytuj informacje"></i> -->
+  <h1 class="title">
+    <span>Informacje ogólne</span>
+    <i class="toogleEdit fa fa-pencil" aria-hidden="true" title="Edytuj fiszkę"
+       (click)="toogleEditModeGeneralInfo()"></i>
+  </h1>
 
   <table class="table">
     <tr>
@@ -19,9 +22,24 @@
 
   <h1 class="title">
     <span>Lista uczniów</span>
+    <i class="toogleEdit fa fa-pencil" aria-hidden="true" title="Edytuj fiszkę"
+       (click)="toogleEditModeStudentsList()"></i>
   </h1>
 
   <ul class="list">
+<!--  Podpięty backend  -->
+<!--    <li *ngFor="let student of studentsList; let i = index" class="list-item">-->
+<!--      <div class="item-number">-->
+<!--        <p>-->
+<!--          {{ i + 1 }}-->
+<!--        </p>-->
+<!--      </div>-->
+<!--      <div class="item-name">-->
+<!--        {{ student.name }}-->
+<!--      </div>-->
+<!--    </li>-->
+
+    <!--  Mock bez backendu  -->
     <li *ngFor="let set of allSets; let i = index" class="list-item">
       <div class="item-number">
         <p>

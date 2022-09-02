@@ -58,14 +58,18 @@
           background-color: #93c7ff;
         }
 
-        .card-icon {
+        .card-buttons {
+          display: flex;
           position: absolute;
           top: 0;
           right: 0;
-          background-color: transparent;
-          border: none;
-          margin: 15px;
-          color: #363FA0;
+
+          .card-icon {
+            background-color: transparent;
+            border: none;
+            margin: 15px;
+            color: #363FA0;
+          }
         }
       }
     }

@@ -50,12 +50,18 @@ export class AllClassesComponent implements OnInit, OnDestroy {
   public allSets = [];
   public isTeacherRole = true;
 
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     this.allSets = MOCK_SETS;
   }
 
   ngOnDestroy(): void {
     // TODO: anulowanie subskrypcji
+  }
+
+  moveToEdit(setId: number): void {
+    this.router.navigate([`/edit-class/${setId}`]);
   }
 
   addNewSet(): void {
