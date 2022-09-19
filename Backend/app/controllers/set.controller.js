@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 
 const Image = db.images;
 const fiszki  = db.fiszki;
-const update_acess = require('./last_access.controller')
+
 const UsersAndsets = db.UsersAndsets;
 const fs = require("fs");
 const csv = require("fast-csv");
