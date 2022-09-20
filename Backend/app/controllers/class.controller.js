@@ -17,7 +17,16 @@ exports.createGroup = (req, res) => {
             classLevel: req.body.classlevel,
             userId: req.body.userId
         }).then(() => {
-            res.status(200).send({ message: "success" });
+            Group.findOne({
+                where: {
+                    name: req.body.name
+                }
+            }).then(group => { 
+                res.status(200).send({ 
+                    message: "success" ,
+                    classId: group.id
+                });
+            })
           });
         
     })
