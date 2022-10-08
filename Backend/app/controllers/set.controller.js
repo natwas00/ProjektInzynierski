@@ -205,10 +205,17 @@ exports.all_sets = (req,res) =>{
     });
   }
 exports.create_set = (req,res) => {
+    let classId;
+    if (req.body.classId){
+      classId = req.body.classId
+    }
+    else{
+      classId = null
+    }
     Set.create({
       name: req.body.name,
      // userId: req.userId,
-      classId: null,
+      classId: classId,
       level: req.body.level,
       subject:req.body.subject,
       points: 0
