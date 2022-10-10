@@ -11,15 +11,29 @@
     <div *ngFor="let set of allSets" class="card-wrapper">
       <div class="card">
         <div class="card-buttons">
-          <button *ngIf="isTeacherRole" class="card-icon">
-            <i class="fa fa-check" aria-hidden="true"></i>
+          <button mat-button [matMenuTriggerFor]="menu">
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
           </button>
-          <button *ngIf="isTeacherRole" (click)="moveToEdit(set.id)" class="card-icon">
-            <!--          <i class="fa fa-check" aria-hidden="true"></i>-->
-            edit
-          </button>
+          <mat-menu #menu="matMenu">
+            <button
+              mat-menu-item
+              *ngIf="isTeacherRole"
+              (click)="moveToEdit(set.id)"
+            >
+              Edytuj
+            </button>
+            <button
+              mat-menu-item
+              *ngIf="isTeacherRole"
+              (click)="deleteClass(set.id)"
+            >
+              Usuń
+            </button>
+          </mat-menu>
         </div>
-        <h3 class="card-title">{{ set.name }}</h3>
+        <button (click)="moveToClass(set.id)" class="card-title">
+          {{ set.name }}
+        </button>
       </div>
     </div>
   </div>

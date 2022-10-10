@@ -42,22 +42,33 @@ export class ClassEditComponent implements OnInit, OnDestroy {
   public editModeStudentsList = false;
 
   public studentsList: any[] = [];
+  public classInfo;
 
   private getAllSetsSubscription: Subscription;
+  private getInfoSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.allSets = MOCK_SETS;
 
-    const setId = Number(this.route.snapshot.paramMap.get('id'));
+    const classId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.getAllSetsSubscription = this.studentsService.getStudentsList(setId)
+    this.getAllSetsSubscription = this.studentsService
+      .getStudentsList(classId)
       .subscribe((studentsList) => {
         this.studentsList = studentsList;
+        console.log(this.studentsList);
+      });
+
+    this.getInfoSubscription = this.studentsService
+      .getClassInfo(classId)
+      .subscribe((classInfo) => {
+        this.classInfo = classInfo;
+        console.log(this.classInfo);
       });
   }
 

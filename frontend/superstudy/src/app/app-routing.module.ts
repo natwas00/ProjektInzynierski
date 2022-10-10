@@ -42,7 +42,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'all-sets', component: DisplayAllSetsComponent }, // dopisać AuthGuard
-  { path: 'class-room', component: ClassRoomComponent }, // dopisać AuthGuard
+  { path: 'class-room/:id', component: ClassRoomComponent }, // dopisać AuthGuard
   { path: 'all-classes', component: AllClassesComponent }, // dopisać AuthGuard
   { path: 'class-info', component: ClassInfoComponent }, // dopisać AuthGuard
   { path: 'create-class', component: CreateClassComponent }, // dopisać AuthGuard

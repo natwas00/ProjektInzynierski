@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ShowHidePasswordModule } from 'ngx-show-hide-password';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatMenuModule } from '@angular/material/menu';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -64,8 +66,10 @@ import { ClassEditComponent } from './class-edit/class-edit.component';
     MatIconModule,
     ShowHidePasswordModule,
     FontAwesomeModule,
-    NgbModule
-],
+    NgbModule,
+    MatMenuModule,
+    BrowserAnimationsModule,
+  ],
 
   providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FlashcardsService } from '../_services/flashcards.service';
+import { Subscription } from 'rxjs';
+import { StudentsService } from '../_services/students.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const MOCK_SETS: any[] = [
   {
@@ -44,31 +46,66 @@ const MOCK_SETS: any[] = [
 @Component({
   selector: 'app-all-classes',
   templateUrl: './all-classes.component.html',
-  styleUrls: ['./all-classes.component.scss']
+  styleUrls: ['./all-classes.component.scss'],
 })
 export class AllClassesComponent implements OnInit, OnDestroy {
   public allSets = [];
   public isTeacherRole = true;
+  public displayRemoveModal = false;
+  public success = false;
+  public errorMessage = '';
+  private getAllClassesSubscription: Subscription;
+  private deleteClassSubscription: Subscription;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private studentsService: StudentsService
+  ) {}
 
   ngOnInit(): void {
-    this.allSets = MOCK_SETS;
+    //this.allSets = MOCK_SETS;
+    this.getAllClasses();
   }
 
   ngOnDestroy(): void {
     // TODO: anulowanie subskrypcji
   }
 
-  moveToEdit(setId: number): void {
-    this.router.navigate([`/edit-class/${setId}`]);
+  getAllClasses(): void {
+    this.getAllClassesSubscription = this.studentsService
+      .getClassesList()
+      .subscribe((allSets) => {
+        this.allSets = allSets;
+        console.log(this.allSets);
+      });
   }
 
-  addNewSet(): void {
-    console.log('addNewSet...');
+  moveToEdit(classId: number): void {
+    this.router.navigate([`/edit-class/${classId}`]);
   }
 
-  stats(): void {
-    console.log('stats...');
+  moveToClass(classId: number): void {
+    this.router.navigate([`class-room/${classId}`]);
+  }
+
+  public deleteClass(classId: number): void {
+    console.log('delete...');
+    this.deleteClassSubscription = this.studentsService
+      .deleteClass(classId)
+      .subscribe(
+        (d) => {
+          console.log(d);
+          this.displayRemoveModal = false;
+          this.success = true;
+          this.getAllClasses();
+        }
+        // (error: HttpErrorResponse) => {
+        //   //this.getAllClasses();
+        //   this.errorMessage = error.error.message;
+        //   setTimeout(() => {
+        //     this.errorMessage = '';
+        //   }, 3000);
+        // }
+      );
   }
 }
