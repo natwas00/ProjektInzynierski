@@ -1,0 +1,22 @@
+.name {
+    font-size: 50px;
+}
+
+.edit {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option {
+    width: 200px;
+    height: 200px;
+    background-color: pink;
+    border-radius: 20px;
+}

@@ -96,7 +96,7 @@ onSubmit():void {
         //   window.location.reload();
         // });
       
-         this.router.navigate([`set/${data.id}`]) .then(() => {
+         this.router.navigate([`set-menu/${data.id}`]) .then(() => {
           window.location.reload();
         });
     },
