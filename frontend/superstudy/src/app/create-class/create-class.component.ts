@@ -98,16 +98,15 @@ export class CreateClassComponent implements OnInit, OnDestroy {
             console.log(res);
             this.addClassForm.reset();
             this.errorMessage = '';
-            this.errorMessage = res.message; //res.classId
+            this.errorMessage = res.message;
             this.success = true;
             this.studentService
-              //const studentsData = this.studentsSet;
-              //.addStudents(this.studentsSet, res.classId)
               .addStudents({
                 students: this.studentsSet,
                 classId: res.classId,
               })
               .subscribe();
+            alert('Pomyślnie utworzono klasę');
             setTimeout(() => {
               this.router.navigate([`all-classes`]);
             }, 2000);

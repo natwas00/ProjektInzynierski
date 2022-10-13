@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: 'all-sets', component: DisplayAllSetsComponent }, // dopisać AuthGuard
   { path: 'class-room/:id', component: ClassRoomComponent }, // dopisać AuthGuard
   { path: 'all-classes', component: AllClassesComponent }, // dopisać AuthGuard
-  { path: 'class-info', component: ClassInfoComponent }, // dopisać AuthGuard
+  { path: 'class-info/:id', component: ClassInfoComponent }, // dopisać AuthGuard
   { path: 'create-class', component: CreateClassComponent }, // dopisać AuthGuard
   { path: 'edit-class/:id', component: ClassEditComponent }, // dopisać AuthGuard
   {

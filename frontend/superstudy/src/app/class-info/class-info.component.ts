@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FlashcardsService } from '../_services/flashcards.service';
+import { ActivatedRoute } from '@angular/router';
+import { StudentsService } from '../_services/students.service';
+import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const MOCK_SETS: any[] = [
   {
@@ -37,9 +40,27 @@ const MOCK_SETS: any[] = [
 })
 export class ClassInfoComponent implements OnInit, OnDestroy {
   public allSets = [];
+  public classInfo;
+  public errorMessage = '';
+
+  private getInfoSubscription: Subscription;
+
+  constructor(
+    private studentsService: StudentsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.allSets = MOCK_SETS;
+
+    const classId = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.getInfoSubscription = this.studentsService
+      .getClassInfo(classId)
+      .subscribe((classInfo) => {
+        this.classInfo = classInfo;
+        console.log(this.classInfo);
+      });
   }
 
   ngOnDestroy(): void {

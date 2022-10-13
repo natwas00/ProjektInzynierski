@@ -1,3 +1,13 @@
+<div *ngIf="displayRemoveModal" class="warning-modal">
+  <div class="warning-body">
+    <div>Czy na pewno chcesz usunąć zestaw?</div>
+    <div>
+      <button (click)="deleteClass(set.id)">Tak</button>
+      <button (click)="closeRemoveModal()">Nie</button>
+    </div>
+  </div>
+</div>
+
 <div class="sets-container">
   <h1 class="title">Wszystkie klasy</h1>
 
@@ -15,6 +25,7 @@
             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
           </button>
           <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="moveToInfo(set.id)">Ranking</button>
             <button
               mat-menu-item
               *ngIf="isTeacherRole"

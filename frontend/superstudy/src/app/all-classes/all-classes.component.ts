@@ -88,6 +88,10 @@ export class AllClassesComponent implements OnInit, OnDestroy {
     this.router.navigate([`class-room/${classId}`]);
   }
 
+  moveToInfo(classId: number): void {
+    this.router.navigate([`class-info/${classId}`]);
+  }
+
   public deleteClass(classId: number): void {
     console.log('delete...');
     this.deleteClassSubscription = this.studentsService
@@ -97,15 +101,24 @@ export class AllClassesComponent implements OnInit, OnDestroy {
           console.log(d);
           this.displayRemoveModal = false;
           this.success = true;
+          //this.getAllClasses();
+        },
+        (error: HttpErrorResponse) => {
+          alert('Pomyślnie usunięto klasę');
           this.getAllClasses();
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
         }
-        // (error: HttpErrorResponse) => {
-        //   //this.getAllClasses();
-        //   this.errorMessage = error.error.message;
-        //   setTimeout(() => {
-        //     this.errorMessage = '';
-        //   }, 3000);
-        // }
       );
+  }
+
+  public openRemoveModal() {
+    this.displayRemoveModal = true;
+  }
+
+  public closeRemoveModal() {
+    this.displayRemoveModal = false;
   }
 }

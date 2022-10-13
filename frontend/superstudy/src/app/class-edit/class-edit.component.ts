@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StudentsService } from '../_services/students.service';
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const MOCK_SETS: any[] = [
   {
@@ -43,8 +44,9 @@ export class ClassEditComponent implements OnInit, OnDestroy {
 
   public studentsList: any[] = [];
   public classInfo;
+  public errorMessage = '';
 
-  private getAllSetsSubscription: Subscription;
+  private getAllStudentsSubscription: Subscription;
   private getInfoSubscription: Subscription;
 
   constructor(
@@ -57,23 +59,31 @@ export class ClassEditComponent implements OnInit, OnDestroy {
 
     const classId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.getAllSetsSubscription = this.studentsService
+    this.getAllStudentsSubscription = this.studentsService
       .getStudentsList(classId)
-      .subscribe((studentsList) => {
-        this.studentsList = studentsList;
-        console.log(this.studentsList);
-      });
+      .subscribe(
+        (studentsList) => {
+          this.studentsList = studentsList;
+          console.log(this.studentsList);
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
 
-    this.getInfoSubscription = this.studentsService
-      .getClassInfo(classId)
-      .subscribe((classInfo) => {
-        this.classInfo = classInfo;
-        console.log(this.classInfo);
-      });
+    // this.getInfoSubscription = this.studentsService
+    //   .getClassInfo(classId)
+    //   .subscribe((classInfo) => {
+    //     this.classInfo = classInfo;
+    //     console.log(this.classInfo);
+    //   });
   }
 
   ngOnDestroy(): void {
-    this.getAllSetsSubscription?.unsubscribe();
+    this.getAllStudentsSubscription?.unsubscribe();
   }
 
   public toogleEditModeGeneralInfo(): void {

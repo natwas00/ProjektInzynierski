@@ -17,12 +17,9 @@ export class StudentsService {
     return this.http.get(`${baseUrl}/api/classes`, httpOptions);
   }
 
-  getStudentsList(classId: number): Observable<any> {
-    return this.http.post(
-      `${baseUrl}/api/get/studentsFromClass`,
-      {
-        classId,
-      },
+  getStudentsList(id: number): Observable<any> {
+    return this.http.get(
+      `${baseUrl}/api/get/studentsFromClass/${id}`,
       httpOptions
     );
   }

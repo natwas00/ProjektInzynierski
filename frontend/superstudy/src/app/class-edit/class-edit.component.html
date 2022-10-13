@@ -28,14 +28,14 @@
     </tr>
     <tr>
       <td>Poziom</td>
-      <td *ngIf="!editModeGeneralInfo">{{ classInfo.level }}</td>
+      <td *ngIf="!editModeGeneralInfo"></td>
       <td *ngIf="editModeGeneralInfo">
         <input type="text" />
       </td>
     </tr>
     <tr>
       <td>Nauczyciel</td>
-      <td *ngIf="!editModeGeneralInfo">{{ classInfo.first_name }}</td>
+      <td *ngIf="!editModeGeneralInfo"></td>
       <td *ngIf="editModeGeneralInfo">
         <input type="text" />
       </td>
