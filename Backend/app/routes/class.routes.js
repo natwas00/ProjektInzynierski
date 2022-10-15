@@ -20,5 +20,6 @@ module.exports = function(app) {
   app.delete('/api/delete_class/:classId', [authJwt.verifyToken, checkClassOwner.checkClassOwner2], controllerClass.delete_class);
   app.get('/api/classes/', [authJwt.verifyToken, authJwt.isTeacher],controllerClass.class_list);
   app.get('/api/class_sets/:classId',[authJwt.verifyToken], controllerClass.class_sets);
-  app.get('/api/class_info/:classId',[authJwt.verifyToken],controllerClass.class_info)
+    app.get('/api/class_info/:classId', [authJwt.verifyToken], controllerClass.class_info);
+    app.post("/api/classes/edit/:classId", [authJwt.verifyToken], controllerClass.edit_class_info);
 };
