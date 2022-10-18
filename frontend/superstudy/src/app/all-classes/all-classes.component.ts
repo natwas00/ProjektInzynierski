@@ -54,6 +54,7 @@ export class AllClassesComponent implements OnInit, OnDestroy {
   public displayRemoveModal = false;
   public success = false;
   public errorMessage = '';
+  public classToDelete;
   private getAllClassesSubscription: Subscription;
   private deleteClassSubscription: Subscription;
 
@@ -92,20 +93,20 @@ export class AllClassesComponent implements OnInit, OnDestroy {
     this.router.navigate([`class-info/${classId}`]);
   }
 
-  public deleteClass(classId: number): void {
+  public deleteClass(): void {
     console.log('delete...');
     this.deleteClassSubscription = this.studentsService
-      .deleteClass(classId)
+      .deleteClass(this.classToDelete)
       .subscribe(
         (d) => {
           console.log(d);
           this.displayRemoveModal = false;
           this.success = true;
-          //this.getAllClasses();
+          this.getAllClasses();
+          this.classToDelete = null;
         },
         (error: HttpErrorResponse) => {
           alert('Pomyślnie usunięto klasę');
-          this.getAllClasses();
           this.errorMessage = error.error.message;
           setTimeout(() => {
             this.errorMessage = '';
@@ -114,8 +115,9 @@ export class AllClassesComponent implements OnInit, OnDestroy {
       );
   }
 
-  public openRemoveModal() {
+  public openRemoveModal(classId: number) {
     this.displayRemoveModal = true;
+    this.classToDelete = classId;
   }
 
   public closeRemoveModal() {

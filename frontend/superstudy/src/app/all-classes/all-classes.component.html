@@ -2,7 +2,7 @@
   <div class="warning-body">
     <div>Czy na pewno chcesz usunąć zestaw?</div>
     <div>
-      <button (click)="deleteClass(set.id)">Tak</button>
+      <button (click)="deleteClass()">Tak</button>
       <button (click)="closeRemoveModal()">Nie</button>
     </div>
   </div>
@@ -36,7 +36,7 @@
             <button
               mat-menu-item
               *ngIf="isTeacherRole"
-              (click)="deleteClass(set.id)"
+              (click)="openRemoveModal(set.id)"
             >
               Usuń
             </button>

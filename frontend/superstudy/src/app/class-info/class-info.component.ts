@@ -42,8 +42,10 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
   public allSets = [];
   public classInfo;
   public errorMessage = '';
+  public studentsList: any[] = [];
 
   private getInfoSubscription: Subscription;
+  private getAllStudentsSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -61,6 +63,21 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         this.classInfo = classInfo;
         console.log(this.classInfo);
       });
+
+    this.getAllStudentsSubscription = this.studentsService
+      .getStudentsList(classId)
+      .subscribe(
+        (studentsList) => {
+          this.studentsList = studentsList;
+          console.log(this.studentsList);
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
   }
 
   ngOnDestroy(): void {

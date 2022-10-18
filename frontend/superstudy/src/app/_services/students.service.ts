@@ -43,4 +43,12 @@ export class StudentsService {
   getAllClassSets(id: number): Observable<any> {
     return this.http.get(`${baseUrl}/api/class_sets/${id}`, httpOptions);
   }
+
+  editClassInfo(data: any, id: number): Observable<any> {
+    return this.http.post(
+      `${baseUrl}/api/classes/edit/${id}`,
+      data,
+      httpOptions
+    );
+  }
 }

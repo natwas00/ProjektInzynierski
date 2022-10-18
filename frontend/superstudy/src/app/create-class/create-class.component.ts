@@ -45,7 +45,7 @@ export class CreateClassComponent implements OnInit, OnDestroy {
   public user;
   public userId;
   public studentsSet = [];
-  public newRow: any = {};
+  public newRow = '';
 
   constructor(
     private token: TokenStorageService,
@@ -66,7 +66,7 @@ export class CreateClassComponent implements OnInit, OnDestroy {
   public addStudentToSet() {
     this.studentsSet.unshift(this.newRow);
     this.errorMessage = '';
-    this.newRow = {};
+    this.newRow = '';
     console.log(this.studentsSet);
   }
 

@@ -13,7 +13,7 @@
       class="confirmEdit fa fa-check"
       aria-hidden="true"
       title="Potwierdź"
-      (click)="toogleEditModeGeneralInfo()"
+      (click)="editGeneralInfo()"
     >
     </i>
   </h1>
@@ -21,24 +21,21 @@
   <table class="table">
     <tr>
       <td>Nazwa klasy</td>
-      <td *ngIf="!editModeGeneralInfo"></td>
+      <td *ngIf="!editModeGeneralInfo">{{ classInfo?.name }}</td>
       <td *ngIf="editModeGeneralInfo">
-        <input type="text" />
+        <input name="classname" type="text" [(ngModel)]="editClassName" />
       </td>
     </tr>
     <tr>
       <td>Poziom</td>
-      <td *ngIf="!editModeGeneralInfo"></td>
+      <td *ngIf="!editModeGeneralInfo">{{ classInfo?.level }}</td>
       <td *ngIf="editModeGeneralInfo">
-        <input type="text" />
+        <input name="level" type="text" [(ngModel)]="editClassLevel" />
       </td>
     </tr>
     <tr>
       <td>Nauczyciel</td>
-      <td *ngIf="!editModeGeneralInfo"></td>
-      <td *ngIf="editModeGeneralInfo">
-        <input type="text" />
-      </td>
+      <td>{{ classInfo?.first_name }} {{ classInfo?.last_name }}</td>
     </tr>
   </table>
 
@@ -53,7 +50,6 @@
   </h1>
 
   <ul class="list">
-    <!--  Podpięty backend  -->
     <li *ngFor="let student of studentsList; let i = index" class="list-item">
       <div class="item-number">
         <p>
@@ -61,20 +57,8 @@
         </p>
       </div>
       <div class="item-name">
-        {{ student.name }}
+        {{ student.first_name }} {{ student.last_name }}
       </div>
     </li>
-
-    <!--  Mock bez backendu  -->
-    <!-- <li *ngFor="let set of allSets; let i = index" class="list-item">
-      <div class="item-number">
-        <p>
-          {{ i + 1 }}
-        </p>
-      </div>
-      <div class="item-name">
-        {{ set.name }}
-      </div>
-    </li> -->
   </ul>
 </div>

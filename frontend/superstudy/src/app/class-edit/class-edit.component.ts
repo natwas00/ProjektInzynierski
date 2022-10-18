@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StudentsService } from '../_services/students.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 const MOCK_SETS: any[] = [
   {
@@ -45,9 +46,13 @@ export class ClassEditComponent implements OnInit, OnDestroy {
   public studentsList: any[] = [];
   public classInfo;
   public errorMessage = '';
+  public classId;
+  public editClassName;
+  public editClassLevel;
 
   private getAllStudentsSubscription: Subscription;
   private getInfoSubscription: Subscription;
+  private editGeneralInfoSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -58,6 +63,7 @@ export class ClassEditComponent implements OnInit, OnDestroy {
     this.allSets = MOCK_SETS;
 
     const classId = Number(this.route.snapshot.paramMap.get('id'));
+    this.classId = classId;
 
     this.getAllStudentsSubscription = this.studentsService
       .getStudentsList(classId)
@@ -74,12 +80,14 @@ export class ClassEditComponent implements OnInit, OnDestroy {
         }
       );
 
-    // this.getInfoSubscription = this.studentsService
-    //   .getClassInfo(classId)
-    //   .subscribe((classInfo) => {
-    //     this.classInfo = classInfo;
-    //     console.log(this.classInfo);
-    //   });
+    this.getInfoSubscription = this.studentsService
+      .getClassInfo(classId)
+      .subscribe((classInfo) => {
+        this.classInfo = classInfo;
+        console.log(this.classInfo);
+        this.editClassName = this.classInfo.name;
+        this.editClassLevel = this.classInfo.level;
+      });
   }
 
   ngOnDestroy(): void {
@@ -92,5 +100,36 @@ export class ClassEditComponent implements OnInit, OnDestroy {
 
   public toogleEditModeStudentsList(): void {
     this.editModeStudentsList = !this.editModeStudentsList;
+  }
+
+  public editGeneralInfo(value: any) {
+    const requestBody = {
+      name: this.editClassName,
+      class_level: this.editClassLevel,
+    };
+    console.log(requestBody);
+    this.editGeneralInfoSubscription = this.studentsService
+      .editClassInfo(requestBody, this.classId)
+      .subscribe(
+        (res) => {
+          console.log(res);
+        },
+        (error: HttpErrorResponse) => {
+          alert('Pomyślnie zedytowano klasę');
+          //dać do res
+          this.toogleEditModeGeneralInfo();
+          this.getInfoSubscription = this.studentsService
+            .getClassInfo(this.classId)
+            .subscribe((classInfo) => {
+              this.classInfo = classInfo;
+              console.log(this.classInfo);
+            });
+          //
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
   }
 }
