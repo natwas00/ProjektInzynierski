@@ -22,4 +22,5 @@ module.exports = function(app) {
   app.get('/api/class_sets/:classId',[authJwt.verifyToken], controllerClass.class_sets);
     app.get('/api/class_info/:classId', [authJwt.verifyToken], controllerClass.class_info);
     app.post("/api/classes/edit/:classId", [authJwt.verifyToken], controllerClass.edit_class_info);
+    app.post("/api/delete/studentFromClass", [authJwt.verifyToken], controllerClassList.delete_student_from_class);
 };

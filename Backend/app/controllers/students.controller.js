@@ -64,7 +64,8 @@ function addStudents(studentIDs, noStudentsFoundArray,StudentsFoundArray, classI
   array_with_data=[]
   Usernames = []
   for (i in studentIDs ) {
-   array_with_data.push({studentId: studentIDs[i], classId: classId})
+      array_with_data.push({ studentId: studentIDs[i], classId: classId })
+      
   }
   try{
   ClassList.bulkCreate(array_with_data).then(()=>{
@@ -157,3 +158,17 @@ function sendResponse(res, students) {
 //     });
 //   });
 // }
+exports.delete_student_from_class = (req, res) => {
+
+    ClassList.destroy({ where: { studentId: req.body.studentId, classId: req.body.classId } }).then(info => {
+        if (!info) {
+            return res.status(200).send("No such student or class");
+        }
+        return res.send("The student was deleted from the class")
+    })
+        .catch(error => {
+            res.send(error)
+        })
+}
+
+
