@@ -25,7 +25,7 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   }
   
   navigateToSet(id) {
-    this.router.navigate([`set/${id}`]);
+    this.router.navigate([`set-menu/${id}`]);
   }
 
 }

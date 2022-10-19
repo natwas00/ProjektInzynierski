@@ -1,0 +1,10 @@
+<div class="flashcard-container">
+    <i class="icon fa fa-angle-left" aria-hidden="true" (click)="previous()"></i>
+    <div class="flashcard">
+        <div *ngIf="set.length >0 && set[visibleItemId][visibleItemSide]" (click)="flipCard()">
+            {{set[visibleItemId][visibleItemSide]}}
+        </div>
+    </div>
+    <i class="icon fa fa-angle-right" aria-hidden="true" (click)="next()"></i>
+</div>
+<div class="exit"><button class="btn btn-primary" [routerLink]="['/set-menu', id]">Zakończ</button></div>
