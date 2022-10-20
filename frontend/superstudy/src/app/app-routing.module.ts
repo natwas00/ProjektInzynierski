@@ -16,37 +16,66 @@ import { FlashcardComponent } from './flashcard/flashcard.component';
 import { ClassRoomComponent } from './class-room/class-room.component';
 import { AllClassesComponent } from './all-classes/all-classes.component';
 import { ClassInfoComponent } from './class-info/class-info.component';
-import { CreateClassComponent } from "./create-class/create-class.component";
+import { CreateClassComponent } from './create-class/create-class.component';
 import { SetMenuComponent } from './set-menu/set-menu.component';
 import { SetPreviewComponent } from './set-preview/set-preview.component';
+import { ClassEditComponent } from './class-edit/class-edit.component';
 
 const routes: Routes = [
-  { path: 'change_pass', component: ChangePassComponent, canActivate: [AuthGuard] },
+  {
+    path: 'change_pass',
+    component: ChangePassComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'user', component: BoardUserComponent, canActivate: [AuthGuard] },
-  { path: 'teacher', component: BoardTeacherComponent, canActivate: [AuthGuard] },
+  {
+    path: 'teacher',
+    component: BoardTeacherComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'admin', component: BoardAdminComponent, canActivate: [AuthGuard] },
-  { path: 'create-set', component: CreateSetComponent, canActivate: [AuthGuard] },
+  {
+    path: 'create-set',
+    component: CreateSetComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'all-sets', component: DisplayAllSetsComponent }, // dopisać AuthGuard
-  { path: 'class-room', component: ClassRoomComponent }, // dopisać AuthGuard
+  { path: 'class-room/:id', component: ClassRoomComponent }, // dopisać AuthGuard
   { path: 'all-classes', component: AllClassesComponent }, // dopisać AuthGuard
-  { path: 'class-info', component: ClassInfoComponent }, // dopisać AuthGuard
+  { path: 'class-info/:id', component: ClassInfoComponent }, // dopisać AuthGuard
   { path: 'create-class', component: CreateClassComponent }, // dopisać AuthGuard
-  { path: 'set-menu/:id', component: SetMenuComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'set/:id', component: FlashcardComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'set-preview/:id', component: SetPreviewComponent, data: { message: false }, canActivate: [AuthGuard] },
+  {
+    path: 'set-menu/:id',
+    component: SetMenuComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'set/:id',
+    component: FlashcardComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'set-preview/:id',
+    component: SetPreviewComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  { path: 'edit-class/:id', component: ClassEditComponent }, // dopisać AuthGuard
   // { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
   // { path: 'editset/:id', component: FlashcardComponent, data :{ message: true},canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/404' }
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FlashcardsService } from '../_services/flashcards.service';
+import { Subscription } from 'rxjs';
+import { StudentsService } from '../_services/students.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const MOCK_SETS: any[] = [
   {
@@ -44,25 +46,81 @@ const MOCK_SETS: any[] = [
 @Component({
   selector: 'app-all-classes',
   templateUrl: './all-classes.component.html',
-  styleUrls: ['./all-classes.component.scss']
+  styleUrls: ['./all-classes.component.scss'],
 })
 export class AllClassesComponent implements OnInit, OnDestroy {
   public allSets = [];
   public isTeacherRole = true;
+  public displayRemoveModal = false;
+  public success = false;
+  public errorMessage = '';
+  public classToDelete;
+  private getAllClassesSubscription: Subscription;
+  private deleteClassSubscription: Subscription;
+
+  constructor(
+    private router: Router,
+    private studentsService: StudentsService
+  ) {}
 
   ngOnInit(): void {
-    this.allSets = MOCK_SETS;
+    //this.allSets = MOCK_SETS;
+    this.getAllClasses();
   }
 
   ngOnDestroy(): void {
     // TODO: anulowanie subskrypcji
   }
 
-  addNewSet(): void {
-    console.log('addNewSet...');
+  getAllClasses(): void {
+    this.getAllClassesSubscription = this.studentsService
+      .getClassesList()
+      .subscribe((allSets) => {
+        this.allSets = allSets;
+        console.log(this.allSets);
+      });
   }
 
-  stats(): void {
-    console.log('stats...');
+  moveToEdit(classId: number): void {
+    this.router.navigate([`/edit-class/${classId}`]);
+  }
+
+  moveToClass(classId: number): void {
+    this.router.navigate([`class-room/${classId}`]);
+  }
+
+  moveToInfo(classId: number): void {
+    this.router.navigate([`class-info/${classId}`]);
+  }
+
+  public deleteClass(): void {
+    console.log('delete...');
+    this.deleteClassSubscription = this.studentsService
+      .deleteClass(this.classToDelete)
+      .subscribe(
+        (d) => {
+          console.log(d);
+          this.displayRemoveModal = false;
+          this.success = true;
+          this.getAllClasses();
+          this.classToDelete = null;
+        },
+        (error: HttpErrorResponse) => {
+          alert('Pomyślnie usunięto klasę');
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
+  }
+
+  public openRemoveModal(classId: number) {
+    this.displayRemoveModal = true;
+    this.classToDelete = classId;
+  }
+
+  public closeRemoveModal() {
+    this.displayRemoveModal = false;
   }
 }

@@ -1,24 +1,27 @@
 <div class="sets-container">
-  <form class="form">
+  <form
+    ngNativeValidate
+    action="/"
+    method="post"
+    #addClassForm="ngForm"
+    (ngSubmit)="addClassroom(addClassForm.value)"
+    class="form"
+  >
     <div class="form-wrapper">
       <input
-        name="class-name"
+        name="classname"
         class="form-control pwd-control"
         placeholder="Podaj nazwę klasy"
+        ngModel
+        required
       />
 
-      <input
-        name="class-description"
-        class="form-control pwd-control"
-        placeholder="Podaj opis klasy"
-      />
-
-      <select class="form-control">
-        <option value="">Wybierz poziom</option>
-        <option value="class1">Klasa 1</option>
-        <option value="class2">Klasa 2</option>
-        <option value="class3">Klasa 3</option>
-        <option value="class4">Klasa 4</option>
+      <select name="level" class="form-control" ngModel required>
+        <option value="" disabled selected>Wybierz poziom</option>
+        <option>Szkoła podstawowa</option>
+        <option>Technikum</option>
+        <option>Liceum</option>
+        <option>Inny</option>
       </select>
     </div>
 
@@ -28,26 +31,28 @@
         <input
           name="class-student-login"
           class="form-control pwd-control"
-          placeholder="Podaj login"
+          placeholder="Wpisz login"
+          type="text"
+          [(ngModel)]="newRow"
         />
 
-        <div class="add-login">
+        <div class="add-login" (click)="addStudentToSet()">
           <i class="fa fa-plus" aria-hidden="true" title="Dodaj login"></i>
         </div>
       </div>
     </div>
 
     <ul class="list">
-      <li *ngFor="let set of allSets; let i = index" class="list-item">
+      <li *ngFor="let student of studentsSet; let i = index" class="list-item">
         <div class="item-number">
           <p>
             {{ i + 1 }}
           </p>
         </div>
         <div class="item-name">
-          {{ set.name }}
+          {{ student }}
         </div>
-        <div class="item-delete">
+        <div class="item-delete" (click)="deleteValue(i)">
           <img src="assets/ClassInfo/Delete.png" />
         </div>
       </li>
