@@ -20,6 +20,7 @@ import { CreateClassComponent } from './create-class/create-class.component';
 import { SetMenuComponent } from './set-menu/set-menu.component';
 import { SetPreviewComponent } from './set-preview/set-preview.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'edit-class/:id', component: ClassEditComponent }, // dopisać AuthGuard
+  { path: 'statistics', component: StatisticsComponent },
   // { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
   // { path: 'editset/:id', component: FlashcardComponent, data :{ message: true},canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },

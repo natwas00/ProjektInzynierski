@@ -34,6 +34,11 @@
           Dodaj zestaw ver2
         </a>
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="/statistics" class="nav-link" routerLink="statistics"
+          >Statystyki</a
+        >
+      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
