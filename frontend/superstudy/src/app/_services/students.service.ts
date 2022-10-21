@@ -51,4 +51,15 @@ export class StudentsService {
       httpOptions
     );
   }
+
+  deleteStudent(studentId: number, classId: number): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      body: {
+        studentId,
+        classId,
+      },
+    };
+    return this.http.delete(`${baseUrl}/api/delete/studentFromClass`, options);
+  }
 }

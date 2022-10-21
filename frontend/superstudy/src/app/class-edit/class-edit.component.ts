@@ -53,6 +53,7 @@ export class ClassEditComponent implements OnInit, OnDestroy {
   private getAllStudentsSubscription: Subscription;
   private getInfoSubscription: Subscription;
   private editGeneralInfoSubscription: Subscription;
+  private deleteStudentSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -131,5 +132,14 @@ export class ClassEditComponent implements OnInit, OnDestroy {
           }, 3000);
         }
       );
+  }
+
+  public editStudentsList() {
+    console.log('edit');
+  }
+
+  public deleteStudent() {
+    // this.deleteStudentSubscription = this.studentsService
+    // .deleteStudent( ,this.classId)
   }
 }

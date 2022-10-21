@@ -42,12 +42,24 @@
   <h1 class="title">
     <span>Lista uczniów</span>
     <i
+      *ngIf="!editModeStudentsList"
       class="toogleEdit fa fa-pencil"
       aria-hidden="true"
-      title="Edytuj listę uczniów"
+      title="Edytuj informacje"
       (click)="toogleEditModeStudentsList()"
     ></i>
+    <i
+      *ngIf="editModeStudentsList"
+      class="confirmEdit fa fa-check"
+      aria-hidden="true"
+      title="Potwierdź"
+      (click)="editStudentsList()"
+    >
+    </i>
   </h1>
+  <div>
+    <i *ngIf="editModeStudentsList" class="add-student">Dodaj ucznia</i>
+  </div>
 
   <ul class="list">
     <li *ngFor="let student of studentsList; let i = index" class="list-item">
@@ -58,6 +70,9 @@
       </div>
       <div class="item-name">
         {{ student.first_name }} {{ student.last_name }}
+      </div>
+      <div *ngIf="editModeStudentsList">
+        <img src="assets/ClassInfo/Delete.png" />
       </div>
     </li>
   </ul>
