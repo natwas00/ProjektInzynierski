@@ -170,20 +170,26 @@ exports.delete_student_from_class = (req, res) => {
             res.send(error)
         })
 }
-exports.student_classes = (req, res) => {    
-    ClassList.findAll({ where: { studentId: req.params.id } }).then(classes => {
-        studentsClasses = [];
-        for (let i = 0; i < classes.length; i++) {
-            Class.findOne({ where: { id: classes[i].classId } }).then(ourClass => {
-                studentsClasses.push(ourClass);
-                console.log(studentsClasses);
-                if (i == classes.length - 1) {
-                    return res.send(studentsClasses)
-                }
-            })                 
-        }            
+exports.student_classes = (req, res) => {
+    Users.findOne({ where: { id: req.userId } }).then(user => {
+        ClassList.findAll({ where: { studentId: user.id } }).then(classes => {            
+            if (classes.length == 0) {
+                return res.status(200).send({ message: "No such class" });
+            }
+            studentsClasses = [];
+            for (let i = 0; i < classes.length; i++) {
+                Class.findOne({ where: { id: classes[i].classId } }).then(ourClass => {
+                    studentsClasses.push(ourClass);
+                    console.log(studentsClasses);
+                    if (i == classes.length - 1) {
+                        return res.send(studentsClasses)
+                    }
+                })
+            }
+        })
     }).catch(err => {
         res.status(500).send({ message: err });
-    });    
+    });
+
 }
 
