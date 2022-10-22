@@ -36,6 +36,7 @@ import { SetMenuComponent } from './set-menu/set-menu.component';
 import { SetPreviewComponent } from './set-preview/set-preview.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     SetPreviewComponent,
     ClassEditComponent,
     StatisticsComponent,
+    SuperStudySetsComponent,
   ],
   imports: [
     BrowserModule,

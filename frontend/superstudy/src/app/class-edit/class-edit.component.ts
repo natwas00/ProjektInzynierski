@@ -49,11 +49,14 @@ export class ClassEditComponent implements OnInit, OnDestroy {
   public classId;
   public editClassName;
   public editClassLevel;
+  public studentToDelete;
+  public studentToAdd;
 
   private getAllStudentsSubscription: Subscription;
   private getInfoSubscription: Subscription;
   private editGeneralInfoSubscription: Subscription;
   private deleteStudentSubscription: Subscription;
+  private addStudentSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -134,12 +137,36 @@ export class ClassEditComponent implements OnInit, OnDestroy {
       );
   }
 
-  public editStudentsList() {
+  public confirmEditStudentsList() {
     console.log('edit');
   }
 
   public deleteStudent() {
     // this.deleteStudentSubscription = this.studentsService
     // .deleteStudent( ,this.classId)
+    console.log('delete');
+  }
+
+  public addStudent() {
+    const students: any[] = [];
+    students.push(this.studentToAdd);
+    this.addStudentSubscription = this.studentsService
+      .addStudents({
+        students: students,
+        classId: this.classId,
+      })
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.studentToAdd = '';
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
+    alert('Pomyślnie dodano nowego ucznia');
   }
 }

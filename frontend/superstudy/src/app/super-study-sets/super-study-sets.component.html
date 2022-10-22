@@ -1,0 +1,15 @@
+<div class="sets-container">
+  <h1 class="title">Zestawy SuperStudy</h1>
+
+  <div class="set-wrapper">
+    <div
+      *ngFor="let set of allSets"
+      class="card-wrapper"
+      (click)="navigateToSet(set?.id)"
+    >
+      <div class="card">
+        <h3 class="card-title">{{ set.name }}</h3>
+      </div>
+    </div>
+  </div>
+</div>

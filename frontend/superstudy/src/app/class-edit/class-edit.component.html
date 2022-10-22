@@ -53,12 +53,26 @@
       class="confirmEdit fa fa-check"
       aria-hidden="true"
       title="Potwierdź"
-      (click)="editStudentsList()"
+      (click)="confirmEditStudentsList()"
     >
     </i>
   </h1>
-  <div>
-    <i *ngIf="editModeStudentsList" class="add-student">Dodaj ucznia</i>
+
+  <div *ngIf="editModeStudentsList" class="my-5 text-center">
+    <p class="text-gray">Wpisz login ucznia aby dodać go do klasy.</p>
+    <div class="form-wrapper-login">
+      <input
+        name="class-student-login"
+        class="form-control pwd-control"
+        placeholder="Wpisz login"
+        type="text"
+        [(ngModel)]="studentToAdd"
+      />
+
+      <div class="add-login" (click)="addStudent()">
+        <i class="fa fa-plus" aria-hidden="true" title="Dodaj login"></i>
+      </div>
+    </div>
   </div>
 
   <ul class="list">
@@ -71,7 +85,7 @@
       <div class="item-name">
         {{ student.first_name }} {{ student.last_name }}
       </div>
-      <div *ngIf="editModeStudentsList">
+      <div *ngIf="editModeStudentsList" (click)="deleteStudent()">
         <img src="assets/ClassInfo/Delete.png" />
       </div>
     </li>

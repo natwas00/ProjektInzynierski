@@ -108,6 +108,34 @@
       }
     }
   }
+
+  .text-gray {
+    color: #998c8c;
+    font-size: 20px;
+  }
+
+  .form-wrapper-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input {
+      max-width: 170px;
+    }
+
+    .add-login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #4590f7;
+      color: white;
+      width: 38px;
+      height: 38px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-left: 15px;
+    }
+  }
 }
 
 .toogleEdit {

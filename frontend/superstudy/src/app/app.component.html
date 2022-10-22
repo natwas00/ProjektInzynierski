@@ -39,6 +39,14 @@
           >Statystyki</a
         >
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a
+          href="/super-study-sets"
+          class="nav-link"
+          routerLink="super-study-sets"
+          >Zestawy SuperStudy</a
+        >
+      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
