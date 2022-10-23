@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { StudentsService } from '../_services/students.service';
 import { Router } from '@angular/router';
-import { FlashcardsService } from '../_services/flashcards.service';
 
 const MOCK_SETS: any[] = [
   {
@@ -44,47 +46,46 @@ const MOCK_SETS: any[] = [
 @Component({
   selector: 'app-class-room',
   templateUrl: './class-room.component.html',
-  styleUrls: ['./class-room.component.scss']
+  styleUrls: ['./class-room.component.scss'],
 })
 export class ClassRoomComponent implements OnInit, OnDestroy {
   public allSets = [];
-  public level;
   public isTeacherRole = true;
+  public classInfo;
+
+  private getInfoSubscription: Subscription;
+  private getAllSetsSubscription: Subscription;
+
+  constructor(
+    private studentsService: StudentsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.allSets = MOCK_SETS;
-    this.level = 'Klasa 5C angielski';
+    //this.allSets = MOCK_SETS;
+    const classId = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.getInfoSubscription = this.studentsService
+      .getClassInfo(classId)
+      .subscribe((classInfo) => {
+        this.classInfo = classInfo;
+        console.log(this.classInfo);
+      });
+
+    this.getAllSetsSubscription = this.studentsService
+      .getAllClassSets(classId)
+      .subscribe((allSets) => {
+        this.allSets = allSets;
+        console.log('all sets');
+      });
   }
 
   ngOnDestroy(): void {
     // TODO: anulowanie subskrypcji
   }
 
-  addNewSet(): void {
-    console.log('addNewSet...');
+  navigateToSet(id) {
+    this.router.navigate([`set/${id}`]);
   }
-
-  stats(): void {
-    console.log('stats...');
-  }
-
-  // public allSets = [];
-  // public getAllSetsSubscription;
-  //
-  // constructor(private flashcardsService: FlashcardsService, private router: Router) { }
-  //
-  // ngOnInit(): void {
-  //   this.getAllSetsSubscription = this.flashcardsService.getAllSets().subscribe((response)=>{
-  //     console.log(response);
-  //     this.allSets = response;
-  //   });
-  // }
-  //
-  // ngOnDestroy(): void {
-  //   this.getAllSetsSubscription?.unsubscribe();
-  // }
-  //
-  // navigateToSet(id) {
-  //   this.router.navigate([`set/${id}`]);
-  // }
 }

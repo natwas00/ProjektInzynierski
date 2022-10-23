@@ -1,17 +1,50 @@
+<div *ngIf="displayRemoveModal" class="warning-modal">
+  <div class="warning-body">
+    <div>Czy na pewno chcesz usunąć zestaw?</div>
+    <div>
+      <button (click)="deleteClass()">Tak</button>
+      <button (click)="closeRemoveModal()">Nie</button>
+    </div>
+  </div>
+</div>
+
 <div class="sets-container">
   <h1 class="title">Wszystkie klasy</h1>
 
   <div class="buttons-wrapper">
-    <button class="btn btn-primary" (click)="addNewSet()">Utwórz klasę</button>
+    <button class="btn btn-primary" routerLink="/create-class">
+      Utwórz klasę
+    </button>
   </div>
 
   <div class="set-wrapper">
     <div *ngFor="let set of allSets" class="card-wrapper">
       <div class="card">
-        <button *ngIf="isTeacherRole" class="card-icon">
-          <i class="fa fa-check" aria-hidden="true"></i>
+        <div class="card-buttons">
+          <button mat-button [matMenuTriggerFor]="menu">
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="moveToInfo(set.id)">Ranking</button>
+            <button
+              mat-menu-item
+              *ngIf="isTeacherRole"
+              (click)="moveToEdit(set.id)"
+            >
+              Edytuj
+            </button>
+            <button
+              mat-menu-item
+              *ngIf="isTeacherRole"
+              (click)="openRemoveModal(set.id)"
+            >
+              Usuń
+            </button>
+          </mat-menu>
+        </div>
+        <button (click)="moveToClass(set.id)" class="card-title">
+          {{ set.name }}
         </button>
-        <h3 class="card-title">{{set.name}}</h3>
       </div>
     </div>
   </div>

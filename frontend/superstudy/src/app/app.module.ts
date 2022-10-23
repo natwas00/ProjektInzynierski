@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ShowHidePasswordModule } from 'ngx-show-hide-password';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatMenuModule } from '@angular/material/menu';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +36,7 @@ import { SetMenuComponent } from './set-menu/set-menu.component';
 import { SetPreviewComponent } from './set-preview/set-preview.component';
 import { TestTrueFalseComponent } from './test-true-false/test-true-false.component';
 import { TestAbcdComponent } from './test-abcd/test-abcd.component';
+import { ClassEditComponent } from './class-edit/class-edit.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,7 @@ import { TestAbcdComponent } from './test-abcd/test-abcd.component';
     SetPreviewComponent,
     TestTrueFalseComponent,
     TestAbcdComponent,
+    ClassEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,8 +74,10 @@ import { TestAbcdComponent } from './test-abcd/test-abcd.component';
     MatIconModule,
     ShowHidePasswordModule,
     FontAwesomeModule,
-    NgbModule
-],
+    NgbModule,
+    MatMenuModule,
+    BrowserAnimationsModule,
+  ],
 
   providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],
