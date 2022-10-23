@@ -66,4 +66,9 @@ export class FlashcardsService {
     };
     return this.http.post(`${baseUrl}/upload/${id}`, data, httpOptionsUpload);
   }
+
+  getTrueFalseTest(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/trueFalseTest/${id}`, httpOptions);
+  }
+
 }

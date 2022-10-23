@@ -19,6 +19,8 @@ import { ClassInfoComponent } from './class-info/class-info.component';
 import { CreateClassComponent } from "./create-class/create-class.component";
 import { SetMenuComponent } from './set-menu/set-menu.component';
 import { SetPreviewComponent } from './set-preview/set-preview.component';
+import { TestTrueFalseComponent } from './test-true-false/test-true-false.component';
+import { TestAbcdComponent } from './test-abcd/test-abcd.component';
 
 const routes: Routes = [
   { path: 'change_pass', component: ChangePassComponent, canActivate: [AuthGuard] },
@@ -38,6 +40,8 @@ const routes: Routes = [
   { path: 'set-menu/:id', component: SetMenuComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'set/:id', component: FlashcardComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'set-preview/:id', component: SetPreviewComponent, data: { message: false }, canActivate: [AuthGuard] },
+  { path: 'test-true-false/:id', component: TestTrueFalseComponent, data: { message: false }, canActivate: [AuthGuard] },
+  { path: 'test-abcd/:id', component: TestAbcdComponent, data: { message: false }, canActivate: [AuthGuard] },
   // { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
   // { path: 'editset/:id', component: FlashcardComponent, data :{ message: true},canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },

@@ -9,10 +9,15 @@
     cursor: pointer;
 }
 
+.flashcard-image {
+    max-height: 300px;
+}
+
 .flashcard {
-    min-width: 300px;
-    height: 300px;
-    background-color: pink;
+    width: 903px;
+    height: 547px;
+    background: #BDDCFF;
+    border-radius: 15px;
     font-size: 50px;
     cursor: pointer;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -29,5 +34,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .flashcard-inside{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+    }
+
+    .flashcard-image-container{
+        max-width: 50%;
+    }
+
+    .flashcard-text{
+        max-width: 50%;
     }
 }

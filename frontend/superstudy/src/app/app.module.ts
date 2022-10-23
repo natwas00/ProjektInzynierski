@@ -32,6 +32,8 @@ import { ClassInfoComponent } from './class-info/class-info.component';
 import { CreateClassComponent } from './create-class/create-class.component';
 import { SetMenuComponent } from './set-menu/set-menu.component';
 import { SetPreviewComponent } from './set-preview/set-preview.component';
+import { TestTrueFalseComponent } from './test-true-false/test-true-false.component';
+import { TestAbcdComponent } from './test-abcd/test-abcd.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { SetPreviewComponent } from './set-preview/set-preview.component';
     CreateClassComponent,
     SetMenuComponent,
     SetPreviewComponent,
+    TestTrueFalseComponent,
+    TestAbcdComponent,
   ],
   imports: [
     BrowserModule,
