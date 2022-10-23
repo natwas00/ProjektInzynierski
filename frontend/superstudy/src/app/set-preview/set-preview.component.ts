@@ -52,10 +52,12 @@ export class SetPreviewComponent implements OnInit, OnDestroy {
   }
 
   public next(): void {
-    this.visibleItemId = (this.visibleItemId + 1) % this.set.length;
+    let id = this.visibleItemId + 1;
+    this.visibleItemId = id >= this.set.length ? 0 : id;
   }
 
   public previous(): void {
-    this.visibleItemId = (this.visibleItemId - 1) % this.set.length;
+    let id = this.visibleItemId - 1;
+    this.visibleItemId = id < 0 ? this.set.length -1 : id;
   }
 }

@@ -1,0 +1,15 @@
+<div *ngFor="let item of test; let i=index">
+    <div class="true-false-text">
+        <div class="first-side">{{item.first_side}}</div>
+        <div class="arrow"><img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD8SURBVHgB5Zk7DoJAFEUf6lY0JOxELajYjsN2qCiMtS7CxMTF6FzDGIN8ZoZq7jsVlOfkBeYjkjj7sjrJAtaSOLu8uG7zQp6P+00iWAkBmYiJnQSKACA2Ak0AEBOBKgAIjUAXAIREoAwAfCPQBgA+EagDgLkI9AHAVAQVAcBYhOxQVi9RhJU1l7ap3buaCXD0J0FdAPAbYSNK6SLonACHlc/UBrATUJ/bxmj9Bnzk8azxL/CV797TJmQd05cHmlaCf/JAy15gUB5o2A2OygP284BJecB8IjQrD1jPBL3kAeOpsLc8YLsXCJIHTDdDwfKA5W4wSp6CY1kZWcAbuoBTnXw1HW8AAAAASUVORK5CYII=">
+        </div>
+        <div class="second-side">{{item.second_side}}</div>
+    </div>
+
+    <div class="buttons">
+        <button class="true-false-button" (click)="isCorrect(i,true)" [style.background]="changeColor(i, true)">PRAWDA</button>
+        <button class="true-false-button" (click)="isCorrect(i,false)" [style.background]="changeColor(i, false)">FAŁSZ</button>
+    </div>
+
+</div>

@@ -1,8 +1,11 @@
 <div class="flashcard-container">
     <i class="icon fa fa-angle-left" aria-hidden="true" (click)="previous()"></i>
     <div class="flashcard">
-        <div *ngIf="set.length >0 && set[visibleItemId][visibleItemSide]" (click)="flipCard()">
-            {{set[visibleItemId][visibleItemSide]}}
+        <div class="flashcard-inside" *ngIf="set.length >0 && set[visibleItemId][visibleItemSide]" (click)="flipCard()">
+            <div class="flashcard-image-container" *ngIf="set[visibleItemId]?.link">
+                <img class="flashcard-image" [src]="set[visibleItemId]?.link" alt="Nie znaleziono obrazka">
+            </div>
+            <div class="flashcard-text">{{set[visibleItemId][visibleItemSide]}}</div>
         </div>
     </div>
     <i class="icon fa fa-angle-right" aria-hidden="true" (click)="next()"></i>
