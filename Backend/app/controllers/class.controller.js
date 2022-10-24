@@ -1,8 +1,10 @@
-const { UsersAndsets } = require("../models");
+
 const db = require("../models");
 const Group = db.class;
 const User = db.user;
-const Set = db.set
+const Set = db.set;
+const ClassList = db.classList;
+const UsersAndsets = db.UsersAndsets;
 exports.createGroup = (req, res) => {
     Group.findOne({
         where: {
@@ -89,4 +91,58 @@ exports.edit_class_info = (req, res) => {
             res.status(500).send({ message: err.message });
         });
     
+}
+
+exports.class_rating = (req, res) => {
+    Group.findOne({ where: { id: req.params.classId } }).then(classInDB => {
+        ClassList.findAll({ where: { classId: classInDB.id } }).then(students => {
+            if (students.length == 0) {
+                return res.status(200).send("No students in class")
+            }
+            Set.findAll({ where: { classId: classInDB.id } }).then(sets => {
+                if (sets.length == 0) {
+                    return res.status(200).send("No sets in class")
+                }
+                userRates = { }
+                for (let i = 0; i < students.length; i++) {
+
+                    for (let j = 0; j < sets.length; j++) {
+                        UsersAndsets.findOne({ where: { studentId: students[i].studentId, setId: sets[j].id } }).then(rating => {
+                            if (rating) {
+                                currentRate = userRates[students[i].studentId]
+                                if (currentRate) {
+                                    currentRate = currentRate + rating.points
+                                } else { currentRate = rating.points }
+                                userRates[students[i].studentId] = currentRate
+                            }
+                            if (i == students.length - 1 && j == sets.length - 1) {
+                                users = { };
+                                counter = 0;
+                                for (var userId in userRates) {
+                                    User.findOne({ where: { id: userId } }).then(user => {
+                                        
+                                        if (!user) {
+                                            return res.status(200).send("No such user")
+                                        }
+                                        
+                                        users[user.login] = userRates[user.id]
+                                        
+                                        counter = counter + 1;
+                                        
+                                        if (counter == Object.keys(userRates).length) {
+                                            return res.send({
+                                                users: users
+                                            })
+                                        }
+                                    })
+                                }
+                                
+                            }
+                        })
+                    }
+                }
+            })
+        })
+    })
+
 }
