@@ -45,7 +45,7 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
   public studentsList: any[] = [];
 
   private getInfoSubscription: Subscription;
-  private getAllStudentsSubscription: Subscription;
+  private getRankingSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -64,19 +64,20 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         console.log(this.classInfo);
       });
 
-    this.getAllStudentsSubscription = this.studentsService
-      .getStudentsList(classId)
+    this.getRankingSubscription = this.studentsService
+      .getRanking(classId)
       .subscribe(
-        (studentsList) => {
-          this.studentsList = studentsList;
-          console.log(this.studentsList);
-        },
-        (error: HttpErrorResponse) => {
-          this.errorMessage = error.error.message;
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 3000);
+        (res) => {
+          //this.studentsList = studentsList;
+          //console.log(this.studentsList);
+          console.log(res);
         }
+        // (error: HttpErrorResponse) => {
+        //   this.errorMessage = error.error.message;
+        //   setTimeout(() => {
+        //     this.errorMessage = '';
+        //   }, 3000);
+        // }
       );
   }
 

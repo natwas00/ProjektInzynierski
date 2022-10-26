@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SuperStudySetsService } from '../_services/super-study-sets.service';
 
 const MOCK_SETS: any[] = [
   {
@@ -47,9 +50,19 @@ const MOCK_SETS: any[] = [
 export class SuperStudySetsComponent implements OnInit {
   public allSets = [];
 
-  constructor() {}
+  private getSetsSubscription: Subscription;
+
+  constructor(private superStudyService: SuperStudySetsService) {}
 
   ngOnInit(): void {
-    this.allSets = MOCK_SETS;
+    //this.allSets = MOCK_SETS;
+    this.getSetsSubscription = this.superStudyService
+      .getSuperStudySets()
+      .subscribe((allSets) => {
+        this.allSets = allSets;
+        console.log(this.allSets);
+      });
   }
+
+  getSets() {}
 }

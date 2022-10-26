@@ -49,7 +49,6 @@ export class ClassEditComponent implements OnInit, OnDestroy {
   public classId;
   public editClassName;
   public editClassLevel;
-  public studentToDelete;
   public studentToAdd;
 
   private getAllStudentsSubscription: Subscription;
@@ -69,29 +68,9 @@ export class ClassEditComponent implements OnInit, OnDestroy {
     const classId = Number(this.route.snapshot.paramMap.get('id'));
     this.classId = classId;
 
-    this.getAllStudentsSubscription = this.studentsService
-      .getStudentsList(classId)
-      .subscribe(
-        (studentsList) => {
-          this.studentsList = studentsList;
-          console.log(this.studentsList);
-        },
-        (error: HttpErrorResponse) => {
-          this.errorMessage = error.error.message;
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 3000);
-        }
-      );
+    this.getStudentsList();
 
-    this.getInfoSubscription = this.studentsService
-      .getClassInfo(classId)
-      .subscribe((classInfo) => {
-        this.classInfo = classInfo;
-        console.log(this.classInfo);
-        this.editClassName = this.classInfo.name;
-        this.editClassLevel = this.classInfo.level;
-      });
+    this.getGeneralInfo();
   }
 
   ngOnDestroy(): void {
@@ -104,6 +83,34 @@ export class ClassEditComponent implements OnInit, OnDestroy {
 
   public toogleEditModeStudentsList(): void {
     this.editModeStudentsList = !this.editModeStudentsList;
+  }
+
+  public getStudentsList(): void {
+    this.getAllStudentsSubscription = this.studentsService
+      .getStudentsList(this.classId)
+      .subscribe(
+        (studentsList) => {
+          this.studentsList = studentsList;
+          console.log(this.studentsList);
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.error.message;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
+  }
+
+  public getGeneralInfo(): void {
+    this.getInfoSubscription = this.studentsService
+      .getClassInfo(this.classId)
+      .subscribe((classInfo) => {
+        this.classInfo = classInfo;
+        console.log(this.classInfo);
+        this.editClassName = this.classInfo.name;
+        this.editClassLevel = this.classInfo.level;
+      });
   }
 
   public editGeneralInfo(value: any) {
@@ -137,14 +144,22 @@ export class ClassEditComponent implements OnInit, OnDestroy {
       );
   }
 
-  public confirmEditStudentsList() {
-    console.log('edit');
-  }
-
-  public deleteStudent() {
-    // this.deleteStudentSubscription = this.studentsService
-    // .deleteStudent( ,this.classId)
-    console.log('delete');
+  public deleteStudent(id: number) {
+    this.deleteStudentSubscription = this.studentsService
+      .deleteStudent(id, this.classId)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          alert('Pomyślnie usunięto ucznia');
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.error.message;
+          this.getStudentsList();
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3000);
+        }
+      );
   }
 
   public addStudent() {
@@ -159,6 +174,8 @@ export class ClassEditComponent implements OnInit, OnDestroy {
         (res) => {
           console.log(res);
           this.studentToAdd = '';
+          alert('Pomyślnie dodano nowego ucznia');
+          this.getStudentsList();
         },
         (error: HttpErrorResponse) => {
           this.errorMessage = error.error.message;
@@ -167,6 +184,5 @@ export class ClassEditComponent implements OnInit, OnDestroy {
           }, 3000);
         }
       );
-    alert('Pomyślnie dodano nowego ucznia');
   }
 }

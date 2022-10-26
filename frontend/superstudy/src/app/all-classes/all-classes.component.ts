@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StudentsService } from '../_services/students.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 const MOCK_SETS: any[] = [
   {
@@ -50,22 +51,33 @@ const MOCK_SETS: any[] = [
 })
 export class AllClassesComponent implements OnInit, OnDestroy {
   public allSets = [];
-  public isTeacherRole = true;
+  public isTeacherRole;
   public displayRemoveModal = false;
   public success = false;
   public errorMessage = '';
   public classToDelete;
+  public user;
+
   private getAllClassesSubscription: Subscription;
   private deleteClassSubscription: Subscription;
+  private getAllClassesStudentSubscription: Subscription;
 
   constructor(
     private router: Router,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private token: TokenStorageService
   ) {}
 
   ngOnInit(): void {
     //this.allSets = MOCK_SETS;
-    this.getAllClasses();
+    this.user = this.token.getUser();
+    console.log(this.user);
+    if (this.user.roles.includes('ROLE_TEACHER')) {
+      this.isTeacherRole = true;
+      this.getAllClasses();
+    } else {
+      this.getAllClassesStudent();
+    }
   }
 
   ngOnDestroy(): void {
@@ -75,6 +87,14 @@ export class AllClassesComponent implements OnInit, OnDestroy {
   getAllClasses(): void {
     this.getAllClassesSubscription = this.studentsService
       .getClassesList()
+      .subscribe((allSets) => {
+        this.allSets = allSets;
+        console.log(this.allSets);
+      });
+  }
+  getAllClassesStudent(): void {
+    this.getAllClassesStudentSubscription = this.studentsService
+      .getStudentClasses()
       .subscribe((allSets) => {
         this.allSets = allSets;
         console.log(this.allSets);
