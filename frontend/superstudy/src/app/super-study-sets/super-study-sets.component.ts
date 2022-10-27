@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SuperStudySetsService } from '../_services/super-study-sets.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 const MOCK_SETS: any[] = [
   {
@@ -49,13 +50,20 @@ const MOCK_SETS: any[] = [
 })
 export class SuperStudySetsComponent implements OnInit {
   public allSets = [];
+  public user;
 
   private getSetsSubscription: Subscription;
+  private buySetSubscription: Subscription;
 
-  constructor(private superStudyService: SuperStudySetsService) {}
+  constructor(
+    private superStudyService: SuperStudySetsService,
+    private token: TokenStorageService
+  ) {}
 
   ngOnInit(): void {
-    //this.allSets = MOCK_SETS;
+    this.user = this.token.getUser();
+    console.log(this.user);
+
     this.getSetsSubscription = this.superStudyService
       .getSuperStudySets()
       .subscribe((allSets) => {
@@ -64,5 +72,11 @@ export class SuperStudySetsComponent implements OnInit {
       });
   }
 
-  getSets() {}
+  buySet(id: number): void {
+    this.buySetSubscription = this.superStudyService
+      .buySet(id)
+      .subscribe((res) => {
+        console.log(res);
+      });
+  }
 }

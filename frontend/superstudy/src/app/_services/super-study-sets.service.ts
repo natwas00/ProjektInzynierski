@@ -16,4 +16,8 @@ export class SuperStudySetsService {
   getSuperStudySets(): Observable<any> {
     return this.http.get(`${baseUrl}/api/getSuperStudySets`, httpOptions);
   }
+
+  buySet(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/buySuperStudySet/${id}`, httpOptions);
+  }
 }

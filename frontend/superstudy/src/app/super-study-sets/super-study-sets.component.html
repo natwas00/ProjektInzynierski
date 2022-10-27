@@ -2,12 +2,20 @@
   <h1 class="title">Zestawy SuperStudy</h1>
 
   <div class="set-wrapper">
-    <div
-      *ngFor="let set of allSets"
-      class="card-wrapper"
-      (click)="navigateToSet(set?.id)"
-    >
+    <div *ngFor="let set of allSets" class="card-wrapper">
       <div class="card">
+        <div class="card-buttons">
+          <i class="card-price">{{ set.points }}</i>
+          <img class="item-star" src="assets/ClassInfo/Star.png" />
+          <button
+            class="card-icon"
+            (click)="buySet(set?.id)"
+            *ngIf="!set.if_bought"
+            title="Kup zestaw"
+          >
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+          </button>
+        </div>
         <h3 class="card-title">{{ set.name }}</h3>
       </div>
     </div>

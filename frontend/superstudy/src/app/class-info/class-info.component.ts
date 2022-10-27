@@ -42,7 +42,9 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
   public allSets = [];
   public classInfo;
   public errorMessage = '';
-  public studentsList: any[] = [];
+  public ranking = {};
+  public points = {};
+  public finalPoints = {};
 
   private getInfoSubscription: Subscription;
   private getRankingSubscription: Subscription;
@@ -66,22 +68,21 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
 
     this.getRankingSubscription = this.studentsService
       .getRanking(classId)
-      .subscribe(
-        (res) => {
-          //this.studentsList = studentsList;
-          //console.log(this.studentsList);
-          console.log(res);
-        }
-        // (error: HttpErrorResponse) => {
-        //   this.errorMessage = error.error.message;
-        //   setTimeout(() => {
-        //     this.errorMessage = '';
-        //   }, 3000);
-        // }
-      );
+      .subscribe((res) => {
+        this.ranking = res;
+        console.log(this.ranking);
+      });
   }
 
   ngOnDestroy(): void {
     // TODO: anulowanie subskrypcji
+  }
+
+  getValues(obj) {
+    return Object.values(obj);
+  }
+
+  getKeys(obj) {
+    return Object.keys(obj);
   }
 }
