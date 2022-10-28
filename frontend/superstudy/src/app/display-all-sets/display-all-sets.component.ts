@@ -5,27 +5,43 @@ import { FlashcardsService } from '../_services/flashcards.service';
 @Component({
   selector: 'app-display-all-sets',
   templateUrl: './display-all-sets.component.html',
-  styleUrls: ['./display-all-sets.component.scss']
+  styleUrls: ['./display-all-sets.component.scss'],
 })
 export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   public allSets = [];
   public getAllSetsSubscription;
 
-  constructor(private flashcardsService: FlashcardsService, private router: Router) { }
+  constructor(
+    private flashcardsService: FlashcardsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.getAllSetsSubscription = this.flashcardsService.getAllSets().subscribe((response)=>{
-      console.log(response);
-      this.allSets = response;
-    });
+    this.getAllSetsSubscription = this.flashcardsService
+      .getAllSets()
+      .subscribe((response) => {
+        console.log(response);
+        this.allSets = response;
+      });
   }
 
   ngOnDestroy(): void {
     this.getAllSetsSubscription?.unsubscribe();
   }
-  
+
   navigateToSet(id) {
     this.router.navigate([`set-menu/${id}`]);
   }
 
+  moveToEdit(id) {
+    this.router.navigate([`set/${id}`]);
+  }
+
+  isSuperStudySet(points: number) {
+    if (points == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

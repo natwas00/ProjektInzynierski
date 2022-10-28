@@ -63,7 +63,10 @@ export class SuperStudySetsComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.token.getUser();
     console.log(this.user);
+    this.getSets();
+  }
 
+  getSets(): void {
     this.getSetsSubscription = this.superStudyService
       .getSuperStudySets()
       .subscribe((allSets) => {
@@ -77,6 +80,8 @@ export class SuperStudySetsComponent implements OnInit {
       .buySet(id)
       .subscribe((res) => {
         console.log(res);
+        alert('Kupiono zestaw! Aby go obejrzeć przejdź do "Wszystkie zestawy"');
+        this.getSets();
       });
   }
 }

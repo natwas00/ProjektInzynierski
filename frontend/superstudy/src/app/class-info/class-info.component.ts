@@ -44,7 +44,6 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
   public errorMessage = '';
   public ranking = {};
   public points = {};
-  public finalPoints = {};
 
   private getInfoSubscription: Subscription;
   private getRankingSubscription: Subscription;
@@ -84,5 +83,9 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
 
   getKeys(obj) {
     return Object.keys(obj);
+  }
+  getFinalRanking() {
+    const p = Object.keys(this.ranking);
+    console.log(p);
   }
 }
