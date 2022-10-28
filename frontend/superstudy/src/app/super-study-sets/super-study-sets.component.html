@@ -1,6 +1,6 @@
 <div class="sets-container">
   <h1 class="title">Zestawy SuperStudy</h1>
-  <div class="buttons-wrapper">
+  <div *ngIf="!isTeacher" class="buttons-wrapper">
     <p>Twoje punkty: 100</p>
     <img class="buttons-star" src="assets/ClassInfo/Star.png" />
   </div>
@@ -14,7 +14,7 @@
           <button
             class="card-icon"
             (click)="buySet(set?.id)"
-            *ngIf="!set.if_bought"
+            *ngIf="!set.if_bought && !isTeacher"
             title="Kup zestaw"
           >
             <i class="fa fa-shopping-cart" aria-hidden="true"></i>

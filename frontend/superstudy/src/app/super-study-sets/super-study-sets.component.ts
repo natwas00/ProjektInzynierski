@@ -51,6 +51,7 @@ const MOCK_SETS: any[] = [
 export class SuperStudySetsComponent implements OnInit {
   public allSets = [];
   public user;
+  public isTeacher = false;
 
   private getSetsSubscription: Subscription;
   private buySetSubscription: Subscription;
@@ -64,6 +65,9 @@ export class SuperStudySetsComponent implements OnInit {
     this.user = this.token.getUser();
     console.log(this.user);
     this.getSets();
+    if (this.user.roles.includes('ROLE_TEACHER')) {
+      this.isTeacher = true;
+    }
   }
 
   getSets(): void {
