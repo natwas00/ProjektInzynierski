@@ -19,7 +19,7 @@
 
   <ul class="list">
     <li
-      *ngFor="let item of ranking | keyvalue; let i = index"
+      *ngFor="let item of finalRanking | keyvalue; let i = index"
       class="list-item"
     >
       <div class="item-number">
@@ -27,10 +27,10 @@
           {{ i + 1 }}
         </p>
       </div>
-      <div class="item-name">{{ getKeys(item.value) }}</div>
+      <div class="item-name">{{ item.value[0] }}</div>
       <div class="item-points">
         <div class="item-amount">
-          {{ getValues(item.value) }}
+          {{ item.value[1] }}
         </div>
         <img class="item-star" src="assets/ClassInfo/Star.png" />
       </div>
