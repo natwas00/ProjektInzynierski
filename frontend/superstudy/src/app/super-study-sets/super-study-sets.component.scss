@@ -10,7 +10,15 @@
 
   .buttons-wrapper {
     display: flex;
-    margin-bottom: 35px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-family: "Poppins", sans-serif;
+
+    .buttons-star {
+      height: 25px;
+      align-items: center;
+      margin-left: 5px;
+    }
 
     .btn.spacer {
       margin-right: 200px;
@@ -41,7 +49,7 @@
         border-radius: 15px;
         border: none;
         margin: 50px;
-        background-color: #fee9f1;
+        background-color: #e3f1ff;
         overflow: hidden;
 
         @media (max-width: 900px) {
@@ -56,7 +64,7 @@
           padding: 10px 15px;
           margin-bottom: 0;
           color: #ffffff;
-          background-color: #ffa4c7;
+          background-color: #93c7ff;
         }
 
         .card-buttons {
@@ -64,12 +72,21 @@
           position: absolute;
           top: 0;
           right: 0;
+          margin-top: 10px;
+          margin-right: 10px;
 
           .card-icon {
             background-color: transparent;
             border: none;
-            margin: 15px;
-            color: #363fa0;
+            color: #3f70d4;
+          }
+          .item-star {
+            height: 25px;
+            align-items: center;
+          }
+
+          .card-price {
+            font-style: normal;
           }
         }
       }

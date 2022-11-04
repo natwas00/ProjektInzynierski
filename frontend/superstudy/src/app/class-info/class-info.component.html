@@ -18,18 +18,19 @@
   </h1>
 
   <ul class="list">
-    <li *ngFor="let student of studentsList; let i = index" class="list-item">
+    <li
+      *ngFor="let item of finalRanking | keyvalue; let i = index"
+      class="list-item"
+    >
       <div class="item-number">
         <p>
           {{ i + 1 }}
         </p>
       </div>
-      <div class="item-name">
-        {{ student.first_name }} {{ student.last_name }}
-      </div>
+      <div class="item-name">{{ item.value[0] }}</div>
       <div class="item-points">
         <div class="item-amount">
-          <!-- stars -->
+          {{ item.value[1] }}
         </div>
         <img class="item-star" src="assets/ClassInfo/Star.png" />
       </div>

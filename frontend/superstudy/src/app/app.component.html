@@ -1,7 +1,8 @@
 <div id="app">
   <nav class="navbar navbar-expand navbar-background">
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <a class="navbar-brand text-color" routerLink="home">
+      <!-- <a class="navbar-brand text-color" routerLink="home"> -->
+      <a class="navbar-brand text-color">
         <img
           src="../assets/Login/logo-main.png"
           width="30"
@@ -34,6 +35,19 @@
           Dodaj zestaw ver2
         </a>
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="/statistics" class="nav-link" routerLink="statistics"
+          >Statystyki</a
+        >
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a
+          href="/super-study-sets"
+          class="nav-link"
+          routerLink="super-study-sets"
+          >Zestawy SuperStudy</a
+        >
+      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
         <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
       </li>
@@ -53,7 +67,7 @@
         <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
       </li> -->
       <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Account</a>
+        <a href="/login" class="nav-link" routerLink="login">Konto</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
@@ -61,7 +75,7 @@
         <a href="/profile" class="nav-link" routerLink="profile">{{ login }}</a>
       </li>
       <li class="nav-item">
-        <a href class="nav-link" (click)="logout()">LogOut</a>
+        <a href class="nav-link" (click)="logout()">Wyloguj się</a>
       </li>
     </ul>
   </nav>

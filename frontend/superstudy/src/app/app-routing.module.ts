@@ -22,6 +22,8 @@ import { SetPreviewComponent } from './set-preview/set-preview.component';
 import { TestTrueFalseComponent } from './test-true-false/test-true-false.component';
 import { TestAbcdComponent } from './test-abcd/test-abcd.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
 
 const routes: Routes = [
   {
@@ -56,10 +58,12 @@ const routes: Routes = [
   { path: 'test-true-false/:id', component: TestTrueFalseComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'test-abcd/:id', component: TestAbcdComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'edit-class/:id', component: ClassEditComponent }, // dopisać AuthGuard
+  { path: 'statistics', component: StatisticsComponent },
+  { path: 'super-study-sets', component: SuperStudySetsComponent },
   // { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
   // { path: 'editset/:id', component: FlashcardComponent, data :{ message: true},canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: '/404' },
 ];
 

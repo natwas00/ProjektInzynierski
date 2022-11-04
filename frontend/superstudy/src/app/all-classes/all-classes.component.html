@@ -12,7 +12,11 @@
   <h1 class="title">Wszystkie klasy</h1>
 
   <div class="buttons-wrapper">
-    <button class="btn btn-primary" routerLink="/create-class">
+    <button
+      *ngIf="isTeacherRole"
+      class="btn btn-primary"
+      routerLink="/create-class"
+    >
       Utwórz klasę
     </button>
   </div>

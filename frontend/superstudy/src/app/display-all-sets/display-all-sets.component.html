@@ -1,7 +1,47 @@
 <div class="sets-container">
-    <div *ngFor="let set of allSets" class="set-wrapper" (click)="navigateToSet(set?.id)">
-        <div class="title">{{set.name}}</div>
-        <div class="subject">{{set.subject}}</div>
-        <div class="level">{{set.level}}</div>
+  <h1 class="title">Wszystkie zestawy</h1>
+  <div class="form-wrapper">
+    <select name="level" class="form-control" [(ngModel)]="this.filterOption">
+      <option value="" disabled selected>Filtruj zestawy</option>
+      <option>SuperStudy</option>
+      <option>Moje zestawy</option>
+      <!-- <option>Zestawy klasy</option> -->
+    </select>
+    <div class="button-wrapper">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        (click)="filterSets(this.filterOption)"
+      >
+        Filtruj
+      </button>
     </div>
+  </div>
+
+  <div class="set-wrapper">
+    <div *ngFor="let set of allSets" class="card-wrapper">
+      <div class="card">
+        <div class="card-buttons">
+          <img
+            class="item-star"
+            src="assets/ClassInfo/Star.png"
+            *ngIf="isSuperStudySet(set.points)"
+          />
+          <button
+            mat-button
+            [matMenuTriggerFor]="menu"
+            *ngIf="!isSuperStudySet(set.points)"
+          >
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="moveToEdit(set.id)">Edytuj</button>
+          </mat-menu>
+        </div>
+        <h3 class="card-title" (click)="navigateToSet(set.id)">
+          {{ set.name }}
+        </h3>
+      </div>
+    </div>
+  </div>
 </div>

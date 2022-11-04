@@ -42,12 +42,38 @@
   <h1 class="title">
     <span>Lista uczniów</span>
     <i
+      *ngIf="!editModeStudentsList"
       class="toogleEdit fa fa-pencil"
       aria-hidden="true"
-      title="Edytuj listę uczniów"
+      title="Edytuj informacje"
       (click)="toogleEditModeStudentsList()"
     ></i>
+    <i
+      *ngIf="editModeStudentsList"
+      class="confirmEdit fa fa-check"
+      aria-hidden="true"
+      title="Potwierdź"
+      (click)="toogleEditModeStudentsList()"
+    >
+    </i>
   </h1>
+
+  <div *ngIf="editModeStudentsList" class="my-5 text-center">
+    <p class="text-gray">Wpisz login ucznia aby dodać go do klasy.</p>
+    <div class="form-wrapper-login">
+      <input
+        name="class-student-login"
+        class="form-control pwd-control"
+        placeholder="Wpisz login"
+        type="text"
+        [(ngModel)]="studentToAdd"
+      />
+
+      <div class="add-login" (click)="addStudent()">
+        <i class="fa fa-plus" aria-hidden="true" title="Dodaj login"></i>
+      </div>
+    </div>
+  </div>
 
   <ul class="list">
     <li *ngFor="let student of studentsList; let i = index" class="list-item">
@@ -58,6 +84,12 @@
       </div>
       <div class="item-name">
         {{ student.first_name }} {{ student.last_name }}
+      </div>
+      <div
+        *ngIf="editModeStudentsList"
+        (click)="deleteStudent(student.studentId)"
+      >
+        <img src="assets/ClassInfo/Delete.png" />
       </div>
     </li>
   </ul>

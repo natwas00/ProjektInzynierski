@@ -42,10 +42,11 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
   public allSets = [];
   public classInfo;
   public errorMessage = '';
-  public studentsList: any[] = [];
+  public ranking = {};
+  public finalRanking = [];
 
   private getInfoSubscription: Subscription;
-  private getAllStudentsSubscription: Subscription;
+  private getRankingSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -64,23 +65,39 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         console.log(this.classInfo);
       });
 
-    this.getAllStudentsSubscription = this.studentsService
-      .getStudentsList(classId)
+    this.getRankingSubscription = this.studentsService
+      .getRanking(classId)
       .subscribe(
-        (studentsList) => {
-          this.studentsList = studentsList;
-          console.log(this.studentsList);
+        (res) => {
+          this.ranking = res;
+          console.log(this.ranking);
+          this.getFinalRanking(this.ranking);
         },
-        (error: HttpErrorResponse) => {
-          this.errorMessage = error.error.message;
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 3000);
-        }
+        (error: HttpErrorResponse) => {}
       );
   }
 
   ngOnDestroy(): void {
     // TODO: anulowanie subskrypcji
+  }
+
+  getFinalRanking(obj) {
+    let ranking = {};
+    for (let key in obj) {
+      let value = obj[key];
+      let students = Object.keys(value);
+      let points = Object.values(value);
+
+      students.forEach((ele, i) => {
+        ranking[ele] = points[i];
+      });
+    }
+    var items = Object.keys(ranking).map((key) => {
+      return [key, ranking[key]];
+    });
+    items.sort((first, second) => {
+      return second[1] - first[1];
+    });
+    this.finalRanking = items;
   }
 }

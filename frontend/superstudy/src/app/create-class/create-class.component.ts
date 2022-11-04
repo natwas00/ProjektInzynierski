@@ -86,7 +86,7 @@ export class CreateClassComponent implements OnInit, OnDestroy {
     } else {
       const classroomData = {
         name: value.classname,
-        classLevel: value.level,
+        classlevel: value.level,
         userId: this.userId,
       };
 

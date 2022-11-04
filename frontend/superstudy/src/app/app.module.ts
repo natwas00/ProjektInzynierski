@@ -37,6 +37,8 @@ import { SetPreviewComponent } from './set-preview/set-preview.component';
 import { TestTrueFalseComponent } from './test-true-false/test-true-false.component';
 import { TestAbcdComponent } from './test-abcd/test-abcd.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { ClassEditComponent } from './class-edit/class-edit.component';
     TestTrueFalseComponent,
     TestAbcdComponent,
     ClassEditComponent,
+    StatisticsComponent,
+    SuperStudySetsComponent,
   ],
   imports: [
     BrowserModule,
