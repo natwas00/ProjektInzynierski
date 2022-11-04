@@ -9,6 +9,8 @@ import { FlashcardsService } from '../_services/flashcards.service';
 })
 export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   public allSets = [];
+  public filterOption = '';
+
   public getAllSetsSubscription;
 
   constructor(
@@ -17,16 +19,20 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.getAllSets();
+  }
+
+  ngOnDestroy(): void {
+    this.getAllSetsSubscription?.unsubscribe();
+  }
+
+  getAllSets() {
     this.getAllSetsSubscription = this.flashcardsService
       .getAllSets()
       .subscribe((response) => {
         console.log(response);
         this.allSets = response;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.getAllSetsSubscription?.unsubscribe();
   }
 
   navigateToSet(id) {
@@ -42,6 +48,42 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
       return false;
     } else {
       return true;
+    }
+  }
+
+  displaySuperStudy() {
+    const result = this.allSets.filter((obj) => {
+      return obj.points !== 0;
+    });
+    console.log(result);
+    this.allSets = result;
+  }
+
+  displayClassSets() {
+    const result = this.allSets.filter((obj) => {
+      return obj.classId !== 0;
+    });
+    console.log(result);
+    console.log('class Sets');
+  }
+
+  displayMySets() {
+    const result = this.allSets.filter((obj) => {
+      return obj.points === 0;
+    });
+    console.log(result);
+    this.allSets = result;
+  }
+
+  filterSets(option: String) {
+    if (option === 'SuperStudy') {
+      this.displaySuperStudy();
+    }
+    if (option === 'Zestawy klasy') {
+      this.displayClassSets();
+    }
+    if (option === 'Moje zestawy') {
+      this.displayMySets();
     }
   }
 }

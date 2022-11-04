@@ -7,6 +7,17 @@
     color: rgba(0, 0, 0, 0.87);
     margin-bottom: 35px;
   }
+  .form-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 55px;
+    max-width: 350px;
+
+    .button-wrapper {
+      margin-left: 20px;
+    }
+  }
 
   .buttons-wrapper {
     display: flex;

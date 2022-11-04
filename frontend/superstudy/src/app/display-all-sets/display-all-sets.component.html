@@ -1,5 +1,23 @@
 <div class="sets-container">
   <h1 class="title">Wszystkie zestawy</h1>
+  <div class="form-wrapper">
+    <select name="level" class="form-control" [(ngModel)]="this.filterOption">
+      <option value="" disabled selected>Filtruj zestawy</option>
+      <option>SuperStudy</option>
+      <option>Moje zestawy</option>
+      <!-- <option>Zestawy klasy</option> -->
+    </select>
+    <div class="button-wrapper">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        (click)="filterSets(this.filterOption)"
+      >
+        Filtruj
+      </button>
+    </div>
+  </div>
+
   <div class="set-wrapper">
     <div *ngFor="let set of allSets" class="card-wrapper">
       <div class="card">
