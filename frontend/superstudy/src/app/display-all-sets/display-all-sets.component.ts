@@ -61,10 +61,10 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
 
   displayClassSets() {
     const result = this.allSets.filter((obj) => {
-      return obj.classId !== 0;
+      return obj.classId !== null;
     });
     console.log(result);
-    console.log('class Sets');
+    this.allSets = result;
   }
 
   displayMySets() {
