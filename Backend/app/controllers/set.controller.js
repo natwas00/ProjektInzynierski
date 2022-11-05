@@ -1,7 +1,7 @@
 const db = require("../models");
 const Set = db.set;
 const { Op } = require("sequelize");
-
+const ClassList = db.classList;
 const Image = db.images;
 const fiszki  = db.fiszki;
 
@@ -195,14 +195,37 @@ exports.add_to_exsist_set = (req,res) =>{
   
   };
 exports.all_sets = (req,res) =>{
-    User.findAll({where:{id: req.userId}, 
-      include: Set}).then(data=>{
-      res.send(data[0].sets);
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  //   User.findAndCountAll({ attributes:['sets.id'],where:{id: req.userId}, 
+  //     include: Set}).then(data=>{
+  //       const response = getPagingData(data, page, limit);
+  //     res.send(response);
+  //     return;
+  //   })
+  //   .catch(err => {
+  //     res.status(500).send({ message: err });
+  //   });
+  UsersAndsets.findAll({attributes:['setId'],where:{studentId: req.userId}}).then(data=>{
+    console.log("dudgft")
+    array = []
+    for(let i=0;i<data.length;i++){
+      console.log(data[i].dataValues.setId)
+      console.log("-------------")
+      array.push(data[i].dataValues.setId)
+
+    }
+    Set.findAndCountAll({where:{id: array}, limit, offset}).then(data2=>{
+        const response = getPagingData(data2, page, limit);
+      res.send(response);
       return;
     })
     .catch(err => {
       res.status(500).send({ message: err });
     });
+   
+  })
+  
   }
 exports.create_set = (req,res) => {
     let classId;
@@ -258,6 +281,21 @@ exports.create_set = (req,res) => {
                catch{
                 console.log("error")
                }
+              if (classId != null){
+                console.log(classId)
+                ClassList.findAll({where: {classId: classId}}).then(data=>{
+                  console.log(data.length)
+                  for (let i=0;i<data.length;i++){
+                    console.log("----------------")
+                    console.log(data[i])
+                    console.log(data[i].studenId)
+                    UsersAndsets.create({studentId: data[i].studentId, setId: set.id}).then(()=>{
+                       console.log("ok dodano")
+                     })
+                  }
+                })
+
+              }
               return;
             
           
@@ -409,5 +447,17 @@ exports.findOneSet = (req, res) => {
       })
     
     };
-
+    const getPagingData = (data, page, limit) => {
+      const { count: totalItems, rows: sets } = data;
+      const currentPage = page ? +page : 0;
+      const totalPages = Math.ceil(totalItems / limit);
+    
+      return { totalItems, sets, totalPages, currentPage };
+    };
+    const getPagination = (page, size) => {
+      const limit = size ? +size : 3;
+      const offset = page ? page * limit : 0;
+    
+      return { limit, offset };
+    };
     

@@ -1,6 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const { fiszki, set } = require("../models");
+const { Op } = require("sequelize");
 const Set = db.set;
 var levels = new Array("Szkoła podstawowa","Liceum","Technikum","Inny")
 var subjects =  new Array("Język angielski","Język niemiecki","Język hiszpański","Język francuski")
@@ -40,7 +41,12 @@ check_flashcard = (req,res,next)=>{
               console.log(setdata.userId)
               console.log(req.userId)
               if (setdata.studentId != req.userId){
-                return res.status(404).send({
+                return res.status(401).send({
+                  message: `Nieautoryzowany dostęp`
+                });
+              }
+              else if ([1,2,3].includes(parseInt(setdata.setId))){
+                return res.status(401).send({
                   message: `Nieautoryzowany dostęp`
                 });
               }
@@ -70,19 +76,26 @@ check_set = (req,res,next)=>{
     const id = req.params.setId;
     userAndset.findOne({where:{setId: id,
       studentId: req.userId}}).then(data2=>{
-      
-          if (data2 == null ){
-            return res.status(404).send({
+          if (data2 == null){
+            return res.status(401).send({
               message: `Nieautoryzowany dostęp`
             });
             
           }
+          else if ([1,2,3].includes(parseInt(id))){
+            return res.status(401).send({
+              message: `Nieautoryzowany dostęp`
+            });
+          }
           else if(req.body.first_side.length != req.body.second_side.length){
-            return res.status(404).send({
+            return res.status(400).send({
               message: `Błąd`
             });
           }
-          next();
+          else{
+            next();
+          }
+          
         })
         
     }
@@ -161,7 +174,7 @@ check_access = (req,res,next)=>{
          next()
       }
       else{
-          res.status(400).send("Nie masz dostępu tego zestawu")
+          res.status(401).send("Nie masz dostępu tego zestawu")
       }
      
   })

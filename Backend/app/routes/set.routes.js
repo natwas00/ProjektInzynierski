@@ -23,7 +23,7 @@ module.exports = function(app) {
       [authJwt.verifyToken, verifySet.check_create_set],set_controller.create_set)
 
       app.delete("/api/deleteCard/:id",
-      [authJwt.verifyToken],set_controller.deletecards)
+      [authJwt.verifyToken, verifySet.check_flashcard],set_controller.deletecards)
 
       app.delete("/api/deleteset/:id",
       [authJwt.verifyToken, verifySet.check_delete_set],set_controller.deleteset)
