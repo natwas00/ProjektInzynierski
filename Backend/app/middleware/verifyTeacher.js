@@ -6,7 +6,7 @@ checkClassOwner = (req,res,next) =>{
             next()
         }
         else{
-            return res.status(403).send("Brak dostępu do zasobu")
+            return res.status(401).send("Brak dostępu do zasobu")
         }
     })
 }
@@ -16,7 +16,7 @@ checkClassOwner2 = (req,res,next) =>{
             next()
         }
         else{
-            return res.status(403).send("Brak dostępu do zasobu")
+            return res.status(401).send("Brak dostępu do zasobu")
         }
     })
 }

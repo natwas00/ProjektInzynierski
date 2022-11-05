@@ -133,7 +133,7 @@ exports.TrueFalse = (req,res) => {
             const random = Math.random() * 10;
             let question;
             if (random > probability){
-                question = {id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, trueFlase: true}
+                question = {id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, trueFalse: true}
                 test.push(question)
             }
             else{
