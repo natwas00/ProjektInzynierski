@@ -8,8 +8,10 @@
     </div>
 
     <div class="buttons">
-        <button class="true-false-button" (click)="isCorrect(i,true)" [style.background]="changeColor(i, true)">PRAWDA</button>
-        <button class="true-false-button" (click)="isCorrect(i,false)" [style.background]="changeColor(i, false)">FAŁSZ</button>
+        <button class="true-false-button" (click)="isCorrect(i,true)" [style.background]="changeColor(i, true)"
+            [style.pointerEvents]="item.checked ? 'none':''">PRAWDA</button>
+        <button class="true-false-button" (click)="isCorrect(i,false)" [style.background]="changeColor(i, false)"
+            [style.pointerEvents]="item.checked ? 'none':''">FAŁSZ</button>
     </div>
 
 </div>

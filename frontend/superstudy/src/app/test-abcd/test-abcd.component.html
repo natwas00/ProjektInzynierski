@@ -1,1 +1,9 @@
-<p>test-abcd works!</p>
+<div *ngFor="let item of test; let i=index" class="single-question">
+    <div class="text">{{item.first_side}}</div>
+    <hr class="line">
+    <div class="buttons">
+        <button *ngFor="let answer of item.answers; let ianswer=index" class="abcd-button" (click)="isCorrect(i,answer)"
+            [style.background]="changeColor(i, answer)"
+            [style.pointerEvents]="item.checked ? 'none':''">{{answer}}</button>
+    </div>
+</div>

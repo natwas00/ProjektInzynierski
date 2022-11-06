@@ -59,7 +59,7 @@ export class FlashcardsService {
   getSetName(id: number): Observable<any> {
     return this.http.get(`${baseUrl}/set_name/${id}`, httpOptions);
   }
-  
+
   addImage(data: any, id: number): Observable<any> {
     const httpOptionsUpload = {
       headers: new HttpHeaders({ 'Accept': 'application/json' }),
@@ -71,4 +71,7 @@ export class FlashcardsService {
     return this.http.get(`${baseUrl}/api/trueFalseTest/${id}`, httpOptions);
   }
 
+  getAbcdTest(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/multiple-choice/${id}`, httpOptions);
+  }
 }
