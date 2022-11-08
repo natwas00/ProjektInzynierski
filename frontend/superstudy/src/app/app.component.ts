@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 import { FlashcardsService } from './_services/flashcards.service';
+import { StudentsService } from './_services/students.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 @Component({
@@ -24,11 +25,15 @@ export class AppComponent implements OnInit {
   selectedSubject: string = 'Język angielski';
   name: string = '';
   SetFailed = false;
+  allClasses = [];
+  getAllClassesSubscription;
+  classId;
   constructor(
     private tokenStorageService: TokenStorageService,
     private modalService: NgbModal,
     private router: Router,
-    private flashcardsService: FlashcardsService
+    private flashcardsService: FlashcardsService,
+    private studentsService: StudentsService
   ) {}
   selectChangeHandlerLevel(event: any) {
     //update the ui
@@ -47,12 +52,15 @@ export class AppComponent implements OnInit {
       this.showModeratorBoard = this.roles.includes('ROLES_MODERATOR');
       this.login = user.login;
       this.points = user.points;
+      this.getAllClasses();
     }
   }
 
   logout(): void {
     this.tokenStorageService.signOut();
-    window.location.reload();
+    this.isLoggedIn = false;
+    this.router.navigate([`login`]);
+    //window.location.reload();
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -131,5 +139,23 @@ export class AppComponent implements OnInit {
 
   moveToProfile(): void {
     this.router.navigate([`profile`]);
+  }
+
+  moveToCreateClass(): void {
+    this.router.navigate([`create-class`]);
+  }
+
+  getAllClasses() {
+    this.getAllClassesSubscription = this.studentsService
+      .getClassesList()
+      .subscribe((allClasses) => {
+        this.allClasses = allClasses;
+        console.log(this.allClasses);
+      });
+  }
+
+  getClassId(id: number) {
+    console.log(id);
+    this.classId = id;
   }
 }

@@ -52,6 +52,7 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
   public allSets = [];
   public isTeacherRole = true;
   public classInfo;
+  public task = 'Proszę przynieść bibułę na następną lekcję';
 
   private getInfoSubscription: Subscription;
   private getAllSetsSubscription: Subscription;

@@ -41,13 +41,22 @@
           <mat-icon>school</mat-icon>
           <span>Wszystkie klasy</span>
         </button>
+        <button mat-button class="menu-button" (click)="moveToCreateClass()">
+          <mat-icon>add</mat-icon>
+          <span>Stwórz klasę</span>
+        </button>
+        <button mat-button class="menu-button">
+          <mat-icon>add</mat-icon>
+          <span>Dodaj zadanie domowe</span>
+        </button>
       </div>
       <mat-divider></mat-divider>
       <div class="menu-section">Twoje konto</div>
       <div class="menu-items">
         <button mat-button class="menu-button" (click)="moveToProfile()">
-          <mat-icon>person-outline</mat-icon>
+          <mat-icon>person_outline</mat-icon>
           <span>Profil</span>
+          <span class="menu-login">({{ login }})</span>
         </button>
         <button mat-button class="menu-button" (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
@@ -113,6 +122,21 @@
           <option value="Język niemiecki">Język niemiecki</option>
           <option value="Język hiszpański">Język hiszpański</option>
           <option value="Język francuski">Język francuski</option>
+        </select>
+      </div>
+      <div class="form-group" *ngIf="this.roles.includes('ROLE_TEACHER')">
+        <p>Wybierz klasę:</p>
+        <select
+          name="classroom"
+          class="form-control"
+          ngModel
+          required
+          (change)="getClassId($event.target.value)"
+        >
+          <!-- <option value="" disabled selected>Wybierz klasę</option> -->
+          <option *ngFor="let class of allClasses" value="{{ class?.id }}">
+            {{ class?.name }}
+          </option>
         </select>
       </div>
 

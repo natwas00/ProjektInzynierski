@@ -2,7 +2,7 @@
   width: 100%;
 
   .title {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 36px;
     color: rgba(0, 0, 0, 0.87);
     margin-bottom: 35px;
@@ -16,10 +16,31 @@
     .btn.spacer {
       margin-right: 200px;
 
-      @media(max-width: 500px) {
+      @media (max-width: 500px) {
         margin-right: 50px;
       }
     }
+  }
+
+  fieldset {
+    border: 2px solid #ff7fb1;
+    border-radius: 15px;
+    background-color: #fff0f6;
+    height: auto;
+  }
+
+  legend {
+    color: black;
+    padding: 8px;
+    width: auto;
+    margin-left: 40px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+  }
+  .task {
+    margin-left: 45px;
+    margin-bottom: 100px;
+    font-size: 25px;
   }
 
   .set-wrapper {
@@ -29,11 +50,11 @@
     .card-wrapper {
       width: calc(100% / 3);
 
-      @media(max-width: 900px) {
+      @media (max-width: 900px) {
         width: calc(100% / 2);
       }
 
-      @media(max-width: 500px) {
+      @media (max-width: 500px) {
         width: 100%;
       }
 
@@ -45,7 +66,7 @@
         background-color: #e3f1ff;
         overflow: hidden;
 
-        @media(max-width: 900px) {
+        @media (max-width: 900px) {
           margin: 25px;
         }
 
@@ -66,7 +87,7 @@
           background-color: transparent;
           border: none;
           margin: 15px;
-          color: #363FA0;
+          color: #363fa0;
         }
       }
     }
