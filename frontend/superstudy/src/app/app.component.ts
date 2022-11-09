@@ -4,6 +4,7 @@ import { FlashcardsService } from './_services/flashcards.service';
 import { StudentsService } from './_services/students.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { AddTaskComponent } from './add-task/add-task.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -143,6 +144,10 @@ export class AppComponent implements OnInit {
 
   moveToCreateClass(): void {
     this.router.navigate([`create-class`]);
+  }
+
+  moveToAddTask(): void {
+    this.router.navigate([`add-task`]);
   }
 
   getAllClasses() {
