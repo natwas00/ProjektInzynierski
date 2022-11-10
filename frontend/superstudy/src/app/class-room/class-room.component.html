@@ -1,8 +1,8 @@
 <div class="sets-container">
   <h1 class="title">{{ classInfo?.name }}</h1>
-  <fieldset>
+  <fieldset *ngFor="let task of tasks">
     <legend>Zadanie domowe</legend>
-    <span class="task">{{ this.task }}</span>
+    <span class="task">{{ task.task }}</span>
   </fieldset>
 
   <div class="set-wrapper">

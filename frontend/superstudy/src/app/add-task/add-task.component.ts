@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from '../_services/students.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -10,8 +11,13 @@ export class AddTaskComponent implements OnInit {
   public allClasses = [];
   public getAllClassesSubscription;
   public classId;
+  public createTaskSubscription;
+  public task = '';
 
-  constructor(private studentsService: StudentsService) {}
+  constructor(
+    private studentsService: StudentsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getAllClasses();
@@ -29,5 +35,22 @@ export class AddTaskComponent implements OnInit {
   public getClassId(id: number) {
     console.log(id);
     this.classId = id;
+  }
+
+  public createTask() {
+    const taskData = {
+      classId: this.classId,
+      task: this.task,
+    };
+    console.log(taskData);
+    this.createTaskSubscription = this.studentsService
+      .createTask(taskData)
+      .subscribe((res) => {
+        console.log(res);
+        alert('Pomyślnie dodano zadanie domowe');
+        setTimeout(() => {
+          this.router.navigate([`class-room/${this.classId}`]);
+        });
+      });
   }
 }

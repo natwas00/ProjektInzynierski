@@ -21,9 +21,13 @@
       placeholder="Wpisz zadanie"
       ngModel
       required
+      [(ngModel)]="this.task"
+      name="task"
     ></textarea>
     <div class="button-wrapper">
-      <button class="btn btn-primary" type="submit">Dodaj zadanie</button>
+      <button class="btn btn-primary" type="submit" (click)="createTask()">
+        Dodaj zadanie
+      </button>
     </div>
   </form>
 </div>

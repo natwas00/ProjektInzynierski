@@ -52,10 +52,12 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
   public allSets = [];
   public isTeacherRole = true;
   public classInfo;
-  public task = 'Proszę przynieść bibułę na następną lekcję';
+  public tasks = [];
+  public classId;
 
   private getInfoSubscription: Subscription;
   private getAllSetsSubscription: Subscription;
+  private getTasksSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
@@ -66,6 +68,7 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //this.allSets = MOCK_SETS;
     const classId = Number(this.route.snapshot.paramMap.get('id'));
+    this.classId = classId;
 
     this.getInfoSubscription = this.studentsService
       .getClassInfo(classId)
@@ -80,6 +83,8 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
         this.allSets = allSets;
         console.log('all sets');
       });
+
+    this.getTasks();
   }
 
   ngOnDestroy(): void {
@@ -88,5 +93,14 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
 
   navigateToSet(id) {
     this.router.navigate([`set/${id}`]);
+  }
+
+  getTasks(): void {
+    this.getTasksSubscription = this.studentsService
+      .getTask(this.classId)
+      .subscribe((res) => {
+        this.tasks = res;
+        console.log(this.tasks);
+      });
   }
 }
