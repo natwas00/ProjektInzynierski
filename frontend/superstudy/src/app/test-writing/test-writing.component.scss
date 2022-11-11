@@ -1,0 +1,43 @@
+.example {
+    font-size: 35px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.text-input {
+    font-size: 35px;
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    border-color: #53A0FA;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.answer {
+    margin-left: 50px;
+}
+
+.question {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button:disabled,
+button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}

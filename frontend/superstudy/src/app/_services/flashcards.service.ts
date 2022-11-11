@@ -74,4 +74,16 @@ export class FlashcardsService {
   getAbcdTest(id: number): Observable<any> {
     return this.http.get(`${baseUrl}/api/multiple-choice/${id}`, httpOptions);
   }
+
+  getWritingTest(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/multiple-choice/${id}`, httpOptions);
+  }
+
+  getFinalTest(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/multiple-choice/${id}`, httpOptions);
+  }
+
+  sendFinalTestAnswer(id: number, data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/api/multiple-choice/answers/${id}`, data, httpOptions);
+  }
 }

@@ -39,6 +39,8 @@ import { TestAbcdComponent } from './test-abcd/test-abcd.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
+import { TestWritingComponent } from './test-writing/test-writing.component';
+import { FinalTestComponent } from './final-test/final-test.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.com
     ClassEditComponent,
     StatisticsComponent,
     SuperStudySetsComponent,
+    TestWritingComponent,
+    FinalTestComponent,
   ],
   imports: [
     BrowserModule,

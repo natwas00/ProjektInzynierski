@@ -100,8 +100,8 @@ export class CreateSetComponent implements OnInit, OnDestroy {
       let first_side = [];
       let second_side = [];
       this.flashcardsSet.forEach((flashcard) => {
-        first_side.push(flashcard.left);
-        second_side.push(flashcard.right);
+        first_side.push(`${flashcard.left}`);
+        second_side.push(`${flashcard.right}`);
       });
       const setData = {
         name: value.title,

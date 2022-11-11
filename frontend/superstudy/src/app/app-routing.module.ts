@@ -24,6 +24,8 @@ import { TestAbcdComponent } from './test-abcd/test-abcd.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
+import { TestWritingComponent } from './test-writing/test-writing.component';
+import { FinalTestComponent } from './final-test/final-test.component';
 
 const routes: Routes = [
   {
@@ -57,6 +59,8 @@ const routes: Routes = [
   { path: 'set-preview/:id', component: SetPreviewComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'test-true-false/:id', component: TestTrueFalseComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'test-abcd/:id', component: TestAbcdComponent, data: { message: false }, canActivate: [AuthGuard] },
+  { path: 'test-writing/:id', component: TestWritingComponent, data: { message: false }, canActivate: [AuthGuard] },
+  { path: 'final-test/:id', component: FinalTestComponent, data: { message: false }, canActivate: [AuthGuard] },
   { path: 'edit-class/:id', component: ClassEditComponent }, // dopisać AuthGuard
   { path: 'statistics', component: StatisticsComponent },
   { path: 'super-study-sets', component: SuperStudySetsComponent },
