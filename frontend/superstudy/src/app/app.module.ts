@@ -4,6 +4,8 @@ import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -85,6 +87,8 @@ import { FinalTestComponent } from './final-test/final-test.component';
     NgbModule,
     MatMenuModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
+    MatDividerModule,
   ],
 
   providers: [authInterceptorProviders, AuthGuard],

@@ -2,87 +2,67 @@
   <nav class="navbar navbar-expand navbar-background">
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <!-- <a class="navbar-brand text-color" routerLink="home"> -->
-      <a class="navbar-brand text-color">
+      <div class="logo">
         <img
           src="../assets/Login/logo-main.png"
           width="30"
           height="30"
-          class="d-inline-block align-top"
           alt=""
         />
-        SuperStudy
-      </a>
-      <!-- <li class="nav-item">
-        <a href="/home" class="nav-link" routerLink="home">Home </a>
-      </li> -->
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a href="/all-sets" class="nav-link" routerLink="all-sets"
-          >Wszystkie zestawy</a
-        >
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a href="/all-classes" class="nav-link" routerLink="all-classes"
-          >Wszystkie klasy</a
-        >
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a href="/create-set" class="nav-link" routerLink="create-set"
-          >Dodaj zestaw</a
-        >
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" (click)="open(content)" style="color: #007bff">
-          Dodaj zestaw ver2
-        </a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a href="/statistics" class="nav-link" routerLink="statistics"
-          >Statystyki</a
-        >
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a
-          href="/super-study-sets"
-          class="nav-link"
-          routerLink="super-study-sets"
-          >Zestawy SuperStudy</a
-        >
-      </li>
-      <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
-      </li>
-      <li class="nav-item" *ngIf="showTeacherBoard">
-        <a href="/teacher" class="nav-link" routerLink="teacher"
-          >Teacher Board</a
-        >
-      </li>
-      <li class="nav-item" *ngIf="showUserBoard">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user"
-          >User</a
-        >
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
-      <!-- <li class="nav-item">
-        <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
-      </li> -->
-      <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Konto</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
-      <li class="nav-item">
-        <a href="/profile" class="nav-link" routerLink="profile">{{ login }}</a>
-      </li>
-      <li class="nav-item">
-        <a href class="nav-link" (click)="logout()">Wyloguj się</a>
-      </li>
+        <a class="navbar-brand text-color"> SuperStudy </a>
+      </div>
     </ul>
   </nav>
-  <div class="container-fluid">
-    <router-outlet></router-outlet>
-  </div>
+  <mat-sidenav-container>
+    <mat-sidenav mode="side" opened *ngIf="isLoggedIn">
+      <div class="menu-section">Zestawy</div>
+      <div class="menu-items">
+        <button mat-button class="menu-button" (click)="open(content)">
+          <mat-icon>add</mat-icon>
+          <span class="menu-option">Stwórz zestaw</span>
+        </button>
+        <button mat-button class="menu-button" (click)="moveToSets()">
+          <mat-icon>folder_open</mat-icon>
+          <span>Wszystkie zestawy</span>
+        </button>
+        <button mat-button class="menu-button" (click)="moveToSuperStudy()">
+          <mat-icon>star_border</mat-icon>
+          <span>Zestawy SuperStudy</span>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="menu-section">Inne</div>
+      <div class="menu-items">
+        <button mat-button class="menu-button" (click)="moveToStatistics()">
+          <mat-icon>show_chart</mat-icon>
+          <span class="menu-option">Statystyki</span>
+        </button>
+        <button mat-button class="menu-button" (click)="moveToClasses()">
+          <mat-icon>school</mat-icon>
+          <span>Wszystkie klasy</span>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="menu-section">Twoje konto</div>
+      <div class="menu-items">
+        <button mat-button class="menu-button" (click)="moveToProfile()">
+          <mat-icon>person-outline</mat-icon>
+          <span>Profil</span>
+        </button>
+        <button mat-button class="menu-button" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Wyloguj się</span>
+        </button>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
+
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Stwórz nowy zestaw</h4>

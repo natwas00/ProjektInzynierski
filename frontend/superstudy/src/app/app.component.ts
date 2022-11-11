@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   showUserBoard = false;
   errorMessage = '';
   login?: string;
+  points?: number;
   closeResult = '';
   selectedLevel: string = 'Szkoła podstawowa';
   selectedSubject: string = 'Język angielski';
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit {
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLES_MODERATOR');
       this.login = user.login;
+      this.points = user.points;
     }
   }
 
@@ -109,5 +111,25 @@ export class AppComponent implements OnInit {
         this.SetFailed = true;
       }
     );
+  }
+
+  moveToSets(): void {
+    this.router.navigate([`all-sets`]);
+  }
+
+  moveToSuperStudy(): void {
+    this.router.navigate([`super-study-sets`]);
+  }
+
+  moveToStatistics(): void {
+    this.router.navigate([`statistics`]);
+  }
+
+  moveToClasses(): void {
+    this.router.navigate([`all-classes`]);
+  }
+
+  moveToProfile(): void {
+    this.router.navigate([`profile`]);
   }
 }
