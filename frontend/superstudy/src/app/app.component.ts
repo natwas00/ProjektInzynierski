@@ -5,12 +5,15 @@ import { StudentsService } from './_services/students.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AddTaskComponent } from './add-task/add-task.component';
+import { MatDrawer } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('drawer') drawer: MatDrawer;
   title = 'superstudy';
   public roles: string[] = [];
   isLoggedIn = false;
@@ -29,6 +32,7 @@ export class AppComponent implements OnInit {
   allClasses = [];
   getAllClassesSubscription;
   classId;
+  isTeacher = false;
   constructor(
     private tokenStorageService: TokenStorageService,
     private modalService: NgbModal,
@@ -45,15 +49,26 @@ export class AppComponent implements OnInit {
     this.selectedSubject = event.target.value;
   }
   ngOnInit(): void {
+    this.loggedIn();
+  }
+
+  loggedIn(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    console.log(this.tokenStorageService.getUser());
     if (this.isLoggedIn) {
+      console.log('test 1');
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLES_MODERATOR');
       this.login = user.login;
       this.points = user.points;
-      this.getAllClasses();
+      if (this.roles.includes('ROLE_TEACHER')) {
+        this.isTeacher = true;
+        this.getAllClasses();
+      } else {
+        this.isTeacher = false;
+      }
     }
   }
 
@@ -162,5 +177,9 @@ export class AppComponent implements OnInit {
   getClassId(id: number) {
     console.log(id);
     this.classId = id;
+  }
+
+  toggleDrawer() {
+    this.drawer.toggle();
   }
 }

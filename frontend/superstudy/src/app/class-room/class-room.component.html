@@ -3,6 +3,12 @@
   <fieldset *ngFor="let task of tasks">
     <legend>Zadanie domowe</legend>
     <span class="task">{{ task.task }}</span>
+    <span class="task-date"> {{ this.formatDate(task.finishDate) }}</span>
+    <img
+      *ngIf="isTeacherRole"
+      src="assets/ClassInfo/Delete.png"
+      (click)="deleteTask(task.id)"
+    />
   </fieldset>
 
   <div class="set-wrapper">

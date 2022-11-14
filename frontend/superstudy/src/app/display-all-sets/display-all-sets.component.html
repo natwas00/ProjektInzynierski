@@ -12,8 +12,16 @@
         class="btn btn-primary"
         type="submit"
         (click)="filterSets(this.filterOption)"
+        *ngIf="!isFiltered"
       >
         Filtruj
+      </button>
+      <button
+        class="btn btn-primary"
+        (click)="this.getAllSets()"
+        *ngIf="isFiltered"
+      >
+        Wyczyść filtr
       </button>
     </div>
   </div>

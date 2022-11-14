@@ -9,7 +9,9 @@ import { FlashcardsService } from '../_services/flashcards.service';
 })
 export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   public allSets = [];
+  public filteredSets = [];
   public filterOption = '';
+  public isFiltered = false;
 
   public getAllSetsSubscription;
 
@@ -27,6 +29,7 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   }
 
   getAllSets() {
+    this.isFiltered = false;
     this.getAllSetsSubscription = this.flashcardsService
       .getAllSets()
       .subscribe((response) => {
@@ -76,6 +79,7 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   }
 
   filterSets(option: String) {
+    this.isFiltered = true;
     if (option === 'SuperStudy') {
       this.displaySuperStudy();
     }

@@ -2,6 +2,10 @@
   <nav class="navbar navbar-expand navbar-background">
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <!-- <a class="navbar-brand text-color" routerLink="home"> -->
+      <button type="button" mat-button (click)="this.toggleDrawer()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
       <div class="logo">
         <img
           src="../assets/Login/logo-main.png"
@@ -13,8 +17,8 @@
       </div>
     </ul>
   </nav>
-  <mat-sidenav-container>
-    <mat-sidenav mode="side" opened *ngIf="isLoggedIn">
+  <mat-drawer-container hasBackdrop="false">
+    <mat-drawer #drawer [mode]="over" *ngIf="isLoggedIn">
       <div class="menu-section">Zestawy</div>
       <div class="menu-items">
         <button mat-button class="menu-button" (click)="open(content)">
@@ -25,7 +29,12 @@
           <mat-icon>folder_open</mat-icon>
           <span>Wszystkie zestawy</span>
         </button>
-        <button mat-button class="menu-button" (click)="moveToSuperStudy()">
+        <button
+          mat-button
+          class="menu-button"
+          (click)="moveToSuperStudy()"
+          *ngIf="!this.isTeacher"
+        >
           <mat-icon>star_border</mat-icon>
           <span>Zestawy SuperStudy</span>
         </button>
@@ -33,7 +42,12 @@
       <mat-divider></mat-divider>
       <div class="menu-section">Inne</div>
       <div class="menu-items">
-        <button mat-button class="menu-button" (click)="moveToStatistics()">
+        <button
+          mat-button
+          class="menu-button"
+          (click)="moveToStatistics()"
+          *ngIf="!this.isTeacher"
+        >
           <mat-icon>show_chart</mat-icon>
           <span class="menu-option">Statystyki</span>
         </button>
@@ -41,11 +55,21 @@
           <mat-icon>school</mat-icon>
           <span>Wszystkie klasy</span>
         </button>
-        <button mat-button class="menu-button" (click)="moveToCreateClass()">
+        <button
+          mat-button
+          class="menu-button"
+          (click)="moveToCreateClass()"
+          *ngIf="this.isTeacher"
+        >
           <mat-icon>add</mat-icon>
           <span>Stwórz klasę</span>
         </button>
-        <button mat-button class="menu-button" (click)="moveToAddTask()">
+        <button
+          mat-button
+          class="menu-button"
+          (click)="moveToAddTask()"
+          *ngIf="this.isTeacher"
+        >
           <mat-icon>add</mat-icon>
           <span>Dodaj zadanie domowe</span>
         </button>
@@ -63,13 +87,13 @@
           <span>Wyloguj się</span>
         </button>
       </div>
-    </mat-sidenav>
-    <mat-sidenav-content>
+    </mat-drawer>
+    <mat-drawer-content>
       <div class="container-fluid">
         <router-outlet></router-outlet>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>
 
 <ng-template #content let-modal>
@@ -124,7 +148,7 @@
           <option value="Język francuski">Język francuski</option>
         </select>
       </div>
-      <div class="form-group" *ngIf="this.roles.includes('ROLE_TEACHER')">
+      <div class="form-group" *ngIf="this.isTeacher">
         <p>Wybierz klasę:</p>
         <select
           name="classroom"

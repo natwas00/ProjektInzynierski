@@ -14,6 +14,14 @@
         {{ class?.name }}
       </option>
     </select>
+    <span class="date-text">Wybierz datę wykonania zadania:</span>
+    <input
+      name="date"
+      class="form-date"
+      type="date"
+      required
+      [(ngModel)]="this.date"
+    />
 
     <textarea
       style="resize: none"

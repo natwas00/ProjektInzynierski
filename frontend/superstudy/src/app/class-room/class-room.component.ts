@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StudentsService } from '../_services/students.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const MOCK_SETS: any[] = [
   {
@@ -50,19 +53,23 @@ const MOCK_SETS: any[] = [
 })
 export class ClassRoomComponent implements OnInit, OnDestroy {
   public allSets = [];
-  public isTeacherRole = true;
+  public isTeacherRole = false;
   public classInfo;
   public tasks = [];
   public classId;
+  public user;
+  public errorMessage = '';
 
   private getInfoSubscription: Subscription;
   private getAllSetsSubscription: Subscription;
   private getTasksSubscription: Subscription;
+  private deleteTaskSubscription: Subscription;
 
   constructor(
     private studentsService: StudentsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private token: TokenStorageService
   ) {}
 
   ngOnInit(): void {
@@ -70,20 +77,13 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
     const classId = Number(this.route.snapshot.paramMap.get('id'));
     this.classId = classId;
 
-    this.getInfoSubscription = this.studentsService
-      .getClassInfo(classId)
-      .subscribe((classInfo) => {
-        this.classInfo = classInfo;
-        console.log(this.classInfo);
-      });
+    this.user = this.token.getUser();
+    if (this.user.roles.includes('ROLE_TEACHER')) {
+      this.isTeacherRole = true;
+    }
 
-    this.getAllSetsSubscription = this.studentsService
-      .getAllClassSets(classId)
-      .subscribe((allSets) => {
-        this.allSets = allSets;
-        console.log('all sets');
-      });
-
+    this.getInfo();
+    this.getSets();
     this.getTasks();
   }
 
@@ -95,6 +95,24 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
     this.router.navigate([`set/${id}`]);
   }
 
+  getInfo(): void {
+    this.getInfoSubscription = this.studentsService
+      .getClassInfo(this.classId)
+      .subscribe((classInfo) => {
+        this.classInfo = classInfo;
+        console.log(this.classInfo);
+      });
+  }
+
+  getSets(): void {
+    this.getAllSetsSubscription = this.studentsService
+      .getAllClassSets(this.classId)
+      .subscribe((allSets) => {
+        this.allSets = allSets;
+        console.log('all sets');
+      });
+  }
+
   getTasks(): void {
     this.getTasksSubscription = this.studentsService
       .getTask(this.classId)
@@ -102,5 +120,29 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
         this.tasks = res;
         console.log(this.tasks);
       });
+  }
+
+  formatDate(date) {
+    const datepipe: DatePipe = new DatePipe('en-US');
+    let formattedDate = datepipe.transform(date, 'd-M-y');
+    return formattedDate;
+  }
+
+  deleteTask(id) {
+    this.deleteTaskSubscription = this.studentsService.deleteTask(id).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorMessage = error.error.message;
+        alert('Pomyślnie usunięto zadanie domowe');
+        this.getInfo();
+        this.getSets();
+        this.getTasks();
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 3000);
+      }
+    );
   }
 }

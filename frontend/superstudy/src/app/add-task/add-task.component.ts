@@ -13,6 +13,7 @@ export class AddTaskComponent implements OnInit {
   public classId;
   public createTaskSubscription;
   public task = '';
+  public date = '';
 
   constructor(
     private studentsService: StudentsService,
@@ -38,9 +39,11 @@ export class AddTaskComponent implements OnInit {
   }
 
   public createTask() {
+    this.date = this.date.split('-').join('/');
     const taskData = {
       classId: this.classId,
       task: this.task,
+      finishDate: this.date,
     };
     console.log(taskData);
     this.createTaskSubscription = this.studentsService
