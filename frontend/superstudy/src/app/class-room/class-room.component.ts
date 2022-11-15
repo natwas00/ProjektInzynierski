@@ -110,6 +110,7 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
       .subscribe((allSets) => {
         this.allSets = allSets;
         console.log('all sets');
+        console.log(this.allSets);
       });
   }
 

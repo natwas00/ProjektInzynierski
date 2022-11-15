@@ -28,31 +28,32 @@
     background-color: #fff0f6;
     height: auto;
     width: 700px;
-  }
 
-  legend {
-    color: black;
-    padding: 8px;
-    width: auto;
-    margin-left: 40px;
-    font-family: "Poppins", sans-serif;
-    font-weight: bold;
-  }
-  .task {
-    margin-left: 45px;
-    margin-bottom: 100px;
-    font-size: 25px;
-  }
+    legend {
+      color: black;
+      padding: 8px;
+      width: auto;
+      margin-left: 40px;
+      font-family: "Poppins", sans-serif;
+      font-weight: bold;
+    }
+    .task {
+      margin-left: 45px;
+      margin-bottom: 10px;
+      font-size: 25px;
+      min-height: 40px;
+    }
 
-  .task-date {
-    font-size: 25px;
-    margin-left: 100px;
-  }
+    .task-date {
+      font-size: 25px;
+      margin-left: 100px;
+    }
 
-  img {
-    margin-left: 50px;
-    align-items: center;
-    width: 25px;
+    img {
+      margin-left: 50px;
+      align-items: center;
+      width: 25px;
+    }
   }
 
   .set-wrapper {

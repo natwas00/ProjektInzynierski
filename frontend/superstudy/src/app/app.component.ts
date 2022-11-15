@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   getAllClassesSubscription;
   classId;
   isTeacher = false;
+  setData = {};
   constructor(
     private tokenStorageService: TokenStorageService,
     private modalService: NgbModal,
@@ -108,23 +109,27 @@ export class AppComponent implements OnInit {
     this.SetFailed = false;
   }
   onSubmit(): void {
-    const setData = {
-      name: this.name,
-      level: this.selectedLevel,
-      subject: this.selectedSubject,
-    };
-    console.log(setData);
-    this.flashcardsService.addSet(setData).subscribe(
+    if (this.roles.includes('ROLE_TEACHER')) {
+      this.setData = {
+        name: this.name,
+        level: this.selectedLevel,
+        subject: this.selectedSubject,
+        classId: this.classId,
+      };
+    } else {
+      this.setData = {
+        name: this.name,
+        level: this.selectedLevel,
+        subject: this.selectedSubject,
+      };
+    }
+    console.log(this.setData);
+    this.flashcardsService.addSet(this.setData).subscribe(
       (data) => {
         console.log(data);
         this.modalService.dismissAll();
         this.name = '';
         this.errorMessage = '';
-
-        // this.router.navigate([`editset/${data.id}`]) .then(() => {
-        //   window.location.reload();
-        // });
-
         this.router.navigate([`set-menu/${data.id}`]).then(() => {
           window.location.reload();
         });
@@ -163,6 +168,10 @@ export class AppComponent implements OnInit {
 
   moveToAddTask(): void {
     this.router.navigate([`add-task`]);
+  }
+
+  moveToCreateSet(): void {
+    this.router.navigate([`create-set`]);
   }
 
   getAllClasses() {
