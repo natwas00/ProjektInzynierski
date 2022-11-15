@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 import { FlashcardsService } from './_services/flashcards.service';
+import { StudentsService } from './_services/students.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { MatDrawer } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('drawer') drawer: MatDrawer;
   title = 'superstudy';
   public roles: string[] = [];
   isLoggedIn = false;
@@ -24,11 +29,17 @@ export class AppComponent implements OnInit {
   selectedSubject: string = 'Język angielski';
   name: string = '';
   SetFailed = false;
+  allClasses = [];
+  getAllClassesSubscription;
+  classId;
+  isTeacher = false;
+  setData = {};
   constructor(
     private tokenStorageService: TokenStorageService,
     private modalService: NgbModal,
     private router: Router,
-    private flashcardsService: FlashcardsService
+    private flashcardsService: FlashcardsService,
+    private studentsService: StudentsService
   ) {}
   selectChangeHandlerLevel(event: any) {
     //update the ui
@@ -39,20 +50,34 @@ export class AppComponent implements OnInit {
     this.selectedSubject = event.target.value;
   }
   ngOnInit(): void {
+    this.loggedIn();
+  }
+
+  loggedIn(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    console.log(this.tokenStorageService.getUser());
     if (this.isLoggedIn) {
+      console.log('test 1');
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLES_MODERATOR');
       this.login = user.login;
       this.points = user.points;
+      if (this.roles.includes('ROLE_TEACHER')) {
+        this.isTeacher = true;
+        this.getAllClasses();
+      } else {
+        this.isTeacher = false;
+      }
     }
   }
 
   logout(): void {
     this.tokenStorageService.signOut();
-    window.location.reload();
+    this.isLoggedIn = false;
+    this.router.navigate([`login`]);
+    //window.location.reload();
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -84,23 +109,27 @@ export class AppComponent implements OnInit {
     this.SetFailed = false;
   }
   onSubmit(): void {
-    const setData = {
-      name: this.name,
-      level: this.selectedLevel,
-      subject: this.selectedSubject,
-    };
-    console.log(setData);
-    this.flashcardsService.addSet(setData).subscribe(
+    if (this.roles.includes('ROLE_TEACHER')) {
+      this.setData = {
+        name: this.name,
+        level: this.selectedLevel,
+        subject: this.selectedSubject,
+        classId: this.classId,
+      };
+    } else {
+      this.setData = {
+        name: this.name,
+        level: this.selectedLevel,
+        subject: this.selectedSubject,
+      };
+    }
+    console.log(this.setData);
+    this.flashcardsService.addSet(this.setData).subscribe(
       (data) => {
         console.log(data);
         this.modalService.dismissAll();
         this.name = '';
         this.errorMessage = '';
-
-        // this.router.navigate([`editset/${data.id}`]) .then(() => {
-        //   window.location.reload();
-        // });
-
         this.router.navigate([`set-menu/${data.id}`]).then(() => {
           window.location.reload();
         });
@@ -131,5 +160,35 @@ export class AppComponent implements OnInit {
 
   moveToProfile(): void {
     this.router.navigate([`profile`]);
+  }
+
+  moveToCreateClass(): void {
+    this.router.navigate([`create-class`]);
+  }
+
+  moveToAddTask(): void {
+    this.router.navigate([`add-task`]);
+  }
+
+  moveToCreateSet(): void {
+    this.router.navigate([`create-set`]);
+  }
+
+  getAllClasses() {
+    this.getAllClassesSubscription = this.studentsService
+      .getClassesList()
+      .subscribe((allClasses) => {
+        this.allClasses = allClasses;
+        console.log(this.allClasses);
+      });
+  }
+
+  getClassId(id: number) {
+    console.log(id);
+    this.classId = id;
+  }
+
+  toggleDrawer() {
+    this.drawer.toggle();
   }
 }

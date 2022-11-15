@@ -1,0 +1,41 @@
+<div class="sets-container">
+  <h1 class="title">Dodaj zadanie domowe</h1>
+
+  <form>
+    <select
+      name="classroom"
+      class="form-control select-class"
+      ngModel
+      required
+      (change)="getClassId($event.target.value)"
+    >
+      <option value="" disabled selected>Wybierz klasę</option>
+      <option *ngFor="let class of allClasses" value="{{ class?.id }}">
+        {{ class?.name }}
+      </option>
+    </select>
+    <span class="date-text">Wybierz datę wykonania zadania:</span>
+    <input
+      name="date"
+      class="form-date"
+      type="date"
+      required
+      [(ngModel)]="this.date"
+    />
+
+    <textarea
+      style="resize: none"
+      class="form-control task-input"
+      placeholder="Wpisz zadanie"
+      ngModel
+      required
+      [(ngModel)]="this.task"
+      name="task"
+    ></textarea>
+    <div class="button-wrapper">
+      <button class="btn btn-primary" type="submit" (click)="createTask()">
+        Dodaj zadanie
+      </button>
+    </div>
+  </form>
+</div>

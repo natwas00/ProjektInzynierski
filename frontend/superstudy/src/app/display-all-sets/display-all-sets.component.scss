@@ -16,6 +16,7 @@
 
     .button-wrapper {
       margin-left: 20px;
+      min-width: 120px;
     }
   }
 
@@ -84,7 +85,8 @@
           top: 0;
           right: 0;
           margin-top: 10px;
-          margin-right: 10px;
+          margin-right: 2px;
+          min-height: 25px;
 
           .card-icon {
             background-color: transparent;

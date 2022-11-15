@@ -1,7 +1,7 @@
 <div class="sets-container">
   <h1 class="title">Zestawy SuperStudy</h1>
   <div *ngIf="!isTeacher" class="buttons-wrapper">
-    <p>Twoje punkty: 100</p>
+    <p>Twoje punkty: {{ this.user.points }}</p>
     <img class="buttons-star" src="assets/ClassInfo/Star.png" />
   </div>
 

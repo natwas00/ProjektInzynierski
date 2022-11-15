@@ -70,4 +70,16 @@ export class StudentsService {
   getRanking(id: number): Observable<any> {
     return this.http.get(`${baseUrl}/api/get/rating/${id}`, httpOptions);
   }
+
+  createTask(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/api/create_task`, data, httpOptions);
+  }
+
+  getTask(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/get_tasks/${id}`, httpOptions);
+  }
+
+  deleteTask(id: number): Observable<any> {
+    return this.http.delete(`${baseUrl}/api/delete_task/${id}`, httpOptions);
+  }
 }

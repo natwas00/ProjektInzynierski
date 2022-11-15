@@ -26,6 +26,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
 import { TestWritingComponent } from './test-writing/test-writing.component';
 import { FinalTestComponent } from './final-test/final-test.component';
+import { AddTaskComponent } from './add-task/add-task.component';
 
 const routes: Routes = [
   {
@@ -54,16 +55,52 @@ const routes: Routes = [
   { path: 'all-classes', component: AllClassesComponent }, // dopisać AuthGuard
   { path: 'class-info/:id', component: ClassInfoComponent }, // dopisać AuthGuard
   { path: 'create-class', component: CreateClassComponent }, // dopisać AuthGuard
-  { path: 'set-menu/:id', component: SetMenuComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'set/:id', component: FlashcardComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'set-preview/:id', component: SetPreviewComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'test-true-false/:id', component: TestTrueFalseComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'test-abcd/:id', component: TestAbcdComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'test-writing/:id', component: TestWritingComponent, data: { message: false }, canActivate: [AuthGuard] },
-  { path: 'final-test/:id', component: FinalTestComponent, data: { message: false }, canActivate: [AuthGuard] },
+  {
+    path: 'set-menu/:id',
+    component: SetMenuComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'set/:id',
+    component: FlashcardComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'set-preview/:id',
+    component: SetPreviewComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'test-true-false/:id',
+    component: TestTrueFalseComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'test-abcd/:id',
+    component: TestAbcdComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'test-writing/:id',
+    component: TestWritingComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'final-test/:id',
+    component: FinalTestComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
   { path: 'edit-class/:id', component: ClassEditComponent }, // dopisać AuthGuard
   { path: 'statistics', component: StatisticsComponent },
   { path: 'super-study-sets', component: SuperStudySetsComponent },
+  { path: 'add-task', component: AddTaskComponent },
   // { path: 'set/:id', component: FlashcardComponent, data :{ message: false},canActivate: [AuthGuard]},
   // { path: 'editset/:id', component: FlashcardComponent, data :{ message: true},canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },

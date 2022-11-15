@@ -26,14 +26,13 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private tokenStorage: TokenStorageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.user = this.tokenStorage.getUser();
       this.roles = this.user.roles;
-
     }
   }
 
@@ -51,12 +50,14 @@ export class LoginComponent implements OnInit {
         this.roles = this.user.roles;
         this.appComponent.isLoggedIn = this.isLoggedIn;
         this.appComponent.login = this.user.login;
+        this.appComponent.loggedIn();
         this.navigateToFlashcards();
       },
       (error) => {
         this.errorMessage = error.error.message;
         this.isLoginFailed = true;
-      });
+      }
+    );
   }
 
   getError(): String {
@@ -66,7 +67,6 @@ export class LoginComponent implements OnInit {
   resetOnSubmit() {
     this.submitPressed = false;
   }
-
 
   navigateToFlashcards() {
     this.router.navigate([`all-sets`]);

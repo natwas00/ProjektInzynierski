@@ -62,8 +62,9 @@
         .card-buttons {
           display: flex;
           position: absolute;
-          top: 0;
-          right: 0;
+          top: 10;
+          right: 5;
+          min-height: 25px;
 
           .card-icon {
             background-color: transparent;

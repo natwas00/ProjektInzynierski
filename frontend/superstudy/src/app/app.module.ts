@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +44,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.component';
 import { TestWritingComponent } from './test-writing/test-writing.component';
 import { FinalTestComponent } from './final-test/final-test.component';
+import { AddTaskComponent } from './add-task/add-task.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import { FinalTestComponent } from './final-test/final-test.component';
     SuperStudySetsComponent,
     TestWritingComponent,
     FinalTestComponent,
+    AddTaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +92,7 @@ import { FinalTestComponent } from './final-test/final-test.component';
     BrowserAnimationsModule,
     MatSidenavModule,
     MatDividerModule,
+    MatDialogModule,
   ],
 
   providers: [authInterceptorProviders, AuthGuard],
