@@ -1,4 +1,6 @@
 const db = require("../models");
+const { UsersAndsets } = require("../models");
+const Set = db.set
 const ClassList = db.classList;
 const Class = db.class;
 const Users = db.user;
@@ -190,4 +192,36 @@ exports.student_classes = (req, res) => {
       res.status(500).send({ message: err });
   });
 
+}
+
+exports.statistics = (req, res) => {
+    UsersAndsets.findAll({ where: { studentId: req.userId } }).then(userSets => {
+        sets = [];
+        for (let i = 0; i < userSets.length; i++) {
+            Set.findOne({ where: { id: userSets[i].setId } }).then(set => {
+                sets.push(set);
+                console.log(set);
+                if (i == userSets.length - 1) {
+                    pointsSum = 0;
+                    for (let j = 0; j < sets.length; j++) {
+                        pointsSum = pointsSum + sets[j].points;
+                    }
+                    console.log(pointsSum);
+                    Users.findOne({ where: { id: req.userId } }).then(user => {
+                        userPoints = parseFloat(user.points);
+                        maxPoints = parseFloat(pointsSum);
+                        console.log(user);
+                        console.log(userPoints);
+                        percent = (userPoints / maxPoints) * 100;
+                        
+                        console.log(percent);
+                        return res.send({ percent })
+                    })
+                }
+            })
+        }
+        
+    }).catch(err => {
+        res.status(500).send({ message: err });
+    });
 }

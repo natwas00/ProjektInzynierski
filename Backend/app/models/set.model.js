@@ -9,7 +9,10 @@ module.exports = (sequelize, Sequelize) => {
       },
       subject:{
         type: Sequelize.STRING
-      }
+        },
+        points: {
+            type: Sequelize.INTEGER
+        }
     
     });
     return Set;
