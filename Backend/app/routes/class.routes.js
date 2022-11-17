@@ -25,4 +25,5 @@ module.exports = function(app) {
     app.delete("/api/delete/studentFromClass", [authJwt.verifyToken], controllerClassList.delete_student_from_class);
     app.get("/api/get/classesOfStudent", [authJwt.verifyToken], controllerClassList.student_classes);
     app.get("/api/get/rating/:classId", [authJwt.verifyToken], controllerClass.class_rating);
+    app.get("/api/get/statistics", [authJwt.verifyToken], controllerClassList.statistics);
 };

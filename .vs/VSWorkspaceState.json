@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Backend",
+    "\\Backend\\app",
+    "\\Backend\\app\\config",
+    "\\Backend\\app\\routes",
+    "\\frontend",
+    "\\frontend\\superstudy",
+    "\\frontend\\superstudy\\src",
+    "\\frontend\\superstudy\\src\\app",
+    "\\frontend\\superstudy\\src\\app\\register"
+  ],
+  "SelectedNode": "\\Backend\\app\\config\\db.config.js",
+  "PreviewInSolutionExplorer": false
+}
