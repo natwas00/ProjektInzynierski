@@ -92,7 +92,7 @@
         </button>
       </div>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content (click)="closeDrawer()">
       <div class="container-fluid">
         <router-outlet></router-outlet>
       </div>

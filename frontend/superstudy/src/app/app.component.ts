@@ -191,4 +191,8 @@ export class AppComponent implements OnInit {
   toggleDrawer() {
     this.drawer.toggle();
   }
+
+  closeDrawer() {
+    this.drawer.close();
+  }
 }

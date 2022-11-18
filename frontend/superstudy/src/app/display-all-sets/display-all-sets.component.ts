@@ -34,7 +34,7 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
       .getAllSets()
       .subscribe((response) => {
         console.log(response);
-        this.allSets = response;
+        this.allSets = response.sets;
       });
   }
 
