@@ -1,25 +1,94 @@
-.name {
-    font-size: 50px;
-}
+// .name {
+//   font-size: 50px;
+//   font-family: "Poppins", sans-serif;
+// }
 
-.edit {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
+// .edit {
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-end;
+// }
 
-.center {
+// .center {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-wrap: wrap;
+//   font-family: "Poppins", sans-serif;
+
+//   .option {
+//     width: 322px;
+//     height: 322px;
+//     margin: 30px;
+//     background: #ffd7e7;
+//     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+//     border-radius: 68px;
+
+//     .method-btn {
+//       position: absolute;
+//       font-size: 20px;
+//       border-radius: 15px;
+//     }
+//   }
+
+//   img {
+//     align-items: center;
+//     position: relative;
+//     max-height: 250px;
+//     margin-bottom: 20px;
+//     max-width: 280px;
+//   }
+// }
+
+.sets-container {
+  width: 100%;
+
+  .name {
+    font-size: 38px;
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .small-text {
+    font-size: 24px;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  .methods-wrapper {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-}
 
-.option {
-    width: 322px;
-    height: 322px;
-    margin: 30px;
-    background: #FFD7E7;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 68px;
+    .card {
+      position: relative;
+      width: 322px;
+      height: 322px;
+      margin: 30px;
+      background: #ffd7e7;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 68px;
+
+      @media (max-width: 900px) {
+        margin: 25px;
+      }
+
+      img {
+        margin-top: 15px;
+        max-height: 200px;
+      }
+
+      .method-btn {
+        position: absolute;
+        left: 50%;
+        bottom: 10%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        border-radius: 15px;
+      }
+    }
+  }
 }

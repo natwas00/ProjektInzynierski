@@ -7,13 +7,16 @@ import { ReplaySubject } from 'rxjs';
 @Component({
   selector: 'app-test-true-false',
   templateUrl: './test-true-false.component.html',
-  styleUrls: ['./test-true-false.component.scss']
+  styleUrls: ['./test-true-false.component.scss'],
 })
 export class TestTrueFalseComponent implements OnInit, OnDestroy {
   public id;
   public test = [];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) { }
+  constructor(
+    private flashcardsService: FlashcardsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -26,27 +29,34 @@ export class TestTrueFalseComponent implements OnInit, OnDestroy {
   }
 
   public getTest(): void {
-    this.flashcardsService.getTrueFalseTest(this.id).pipe(takeUntil(this.destroyed$)).subscribe((testData) => {
-      this.test = testData;
-      console.log(this.test);
-    });
+    this.flashcardsService
+      .getTrueFalseTest(this.id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((testData) => {
+        this.test = testData;
+        console.log(this.test);
+      });
   }
 
-  public isCorrect(id:number, answer:boolean): void {
+  public isCorrect(id: number, answer: boolean): void {
     this.test[id].checked = true;
     this.test[id].answer = answer;
   }
 
-  public changeColor(id:number, answer: boolean): string {
-    if(this.test[id]?.checked && this.test[id].answer===answer){
-      console.log(id, this.test[id], this.test[id].trueFalse, this.test[id].answer)
+  public changeColor(id: number, answer: boolean): string {
+    if (this.test[id]?.checked && this.test[id].answer === answer) {
+      console.log(
+        id,
+        this.test[id],
+        this.test[id].trueFalse,
+        this.test[id].answer
+      );
 
-      if(this.test[id].trueFalse===this.test[id].answer){
-        return 'green';
+      if (this.test[id].trueFalse === this.test[id].answer) {
+        return '#3DB86E';
       }
-      return 'red';
+      return '#EC1845';
     }
     return '#BDDCFF';
   }
-
 }

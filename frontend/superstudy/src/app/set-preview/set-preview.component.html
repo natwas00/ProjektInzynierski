@@ -1,13 +1,29 @@
+<div class="title">Przeglądanie</div>
+
 <div class="flashcard-container">
-    <i class="icon fa fa-angle-left" aria-hidden="true" (click)="previous()"></i>
-    <div class="flashcard">
-        <div class="flashcard-inside" *ngIf="set.length >0 && set[visibleItemId][visibleItemSide]" (click)="flipCard()">
-            <div class="flashcard-image-container" *ngIf="set[visibleItemId]?.link">
-                <img class="flashcard-image" [src]="set[visibleItemId]?.link" alt="Nie znaleziono obrazka">
-            </div>
-            <div class="flashcard-text">{{set[visibleItemId][visibleItemSide]}}</div>
-        </div>
+  <i class="icon fa fa-angle-left" aria-hidden="true" (click)="previous()"></i>
+  <div class="flashcard">
+    <div
+      class="flashcard-inside"
+      *ngIf="set.length > 0 && set[visibleItemId][visibleItemSide]"
+      (click)="flipCard()"
+    >
+      <div class="flashcard-image-container" *ngIf="set[visibleItemId]?.link">
+        <img
+          class="flashcard-image"
+          [src]="set[visibleItemId]?.link"
+          alt="Nie znaleziono obrazka"
+        />
+      </div>
+      <div class="flashcard-text">
+        {{ set[visibleItemId][visibleItemSide] }}
+      </div>
     </div>
-    <i class="icon fa fa-angle-right" aria-hidden="true" (click)="next()"></i>
+  </div>
+  <i class="icon fa fa-angle-right" aria-hidden="true" (click)="next()"></i>
 </div>
-<div class="exit"><button class="btn btn-primary" [routerLink]="['/set-menu', id]">Zakończ</button></div>
+<div class="exit">
+  <button class="btn btn-primary btn-exit" [routerLink]="['/set-menu', id]">
+    Zakończ
+  </button>
+</div>

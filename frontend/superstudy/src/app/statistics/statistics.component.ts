@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FlashcardsService } from '../_services/flashcards.service';
 import { TokenStorageService } from '../_services/token-storage.service';
+import { StudentsService } from '../_services/students.service';
 
 @Component({
   selector: 'app-statistics',
@@ -11,12 +12,15 @@ import { TokenStorageService } from '../_services/token-storage.service';
 export class StatisticsComponent implements OnInit {
   public numOfSets;
   public userPoints;
+  public correctAnswers;
 
   public countSetSubscription: Subscription;
+  public getCorrectSubscription: Subscription;
 
   constructor(
     private flashcardsService: FlashcardsService,
-    private token: TokenStorageService
+    private token: TokenStorageService,
+    private studentsService: StudentsService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +33,15 @@ export class StatisticsComponent implements OnInit {
     this.countSetSubscription = this.flashcardsService
       .getAllSets()
       .subscribe((res) => {
-        this.numOfSets = res.length;
+        this.numOfSets = res.totalItems;
+      });
+  }
+
+  getCorrectAnswers() {
+    this.getCorrectSubscription = this.studentsService
+      .getStatistics()
+      .subscribe((res) => {
+        this.correctAnswers = res;
       });
   }
 }

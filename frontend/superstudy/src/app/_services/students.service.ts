@@ -82,4 +82,8 @@ export class StudentsService {
   deleteTask(id: number): Observable<any> {
     return this.http.delete(`${baseUrl}/api/delete_task/${id}`, httpOptions);
   }
+
+  getStatistics(): Observable<any> {
+    return this.http.get(`${baseUrl}/api/get/statistics`, httpOptions);
+  }
 }
