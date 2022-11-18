@@ -197,24 +197,32 @@ exports.student_classes = (req, res) => {
 exports.statistics = (req, res) => {
     UsersAndsets.findAll({ where: { studentId: req.userId } }).then(userSets => {
         sets = [];
+        if (userSets.length == 0) {
+            return res.status(200).send({ message: "User has no final tests" });
+        }
         for (let i = 0; i < userSets.length; i++) {
             Set.findOne({ where: { id: userSets[i].setId } }).then(set => {
+                if (set.points == 0 || set.points == null){
+                    return res.status(200).send({ message: "set does not have points" });
+                }
                 sets.push(set);
-                console.log(set);
                 if (i == userSets.length - 1) {
                     pointsSum = 0;
                     for (let j = 0; j < sets.length; j++) {
                         pointsSum = pointsSum + sets[j].points;
                     }
-                    console.log(pointsSum);
+                    
                     Users.findOne({ where: { id: req.userId } }).then(user => {
+
+                        if (user.points == null) {
+                            return res.status(200).send({ message: "User does not have points" });
+                        }
                         userPoints = parseFloat(user.points);
                         maxPoints = parseFloat(pointsSum);
-                        console.log(user);
-                        console.log(userPoints);
+                        
                         percent = (userPoints / maxPoints) * 100;
                         
-                        console.log(percent);
+                        
                         return res.send({ percent })
                     })
                 }
