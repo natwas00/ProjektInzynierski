@@ -12,6 +12,7 @@ import { StudentsService } from '../_services/students.service';
 export class StatisticsComponent implements OnInit {
   public numOfSets;
   public userPoints;
+  public user;
   public correctAnswers;
 
   public countSetSubscription: Subscription;
@@ -25,8 +26,8 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.countSets();
-    this.userPoints = this.token.getUser();
-    console.log(this.userPoints);
+    this.user = this.token.getUser();
+    this.userPoints = this.user.points;
   }
 
   countSets() {
@@ -42,6 +43,7 @@ export class StatisticsComponent implements OnInit {
       .getStatistics()
       .subscribe((res) => {
         this.correctAnswers = res;
+        console.log(this.correctAnswers);
       });
   }
 }

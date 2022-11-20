@@ -13,8 +13,13 @@
 .left-section {
   display: flex;
   background-color: aqua;
-  width: 100%;
-  align-content: right;
+  width: 50%;
+  align-content: left;
+}
+
+img {
+  position: relative;
+  left: 0px;
 }
 
 .main-image {
@@ -29,19 +34,21 @@
 }
 
 .right-section {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 50%;
   height: 100%;
   background-color: #009ade;
+  right: 0px;
 }
 
 .login-wrapper {
   width: 80%;
   height: 100%;
   margin-top: 25px;
-  overflow-y:auto;
+  overflow-y: auto;
 }
 
 .login-section {

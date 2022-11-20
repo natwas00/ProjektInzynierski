@@ -53,12 +53,12 @@ export class TestAbcdComponent implements OnInit, OnDestroy {
       );
 
       if (this.test[id].second_side === this.test[id].answer) {
-        return '#3DB86E';
+        return '#3DB86E'; //green
       }
-      return '#EC1845';
+      return '#EC1845'; //red
     }
     if (this.test[id]?.checked && this.test[id].second_side === answer) {
-      return '#3DB86E';
+      return '#3DB86E'; //green
     }
     return '#BDDCFF';
   }

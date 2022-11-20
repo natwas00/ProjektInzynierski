@@ -60,81 +60,67 @@
 <ng-template #loggedOut> Please login. </ng-template> -->
 
 <div class="container">
-  <div class="title">
-    Your profile
-  </div>
+  <div class="title">Twój profil</div>
   <div class="name-section">
     <div class="first-name">
-      <p class="common">Name</p>
-      <p class="data">{{currentUser.first_name}}</p>
+      <p class="common">Imię</p>
+      <p class="data">{{ currentUser.first_name }}</p>
     </div>
 
     <div class="last-name">
-      <p class="common">Last Name</p>
-      <p class="data">{{currentUser.last_name}}</p>
+      <p class="common">Nazwisko</p>
+      <p class="data">{{ currentUser.last_name }}</p>
     </div>
-
   </div>
-  <div class="line">
-  </div>
+  <div class="line"></div>
 
   <div class="mail">
-    <p class="common"> Mail</p>
-    <p class="data">{{currentUser.email}}</p>
+    <p class="common">Email</p>
+    <p class="data">{{ currentUser.email }}</p>
   </div>
 
-  <div class="line">
-  </div>
+  <div class="line"></div>
 
   <div class="login">
     <p class="common">Login</p>
-    <p class="data">{{currentUser.login}}</p>
+    <p class="data">{{ currentUser.login }}</p>
   </div>
 
-  <div class="line">
-  </div>
+  <div class="line"></div>
   <div class="role">
-    <p class="common">Role</p>
-    <p class="data">{{getUserRole()}}</p>
+    <p class="common">Rola</p>
+    <p class="data">{{ getUserRole() }}</p>
   </div>
 
-  <div class="line">
-  </div>
+  <div class="line"></div>
 
   <div class="navigation">
-    <button class="btn btn-primary btn-block" (click)="open(content)">
-      Usuń konto
+    <button class="btn btn-primary" (click)="open(content)">Usuń konto</button>
+    <button class="btn btn-primary" routerLink="/change_pass">
+      Zmień hasło
     </button>
-    <a routerLink="/change_pass">
-      <button class="btn btn-primary btn-block"> Zmień hasło</button>
-    </a>
   </div>
 </div>
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      SuperStudy
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-
-      <span aria-hidden="true">
-        ×
-      </span>
+    <h4 class="modal-title" id="modal-basic-title">SuperStudy</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true"> × </span>
     </button>
   </div>
   <div class="modal-body">
     <form>
       <div class="form-group">
-        <label for="ask">
-          Czy na pewno chcesz usunąć konto?
-        </label>
-
+        <label for="ask"> Czy na pewno chcesz usunąć konto? </label>
       </div>
     </form>
     <div class="template-nav">
-      <button class="btn btn-primary" (click)="deleteUser()">
-        Tak
-      </button>
+      <button class="btn btn-primary" (click)="deleteUser()">Tak</button>
       <button class="btn btn-primary" (click)="modal.dismiss('Cross click')">
         Nie
       </button>
