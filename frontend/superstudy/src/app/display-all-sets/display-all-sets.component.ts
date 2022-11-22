@@ -12,6 +12,13 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   public filteredSets = [];
   public filterOption = '';
   public isFiltered = false;
+  currentIndex = -1;
+  title = '';
+
+  page = 1;
+  count = 0;
+  pageSize = 3;
+  pageSizes = [3, 6, 9];
 
   public getAllSetsSubscription;
 
@@ -21,7 +28,7 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getAllSets();
+    this.retrieveSets();
   }
 
   ngOnDestroy(): void {
@@ -89,5 +96,51 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
     if (option === 'Moje zestawy') {
       this.displayMySets();
     }
+  }
+
+  getRequestParams(searchTitle: string, page: number, pageSize: number): any {
+    // tslint:disable-next-line:prefer-const
+    let params: any = {};
+
+    if (searchTitle) {
+      params[`title`] = searchTitle;
+    }
+
+    if (page) {
+      params[`page`] = page - 1;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
+  }
+
+  retrieveSets(): void {
+    const params = this.getRequestParams(this.title, this.page, this.pageSize);
+
+    this.flashcardsService.getAllSets(params).subscribe(
+      (response) => {
+        const { sets, totalItems } = response;
+        this.allSets = sets;
+        this.count = totalItems;
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  handlePageChange(event: number): void {
+    this.page = event;
+    this.retrieveSets();
+  }
+
+  handlePageSizeChange(event: any): void {
+    this.pageSize = event.target.value;
+    this.page = 1;
+    this.retrieveSets();
   }
 }

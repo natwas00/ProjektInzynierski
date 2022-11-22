@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -93,6 +94,7 @@ import { AddTaskComponent } from './add-task/add-task.component';
     MatSidenavModule,
     MatDividerModule,
     MatDialogModule,
+    NgxPaginationModule,
   ],
 
   providers: [authInterceptorProviders, AuthGuard],

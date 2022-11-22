@@ -27,7 +27,18 @@
   </div>
 
   <div class="set-wrapper">
-    <div *ngFor="let set of allSets" class="card-wrapper">
+    <div
+      *ngFor="
+        let set of allSets
+          | paginate
+            : {
+                itemsPerPage: pageSize,
+                currentPage: page,
+                totalItems: count
+              }
+      "
+      class="card-wrapper"
+    >
       <div class="card">
         <div class="card-buttons">
           <img
@@ -52,4 +63,7 @@
       </div>
     </div>
   </div>
+  <pagination-controls
+    (pageChange)="handlePageChange($event)"
+  ></pagination-controls>
 </div>
