@@ -1,43 +1,70 @@
 .example {
-    font-size: 35px;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
+  font-size: 35px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
 .text-input {
-    font-size: 35px;
-    display: flex;
-    margin-top: 30px;
-    margin-bottom: 40px;
-    border-radius: 10px;
-    border-color: #53A0FA;
+  font-size: 35px;
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  border-color: #53a0fa;
 }
 
 .wrapper {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .answer {
-    margin-left: 50px;
+  margin-left: 50px;
 }
 
 .question {
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .button:disabled,
 button[disabled] {
-    border: 1px solid #999999;
-    background-color: #cccccc;
-    color: #666666;
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.exit {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+  align-items: center;
+  .btn-exit {
+    font-size: 24px;
+    border-radius: 5px;
+    align-items: center;
+  }
+}
+
+.results {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  margin-top: 30px;
+}
+
+.title {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 35px;
 }

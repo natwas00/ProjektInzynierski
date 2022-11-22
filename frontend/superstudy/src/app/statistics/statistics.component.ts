@@ -26,6 +26,7 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.countSets();
+    this.getCorrectAnswers();
     this.user = this.token.getUser();
     this.userPoints = this.user.points;
   }

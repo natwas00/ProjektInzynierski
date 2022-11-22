@@ -51,3 +51,15 @@ button[disabled] {
   color: rgba(0, 0, 0, 0.87);
   margin-bottom: 50px;
 }
+
+.exit {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+  align-items: center;
+  .btn-exit {
+    font-size: 24px;
+    border-radius: 5px;
+    align-items: center;
+  }
+}

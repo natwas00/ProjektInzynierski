@@ -102,6 +102,16 @@
           margin: 15px;
           color: #363fa0;
         }
+
+        .card-buttons {
+          display: flex;
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin-top: 10px;
+          margin-right: 10px;
+          min-height: 25px;
+        }
       }
     }
   }

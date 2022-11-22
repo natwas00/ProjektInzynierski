@@ -95,6 +95,10 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
     this.router.navigate([`set-menu/${id}`]);
   }
 
+  moveToEdit(id) {
+    this.router.navigate([`set/${id}`]);
+  }
+
   getInfo(): void {
     this.getInfoSubscription = this.studentsService
       .getClassInfo(this.classId)
