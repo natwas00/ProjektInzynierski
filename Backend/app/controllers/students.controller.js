@@ -1,9 +1,10 @@
 const db = require("../models");
 const { UsersAndsets } = require("../models");
-const Set = db.set
+const set = db.set
 const ClassList = db.classList;
 const Class = db.class;
 const Users = db.user;
+const fiszki = db.fiszki;
 students = [];
 StudentsFoundArray = []
 noStudentsFoundArray = [];
@@ -195,40 +196,49 @@ exports.student_classes = (req, res) => {
 }
 
 exports.statistics = (req, res) => {
-    UsersAndsets.findAll({ where: { studentId: req.userId } }).then(userSets => {
+    UsersAndsets.findAll({ where: { studentId: req.userId} }).then(userSets => {
         sets = [];
         if (userSets.length == 0) {
             return res.status(200).send({ message: "User has no final tests" });
         }
+        ownSetsPoints = 0;
         for (let i = 0; i < userSets.length; i++) {
-            Set.findOne({ where: { id: userSets[i].setId } }).then(set => {
-                if (set.points == 0 || set.points == null){
-                    return res.status(200).send({ message: "set does not have points" });
+            set.findOne({ where: { id: userSets[i].setId } }).then(set => {
+
+                if (userSets[i].points != null && set.points == 0 || set.points == null) {
+                    fiszki.findAndCountAll({ where: { setId: set.id } }).then(result => {
+                        ownSetsPoints = ownSetsPoints + result.count;
+                    });
                 }
-                sets.push(set);
+                if (userSets[i].points != null) {
+                    sets.push(set);
+                }
                 if (i == userSets.length - 1) {
                     pointsSum = 0;
                     for (let j = 0; j < sets.length; j++) {
                         pointsSum = pointsSum + sets[j].points;
                     }
-                    
+
                     Users.findOne({ where: { id: req.userId } }).then(user => {
 
                         if (user.points == null) {
                             return res.status(200).send({ message: "User does not have points" });
                         }
+                        pointsSum = pointsSum + ownSetsPoints;
                         userPoints = parseFloat(user.points);
                         maxPoints = parseFloat(pointsSum);
                         
                         percent = (userPoints / maxPoints) * 100;
-                        
-                        
+                        console.log(pointsSum);
+                        console.log(userPoints);
+                        console.log(ownSetsPoints);
+                        console.log(percent);
                         return res.send({ percent })
                     })
                 }
             })
         }
-        
+    
     }).catch(err => {
         res.status(500).send({ message: err });
     });
