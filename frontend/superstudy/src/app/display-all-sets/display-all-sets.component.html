@@ -63,7 +63,11 @@
       </div>
     </div>
   </div>
-  <pagination-controls
-    (pageChange)="handlePageChange($event)"
-  ></pagination-controls>
+  <div class="pagination-wrapper">
+    <pagination-controls
+      (pageChange)="handlePageChange($event)"
+      previousLabel="Poprzednia"
+      nextLabel="Następna"
+    ></pagination-controls>
+  </div>
 </div>

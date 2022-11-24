@@ -1,286 +1,144 @@
-<!-- <div class="col-md-6" style="float: right">
-  <div class="card card-container">
-    <form
-      *ngIf="!isSuccessful"
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate
-    >
-      <div class="form-group">
-        <label for="first_name">First Name</label>
-        <input
-          type="text"
-          class="form-control"
-          name="first_name"
-          [(ngModel)]="form.first_name"
-          required
-          minlength="3"
-          maxlength="30"
-          #first_name="ngModel"
-        />
-        <div class="alert-danger" *ngIf="first_name.errors && f.submitted">
-          <div *ngIf="first_name.errors.required">First name is required</div>
-          <div *ngIf="first_name.errors.minlength">
-            First name must be at least 3 characters
-          </div>
-          <div *ngIf="first_name.errors.maxlength">
-            First name must be at most 30 characters
+<div class="container-fluid">
+  <img src="assets/Login/register.svg" />
+  <div class="register-section">
+    <div class="register-wrapper">
+      <h2 class="register-header">ZAREJESTRUJ SIĘ</h2>
+      <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="first-name-input">
+          <label class="input-label" for="first_name">Imię</label>
+          <input
+            type="text"
+            class="form-control"
+            name="first_name"
+            [(ngModel)]="form.first_name"
+            required
+            minlength="3"
+            maxlength="30"
+            #first_name="ngModel"
+          />
+          <div class="alert-danger" *ngIf="first_name.errors && f.submitted">
+            <div *ngIf="first_name.errors.required">Imię jest wymagane</div>
+            <div *ngIf="first_name.errors.minlength">
+              Imię musi mieć minimum 3 znaki
+            </div>
+            <div *ngIf="first_name.errors.maxlength">
+              Imię może mieć maksymalnie 30 znaków
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="last_name">Last Name</label>
-        <input
-          type="text"
-          class="form-control"
-          name="last_name"
-          [(ngModel)]="form.last_name"
-          required
-          minlength="3"
-          maxlength="30"
-          #last_name="ngModel"
-        />
-        <div class="alert-danger" *ngIf="last_name.errors && f.submitted">
-          <div *ngIf="last_name.errors.required">Last name is required</div>
-          <div *ngIf="last_name.errors.minlength">
-            Last name must be at least 3 characters
-          </div>
-          <div *ngIf="last_name.errors.maxlength">
-            Last name must be at most 30 characters
+        <div class="last-name-input">
+          <label class="input-label" for="last_name">Nazwisko</label>
+          <input
+            type="text"
+            class="form-control"
+            name="last_name"
+            [(ngModel)]="form.last_name"
+            required
+            minlength="3"
+            maxlength="30"
+            #last_name="ngModel"
+          />
+          <div class="alert-danger" *ngIf="last_name.errors && f.submitted">
+            <div *ngIf="last_name.errors.required">Nazwisko jest wymagane</div>
+            <div *ngIf="last_name.errors.minlength">
+              Nazwisko musi mieć minimum 3 znaki
+            </div>
+            <div *ngIf="last_name.errors.maxlength">
+              Imię może mieć maksymalnie 30 znaków
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          class="form-control"
-          name="email"
-          [(ngModel)]="form.email"
-          required
-          email
-          #email="ngModel"
-        />
-        <div class="alert-danger" *ngIf="email.errors && f.submitted">
-          <div *ngIf="email.errors.required">Email is required</div>
-          <div *ngIf="email.errors.email">
-            Email must be a valid email address
+        <div class="email-input">
+          <label class="input-label" for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="form.email"
+            required
+            email
+            #email="ngModel"
+          />
+          <div class="alert-danger" *ngIf="email.errors && f.submitted">
+            <div *ngIf="email.errors.required">Email jest wymagany</div>
+            <div *ngIf="email.errors.email">
+              Email musi być poprawnym adresem email
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="login">Login</label>
-        <input
-          type="text"
-          class="form-control"
-          name="login"
-          [(ngModel)]="form.login"
-          required
-          minlength="3"
-          maxlength="20"
-          #login="ngModel"
-        />
-        <div class="alert-danger" *ngIf="login.errors && f.submitted">
-          <div *ngIf="login.errors.required">Login is required</div>
-          <div *ngIf="login.errors.minlength">
-            Login must be at least 3 characters
-          </div>
-          <div *ngIf="login.errors.maxlength">
-            Login must be at most 20 characters
+        <div class="login-input">
+          <label class="input-label" for="login">Login</label>
+          <input
+            type="text"
+            class="form-control"
+            name="login"
+            [(ngModel)]="form.login"
+            required
+            minlength="3"
+            maxlength="20"
+            #login="ngModel"
+          />
+          <div class="alert-danger" *ngIf="login.errors && f.submitted">
+            <div *ngIf="login.errors.required">Login jest wymagany</div>
+            <div *ngIf="login.errors.minlength">
+              Login musi mieć minimum 3 znaki
+            </div>
+            <div *ngIf="login.errors.maxlength">
+              Login może mieć maksymalnie 20 znaków
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          [(ngModel)]="form.password"
-          required
-          minlength="6"
-          #password="ngModel"
-        />
-        <div class="alert-danger" *ngIf="password.errors && f.submitted">
-          <div *ngIf="password.errors.required">Password is required</div>
-          <div *ngIf="password.errors.minlength">
-            Password must be at least 6 characters
+        <div class="password-input">
+          <label class="input-label" for="password">Hasło</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <div class="alert-danger" *ngIf="password.errors && f.submitted">
+            <div *ngIf="password.errors.required">Hasło jest wymagane</div>
+            <div *ngIf="password.errors.minlength">
+              Login musi mieć minimum 6 znaków
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-group">     
-        <span>Rola: </span>
-        <select (change)="selectChangeHandler($event)">
+
+        <div class="select-role">
+          <label class="input-label"> Rola: </label>
+          <select (change)="selectChangeHandler($event)">
             <option value="Uczeń">Uczeń</option>
             <option value="Nauczyciel">Nauczyciel</option>
-        </select>
-       
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary btn-block">Sign Up</button>
-      </div>
-      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-        Signup failed!<br />{{ errorMessage }}
-      </div>
-    </form>
-    <div class="alert alert-success" *ngIf="isSuccessful">
-      Your registration is successful!
-    </div>
-  </div>
-</div> -->
-
-<div class="container-fluid">
-  <div class="left-section">
-    <div class="main-image"></div>
-  </div>
-  <div class="right-section">
-    <div class="register-section">
-      <div class="register-wrapper">
-        <h2 class="register-header">ZAREJESTRUJ SIĘ</h2>
-        <form
-          *ngIf="!isSuccessful"
-          name="form"
-          (ngSubmit)="f.form.valid && onSubmit()"
-          #f="ngForm"
-          novalidate
-        >
-          <div class="first-name-input">
-            <label class="input-label" for="first_name">Imię</label>
-            <input
-              type="text"
-              class="form-control"
-              name="first_name"
-              [(ngModel)]="form.first_name"
-              required
-              minlength="3"
-              maxlength="30"
-              #first_name="ngModel"
-            />
-            <div class="alert-danger" *ngIf="first_name.errors && f.submitted">
-              <div *ngIf="first_name.errors.required">Imię jest wymagane</div>
-              <div *ngIf="first_name.errors.minlength">
-                Imię musi mieć minimum 3 znaki
-              </div>
-              <div *ngIf="first_name.errors.maxlength">
-                Imię może mieć maksymalnie 30 znaków
-              </div>
-            </div>
-          </div>
-
-          <div class="last-name-input">
-            <label class="input-label" for="last_name">Nazwisko</label>
-            <input
-              type="text"
-              class="form-control"
-              name="last_name"
-              [(ngModel)]="form.last_name"
-              required
-              minlength="3"
-              maxlength="30"
-              #last_name="ngModel"
-            />
-            <div class="alert-danger" *ngIf="last_name.errors && f.submitted">
-              <div *ngIf="last_name.errors.required">
-                Nazwisko jest wymagane
-              </div>
-              <div *ngIf="last_name.errors.minlength">
-                Nazwisko musi mieć minimum 3 znaki
-              </div>
-              <div *ngIf="last_name.errors.maxlength">
-                Imię może mieć maksymalnie 30 znaków
-              </div>
-            </div>
-          </div>
-
-          <div class="email-input">
-            <label class="input-label" for="email">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              name="email"
-              [(ngModel)]="form.email"
-              required
-              email
-              #email="ngModel"
-            />
-            <div class="alert-danger" *ngIf="email.errors && f.submitted">
-              <div *ngIf="email.errors.required">Email jest wymagany</div>
-              <div *ngIf="email.errors.email">
-                Email musi być poprawnym adresem email
-              </div>
-            </div>
-          </div>
-
-          <div class="login-input">
-            <label class="input-label" for="login">Login</label>
-            <input
-              type="text"
-              class="form-control"
-              name="login"
-              [(ngModel)]="form.login"
-              required
-              minlength="3"
-              maxlength="20"
-              #login="ngModel"
-            />
-            <div class="alert-danger" *ngIf="login.errors && f.submitted">
-              <div *ngIf="login.errors.required">Login jest wymagany</div>
-              <div *ngIf="login.errors.minlength">
-                Login musi mieć minimum 3 znaki
-              </div>
-              <div *ngIf="login.errors.maxlength">
-                Login może mieć maksymalnie 20 znaków
-              </div>
-            </div>
-          </div>
-
-          <div class="password-input">
-            <label class="input-label" for="password">Hasło</label>
-            <input
-              type="password"
-              class="form-control"
-              name="password"
-              [(ngModel)]="form.password"
-              required
-              minlength="6"
-              #password="ngModel"
-            />
-            <div class="alert-danger" *ngIf="password.errors && f.submitted">
-              <div *ngIf="password.errors.required">Hasło jest wymagane</div>
-              <div *ngIf="password.errors.minlength">
-                Login musi mieć minimum 6 znaków
-              </div>
-            </div>
-          </div>
-
-          <div class="select-role">
-            <label class="input-label"> Rola: </label>
-            <select (change)="selectChangeHandler($event)">
-              <option value="Uczeń">Uczeń</option>
-              <option value="Nauczyciel">Nauczyciel</option>
-            </select>
-          </div>
-
-          <button class="btn btn-primary btn-block">Zarejestruj się</button>
-          <a>Masz już konto? </a>
-          <a routerLink="/login">Zaloguj się</a>
-          <div class="form-group">
-            <div
-              class="alert alert-warning"
-              *ngIf="f.submitted && isSignUpFailed"
-            >
-              Rejestracja nie powiodła się!<br />{{ errorMessage }}
-            </div>
-          </div>
-        </form>
-        <div class="alert alert-success" *ngIf="isSuccessful">
-          Twoja rejestracja powiodła się!
+          </select>
         </div>
+
+        <button class="btn btn-primary btn-block">Zarejestruj się</button>
+        <a>Masz już konto? </a>
+        <a routerLink="/login">Zaloguj się</a>
+        <div class="form-group">
+          <div
+            class="alert alert-warning"
+            *ngIf="f.submitted && isSignUpFailed"
+          >
+            Rejestracja nie powiodła się!<br />{{ errorMessage }}
+          </div>
+        </div>
+      </form>
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Twoja rejestracja powiodła się!
       </div>
     </div>
   </div>

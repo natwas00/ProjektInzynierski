@@ -1,3 +1,7 @@
+<div class="back-to-set" [routerLink]="['/set-menu', id]">
+  <mat-icon>keyboard_arrow_left</mat-icon>
+  <span class="back-text">Powrót do zestawu</span>
+</div>
 <div class="container-fluid">
   <div class="title">Test ABCD</div>
   <div *ngFor="let item of test; let i = index" class="single-question">
@@ -14,10 +18,5 @@
         {{ answer }}
       </button>
     </div>
-  </div>
-  <div class="exit">
-    <button class="btn btn-primary btn-exit" [routerLink]="['/set-menu', id]">
-      Zakończ
-    </button>
   </div>
 </div>

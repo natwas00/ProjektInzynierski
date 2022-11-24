@@ -43,7 +43,7 @@ export class StatisticsComponent implements OnInit {
     this.getCorrectSubscription = this.studentsService
       .getStatistics()
       .subscribe((res) => {
-        this.correctAnswers = res;
+        this.correctAnswers = res.percent;
         console.log(this.correctAnswers);
       });
   }

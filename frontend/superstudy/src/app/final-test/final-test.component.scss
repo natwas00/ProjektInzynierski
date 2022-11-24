@@ -68,3 +68,10 @@ button[disabled] {
   color: rgba(0, 0, 0, 0.87);
   margin-bottom: 35px;
 }
+.back-to-set {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}

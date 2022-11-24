@@ -8,6 +8,7 @@
   margin-top: 0px;
   padding: 0px;
   height: 100%;
+  align-items: center;
 }
 
 .login-wrapper {
@@ -53,4 +54,8 @@
 
 .btn {
   margin-top: 20px;
+}
+
+img {
+  max-width: 50%;
 }

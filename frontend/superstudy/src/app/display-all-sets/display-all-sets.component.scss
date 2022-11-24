@@ -142,4 +142,10 @@
     padding: 15px;
     cursor: pointer;
   }
+
+  .pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
