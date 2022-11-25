@@ -205,31 +205,24 @@ exports.statistics = (req, res) => {
         for (let i = 0; i < userSets.length; i++) {
             set.findOne({ where: { id: userSets[i].setId } }).then(set => {
 
-                if (userSets[i].points != null && set.points == 0 || set.points == null) {
+                if (userSets[i].points != null) {
                     fiszki.findAndCountAll({ where: { setId: set.id } }).then(result => {
                         ownSetsPoints = ownSetsPoints + result.count;
                     });
                 }
-                if (userSets[i].points != null) {
-                    sets.push(set);
-                }
                 if (i == userSets.length - 1) {
-                    pointsSum = 0;
-                    for (let j = 0; j < sets.length; j++) {
-                        pointsSum = pointsSum + sets[j].points;
-                    }
 
                     Users.findOne({ where: { id: req.userId } }).then(user => {
 
                         if (user.points == null) {
                             return res.status(200).send({ message: "User does not have points" });
                         }
-                        pointsSum = pointsSum + ownSetsPoints;
+                        
                         userPoints = parseFloat(user.points);
-                        maxPoints = parseFloat(pointsSum);
+                        maxPoints = parseFloat(ownSetsPoints);
                         
                         percent = (userPoints / maxPoints) * 100;
-                        console.log(pointsSum);
+                        
                         console.log(userPoints);
                         console.log(ownSetsPoints);
                         console.log(percent);
