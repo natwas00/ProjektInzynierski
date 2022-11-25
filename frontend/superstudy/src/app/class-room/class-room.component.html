@@ -12,13 +12,19 @@
   </fieldset>
 
   <div class="set-wrapper">
-    <div
-      *ngFor="let set of allSets"
-      class="card-wrapper"
-      (click)="navigateToSet(set?.id)"
-    >
+    <div *ngFor="let set of allSets" class="card-wrapper">
       <div class="card">
-        <h3 class="card-title">{{ set.name }}</h3>
+        <div class="card-buttons" *ngIf="isTeacherRole">
+          <button mat-button [matMenuTriggerFor]="menu">
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="moveToEdit(set.id)">Edytuj</button>
+          </mat-menu>
+        </div>
+        <h3 class="card-title" (click)="navigateToSet(set?.id)">
+          {{ set.name }}
+        </h3>
       </div>
     </div>
   </div>

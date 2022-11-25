@@ -92,6 +92,10 @@ export class ClassRoomComponent implements OnInit, OnDestroy {
   }
 
   navigateToSet(id) {
+    this.router.navigate([`set-menu/${id}`]);
+  }
+
+  moveToEdit(id) {
     this.router.navigate([`set/${id}`]);
   }
 

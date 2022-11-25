@@ -1,10 +1,28 @@
+<div class="back-to-set" [routerLink]="['/set-menu', id]">
+  <mat-icon>keyboard_arrow_left</mat-icon>
+  <span class="back-text">Powrót do zestawu</span>
+</div>
 <div class="wrapper">
-    <div *ngFor="let item of test; let i=index" class="example">
-        <div class="question" [title]="item.first_side">{{item.first_side}}</div>
-        <div class="answer" [style.pointer-events]="item?.checked ? 'none' : ''">
-            <input class="text-input" type="text" [style.background-color]="changeColor(i)" name="answer"
-                [(ngModel)]="item.answer" [readonly]="item.checked" (keyup.enter)="isCorrect(i)">
-            <button (click)="isCorrect(i)" [disabled]="item.checked">Prześlij</button>
-        </div>
+  <div class="title">Pisanie</div>
+  <div *ngFor="let item of test; let i = index" class="example">
+    <div class="question" [title]="item.first_side">{{ item.first_side }}</div>
+    <div class="answer" [style.pointer-events]="item?.checked ? 'none' : ''">
+      <input
+        class="text-input"
+        type="text"
+        [style.background-color]="changeColor(i)"
+        name="answer"
+        [(ngModel)]="item.answer"
+        [readonly]="item.checked"
+        (keyup.enter)="isCorrect(i)"
+      />
+      <button
+        class="btn btn-primary"
+        (click)="isCorrect(i)"
+        [disabled]="item.checked"
+      >
+        Prześlij
+      </button>
     </div>
+  </div>
 </div>

@@ -1,37 +1,51 @@
-.buttons{
-    display: flex;
-    justify-content: center;
+.buttons {
+  display: flex;
+  justify-content: center;
 }
 
 .true-false-button {
-    width: 418px;
-    height: 120px;
-    background: #BDDCFF;
-    border-radius: 15px;
-    border: 0px;
-    margin: 20px;
-    font-size: 30px;
+  width: 418px;
+  height: 120px;
+  background: #bddcff;
+  border-radius: 15px;
+  border: 0px;
+  margin: 20px;
+  font-size: 30px;
 }
 
-.true-false-text{
+.true-false-text {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30px;
+  div {
+    width: 33%;
+  }
+  .first-side {
+    text-align: right;
+  }
+  .second-side {
+    text-align: left;
+  }
+  .arrow {
     display: flex;
-    width: 100%;
     align-items: center;
-    justify-content: space-between;
-    font-size: 30px;
-    div{
-        width: 33%;
-       
-    }
-    .first-side{
-        text-align: right;
-    }
-    .second-side{
-        text-align: left;
-    }
-    .arrow{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    justify-content: center;
+  }
+}
+.title {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 50px;
+}
+
+.back-to-set {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }

@@ -8,11 +8,10 @@ const httpOptions = {
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FlashcardsService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   addSet(data: any): Observable<any> {
     return this.http.post(`${baseUrl}/api/add_set`, data, httpOptions);
@@ -20,13 +19,16 @@ export class FlashcardsService {
 
   addSetCSV(data: any): Observable<any> {
     const httpOptionsUpload = {
-      headers: new HttpHeaders({ 'Accept': 'application/json' }),
+      headers: new HttpHeaders({ Accept: 'application/json' }),
     };
     return this.http.post(`${baseUrl}/api/csv/upload`, data, httpOptionsUpload);
   }
 
-  getAllSets(): Observable<any> {
-    return this.http.get(`${baseUrl}/api/sets`, httpOptions);
+  getAllSets(params?: any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/sets`, {
+      ...httpOptions,
+      params,
+    });
   }
 
   getSet(id: number): Observable<any> {
@@ -38,7 +40,11 @@ export class FlashcardsService {
   }
 
   editFlashcard(requestBody: any, id: number): Observable<any> {
-    return this.http.put(`${baseUrl}/api/editFlashcard/${id}`, requestBody, httpOptions);
+    return this.http.put(
+      `${baseUrl}/api/editFlashcard/${id}`,
+      requestBody,
+      httpOptions
+    );
   }
 
   deleteFlashcard(id: number): Observable<any> {
@@ -51,9 +57,13 @@ export class FlashcardsService {
 
   sendCSV(data: any, id: number): Observable<any> {
     const httpOptionsUpload = {
-      headers: new HttpHeaders({ 'Accept': 'application/json' }),
+      headers: new HttpHeaders({ Accept: 'application/json' }),
     };
-    return this.http.post(`${baseUrl}/csv/upload/${id}`, data, httpOptionsUpload);
+    return this.http.post(
+      `${baseUrl}/csv/upload/${id}`,
+      data,
+      httpOptionsUpload
+    );
   }
 
   getSetName(id: number): Observable<any> {
@@ -62,7 +72,7 @@ export class FlashcardsService {
 
   addImage(data: any, id: number): Observable<any> {
     const httpOptionsUpload = {
-      headers: new HttpHeaders({ 'Accept': 'application/json' }),
+      headers: new HttpHeaders({ Accept: 'application/json' }),
     };
     return this.http.post(`${baseUrl}/upload/${id}`, data, httpOptionsUpload);
   }
@@ -84,6 +94,10 @@ export class FlashcardsService {
   }
 
   sendFinalTestAnswer(id: number, data: any): Observable<any> {
-    return this.http.post(`${baseUrl}/api/multiple-choice/answers/${id}`, data, httpOptions);
+    return this.http.post(
+      `${baseUrl}/api/multiple-choice/answers/${id}`,
+      data,
+      httpOptions
+    );
   }
 }

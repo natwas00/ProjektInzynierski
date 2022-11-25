@@ -1,69 +1,61 @@
 <div class="container-fluid">
-  <div class="left-section">
-    <div class="main-image"></div>
-  </div>
-  <div class="right-section">
-    <div class="login-section">
-      <div class="login-wrapper">
-        <a>Nie masz konta? </a>
-        <a routerLink="/register">Zarejestruj się!</a>
-        <h2 class="login-header">ZALOGUJ SIĘ</h2>
-        <form
-          *ngIf="!isLoggedIn"
-          name="form"
-          (ngSubmit)="f.form.valid && onSubmit()"
-          #f="ngForm"
-          novalidate
-        >
-          <div class="login-input">
-            <label class="input-label" for="login">Login</label>
-            <input
-              type="text"
-              class="form-control"
-              name="login"
-              [(ngModel)]="form.login"
-              required
-              #login="ngModel"
-              (click)="resetOnSubmit()"
-            />
-            <div class="alert alert-danger" role="alert" *ngIf="login.errors">
-              Login jest wymagany!
-            </div>
+  <img src="assets/Login/login3.svg" />
+  <div class="login-section">
+    <div class="login-wrapper">
+      <a>Nie masz konta? </a>
+      <a routerLink="/register">Zarejestruj się!</a>
+      <h2 class="login-header">ZALOGUJ SIĘ</h2>
+      <form
+        *ngIf="!isLoggedIn"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="login-input">
+          <label class="input-label" for="login">Login</label>
+          <input
+            type="text"
+            class="form-control"
+            name="login"
+            [(ngModel)]="form.login"
+            required
+            #login="ngModel"
+            (click)="resetOnSubmit()"
+          />
+          <div class="alert alert-danger" role="alert" *ngIf="login.errors">
+            Login jest wymagany!
           </div>
-          <div class="password-input">
-            <label class="input-label" for="password">Hasło</label>
-            <input
-              type="password"
-              class="form-control"
-              name="password"
-              [(ngModel)]="form.password"
-              required
-              #password="ngModel"
-              (click)="resetOnSubmit()"
-            />
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="password.errors"
-            >
-              <div *ngIf="password.errors.required">Hasło jest wymagane!</div>
-              <div *ngIf="password.errors.minlength">
-                Hasło musi mieć minimum 6 znaków
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-primary btn-block">Zaloguj się</button>
-          <div
-            class="alert alert-danger"
-            role="alert"
-            *ngIf="submitPressed && isLoginFailed"
-          >
-            {{ getError() }}
-          </div>
-        </form>
-        <div class="alert alert-success" *ngIf="isLoggedIn">
-          Zalogowany jako {{ roles }}.
         </div>
+        <div class="password-input">
+          <label class="input-label" for="password">Hasło</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            #password="ngModel"
+            (click)="resetOnSubmit()"
+          />
+          <div class="alert alert-danger" role="alert" *ngIf="password.errors">
+            <div *ngIf="password.errors.required">Hasło jest wymagane!</div>
+            <div *ngIf="password.errors.minlength">
+              Hasło musi mieć minimum 6 znaków
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block">Zaloguj się</button>
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="submitPressed && isLoginFailed"
+        >
+          {{ getError() }}
+        </div>
+      </form>
+      <div class="alert alert-success" *ngIf="isLoggedIn">
+        Zalogowany jako {{ roles }}.
       </div>
     </div>
   </div>

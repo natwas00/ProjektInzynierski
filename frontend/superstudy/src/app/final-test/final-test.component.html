@@ -1,14 +1,33 @@
+<div class="back-to-set" [routerLink]="['/set-menu', id]">
+  <mat-icon>keyboard_arrow_left</mat-icon>
+  <span class="back-text">Powrót do zestawu</span>
+</div>
 <div class="wrapper">
-    <div *ngFor="let item of test; let i=index" class="example">
-        <div class="question" [title]="item.first_side">{{item.first_side}}</div>
-        <div class="answer" [style.pointer-events]="item?.checked ? 'none' : ''">
-            <input class="text-input" type="text" [style.background-color]="changeColor(i)" name="answer"
-                [(ngModel)]="item.answer" [readonly]="finished">
-        </div>
+  <div class="title">Test końcowy</div>
+  <div *ngFor="let item of test; let i = index" class="example">
+    <div class="question" [title]="item.first_side">{{ item.first_side }}</div>
+    <div class="answer" [style.pointer-events]="item?.checked ? 'none' : ''">
+      <input
+        class="text-input"
+        type="text"
+        [style.background-color]="changeColor(i)"
+        name="answer"
+        [(ngModel)]="item.answer"
+        [readonly]="finished"
+      />
     </div>
-    <button (click)="sendAnswers()" [disabled]="finished">Prześlij</button>
-    <div *ngIf="result">
-        <div>Wynik: {{result?.message}}</div>
-        <div>Rekord: {{result?.record ? result?.record: result?.message}}</div>
-    </div>
+  </div>
+  <div class="results" *ngIf="result">
+    <div>Wynik: {{ result?.message }}</div>
+    <div>Rekord: {{ result?.record ? result?.record : result?.message }}</div>
+  </div>
+  <div class="exit">
+    <button
+      class="btn btn-primary btn-exit"
+      (click)="sendAnswers()"
+      [disabled]="finished"
+    >
+      Prześlij
+    </button>
+  </div>
 </div>

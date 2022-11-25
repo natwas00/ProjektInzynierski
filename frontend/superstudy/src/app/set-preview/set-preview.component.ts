@@ -8,7 +8,7 @@ import { FlashcardsService } from '../_services/flashcards.service';
 @Component({
   selector: 'app-set-preview',
   templateUrl: './set-preview.component.html',
-  styleUrls: ['./set-preview.component.scss']
+  styleUrls: ['./set-preview.component.scss'],
 })
 export class SetPreviewComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown', ['$event'])
@@ -21,14 +21,17 @@ export class SetPreviewComponent implements OnInit, OnDestroy {
     } else if (event.key === 'Enter') {
       this.flipCard();
     }
-  };
+  }
   public id;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   public set = [];
   public visibleItemId = 0;
   public visibleItemSide = Sides.firstSide;
 
-  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) { }
+  constructor(
+    private flashcardsService: FlashcardsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -41,14 +44,20 @@ export class SetPreviewComponent implements OnInit, OnDestroy {
   }
 
   public getSet(): void {
-    this.flashcardsService.getSet(this.id).pipe(takeUntil(this.destroyed$)).subscribe((setData) => {
-      this.set = setData;
-      console.log(this.set);
-    });
+    this.flashcardsService
+      .getSet(this.id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((setData) => {
+        this.set = setData;
+        console.log(this.set);
+      });
   }
 
   public flipCard(): void {
-    this.visibleItemSide = this.visibleItemSide === Sides.firstSide ? Sides.secondSide : Sides.firstSide;
+    this.visibleItemSide =
+      this.visibleItemSide === Sides.firstSide
+        ? Sides.secondSide
+        : Sides.firstSide;
   }
 
   public next(): void {
@@ -58,6 +67,6 @@ export class SetPreviewComponent implements OnInit, OnDestroy {
 
   public previous(): void {
     let id = this.visibleItemId - 1;
-    this.visibleItemId = id < 0 ? this.set.length -1 : id;
+    this.visibleItemId = id < 0 ? this.set.length - 1 : id;
   }
 }

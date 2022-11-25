@@ -1,54 +1,84 @@
 .flashcard-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .icon {
-    font-size: 50px;
-    cursor: pointer;
+  font-size: 50px;
+  cursor: pointer;
+  margin-left: 70px;
+  margin-right: 70px;
 }
 
 .flashcard-image {
-    max-height: 300px;
+  max-height: 300px;
 }
 
 .flashcard {
-    width: 903px;
-    height: 547px;
-    background: #BDDCFF;
-    border-radius: 15px;
-    font-size: 50px;
-    cursor: pointer;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  width: 803px;
+  height: 447px;
+  background: #bddcff;
+  border-radius: 15px;
+  font-size: 50px;
+  margin-bottom: 40px;
+  margin-top: 30px;
+  cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 
-    div {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .flashcard-inside{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        
-    }
+  .flashcard-inside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .flashcard-image-container{
-        max-width: 50%;
-    }
+  .flashcard-image-container {
+    max-width: 50%;
+  }
 
-    .flashcard-text{
-        max-width: 50%;
-    }
+  .flashcard-text {
+    max-width: 50%;
+  }
+}
+.exit {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+  align-items: center;
+  .btn-exit {
+    font-size: 24px;
+    border-radius: 5px;
+    align-items: center;
+  }
+}
+
+.title {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 36px;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 35px;
+}
+
+.back-to-set {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }

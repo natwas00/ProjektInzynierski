@@ -1,36 +1,108 @@
 <!-- <div class="edit"><button class="btn btn-primary" [routerLink]="['/set', id]">Edytuj zestaw</button></div> -->
-<div class="name center">
-  {{ setName }}
+<div class="sets-container">
+  <div class="name center">
+    {{ setName }}
+  </div>
+  <div class="small-text">Wybierz metodę nauki</div>
+
+  <div class="methods-wrapper">
+    <div class="card">
+      <img src="assets/Methods/metody1.svg" />
+      <button
+        class="btn btn-primary method-btn"
+        [routerLink]="['/set-preview', id]"
+      >
+        Przeglądanie
+      </button>
+    </div>
+    <div class="card">
+      <img src="assets/Methods/metody3.svg" />
+      <button
+        class="btn btn-primary method-btn"
+        [routerLink]="['/test-true-false', id]"
+      >
+        Prawda/Fałsz
+      </button>
+    </div>
+    <div class="card">
+      <img src="assets/Methods/metody7.svg" />
+      <button
+        class="btn btn-primary method-btn"
+        [routerLink]="['/test-abcd', id]"
+      >
+        Test ABCD
+      </button>
+    </div>
+    <div class="card">
+      <img src="assets/Methods/metody4.svg" />
+      <button
+        class="btn btn-primary method-btn"
+        [routerLink]="['/test-writing', id]"
+      >
+        Pisanie
+      </button>
+    </div>
+    <div class="card">
+      <img src="assets/Methods/metody5.svg" />
+      <button
+        class="btn btn-primary method-btn"
+        [routerLink]="['/final-test', id]"
+      >
+        Test końcowy
+      </button>
+    </div>
+  </div>
 </div>
-<div class="center">Wybierz formę nauki:</div>
+
+<!-- <div class="center">Wybierz formę nauki:</div>
 <div class="center">
   <div class="option center">
-    <button class="btn btn-primary" [routerLink]="['/set-preview', id]">
+    <img src="assets/Methods/metody1.svg" />
+    <button
+      class="btn btn-primary method-btn"
+      [routerLink]="['/set-preview', id]"
+    >
       Przeglądanie
     </button>
   </div>
 
   <div class="option center">
-    <button class="btn btn-primary" [routerLink]="['/test-true-false', id]">
-      Prawda/fałsz
+    <img src="assets/Methods/metody3.svg" />
+    <button
+      class="btn btn-primary method-btn"
+      [routerLink]="['/test-true-false', id]"
+    >
+      Prawda/Fałsz
     </button>
   </div>
 
   <div class="option center">
-    <button class="btn btn-primary" [routerLink]="['/test-abcd', id]">
-      Test abcd
+    <img src="assets/Methods/metody2.svg" />
+    <button
+      class="btn btn-primary method-btn"
+      [routerLink]="['/test-abcd', id]"
+    >
+      Test ABCD
     </button>
   </div>
 
   <div class="option center">
-    <button class="btn btn-primary" [routerLink]="['/test-writing', id]">
+    <img src="assets/Methods/metody4.svg" />
+    <button
+      class="btn btn-primary method-btn"
+      [routerLink]="['/test-writing', id]"
+    >
       Pisanie
     </button>
   </div>
 
   <div class="option center">
-    <button class="btn btn-primary" [routerLink]="['/final-test', id]">
+    <img src="assets/Methods/metody5.svg" />
+    <button
+      class="btn btn-primary method-btn"
+      [routerLink]="['/final-test', id]"
+    >
       Test końcowy
     </button>
   </div>
-</div>
+</div> -->
