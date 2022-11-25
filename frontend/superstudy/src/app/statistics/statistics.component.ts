@@ -44,6 +44,7 @@ export class StatisticsComponent implements OnInit {
       .getStatistics()
       .subscribe((res) => {
         this.correctAnswers = res.percent;
+        this.correctAnswers = Math.ceil(this.correctAnswers);
         console.log(this.correctAnswers);
       });
   }

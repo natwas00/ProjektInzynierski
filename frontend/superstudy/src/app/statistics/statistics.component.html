@@ -4,7 +4,7 @@
   <table class="table">
     <tr>
       <td>Procent poprawnych odpowiedzi</td>
-      <td>{{ correctAnswers }}</td>
+      <td>{{ correctAnswers }} %</td>
     </tr>
   </table>
 
@@ -18,7 +18,10 @@
   <table class="table">
     <tr>
       <td>Liczba zdobytych punktów</td>
-      <td>{{ userPoints }}</td>
+      <td>
+        {{ userPoints }}
+        <img class="item-star" src="assets/ClassInfo/Star.png" />
+      </td>
     </tr>
   </table>
 </div>

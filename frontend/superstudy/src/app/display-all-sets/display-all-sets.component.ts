@@ -17,7 +17,7 @@ export class DisplayAllSetsComponent implements OnInit, OnDestroy {
 
   page = 1;
   count = 0;
-  pageSize = 3;
+  pageSize = 6;
   pageSizes = [3, 6, 9];
 
   public getAllSetsSubscription;
