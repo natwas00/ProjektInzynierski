@@ -4,11 +4,26 @@ import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Sides } from '../_helpers/enums';
 import { FlashcardsService } from '../_services/flashcards.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-set-preview',
   templateUrl: './set-preview.component.html',
   styleUrls: ['./set-preview.component.scss'],
+  // animations: [
+  //   trigger('myTrigger', [
+  //     state('void', style({ opacity: 0 })),
+  //     state('*', style({ opacity: 1 })),
+  //     transition('void => *', [animate('0.5s 0.5s ease-in')]),
+  //     transition('* => void', [animate('0.5s ease-in')]),
+  //   ]),
+  // ],
 })
 export class SetPreviewComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown', ['$event'])

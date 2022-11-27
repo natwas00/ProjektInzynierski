@@ -20,9 +20,12 @@ export class RegisterComponent implements OnInit {
     login: null,
     password: null,
   };
+  submitPressed = false;
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  showPassword: boolean;
+  hide: boolean = true;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -30,6 +33,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     const { first_name, last_name, email, login, password } = this.form;
+    this.submitPressed = true;
 
     var roles;
     if (this.selectedRole == 'Nauczyciel') {

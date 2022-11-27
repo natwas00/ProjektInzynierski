@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   user: any;
+  showPassword: boolean;
+  hide: boolean = true;
 
   constructor(
     private appComponent: AppComponent,
