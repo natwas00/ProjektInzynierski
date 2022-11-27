@@ -1,4 +1,11 @@
 <div class="container-fluid">
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+  </head>
   <img src="assets/Login/register.svg" />
   <div class="register-section">
     <div class="register-wrapper">
@@ -51,7 +58,7 @@
               Nazwisko musi mieć minimum 3 znaki
             </div>
             <div *ngIf="last_name.errors.maxlength">
-              Imię może mieć maksymalnie 30 znaków
+              Nazwisko może mieć maksymalnie 30 znaków
             </div>
           </div>
         </div>
@@ -101,7 +108,7 @@
         <div class="password-input">
           <label class="input-label" for="password">Hasło</label>
           <input
-            type="password"
+            [type]="showPassword ? 'text' : 'password'"
             class="form-control"
             name="password"
             [(ngModel)]="form.password"
@@ -109,10 +116,24 @@
             minlength="6"
             #password="ngModel"
           />
+          <div>
+            <i
+              alt="show"
+              class="far fa-eye eye-show"
+              (click)="showPassword = !showPassword"
+              [class.hide]="showPassword"
+            ></i>
+            <i
+              alt="hide"
+              class="far fa-eye-slash eye-hide"
+              (click)="showPassword = !showPassword"
+              [class.hide]="!showPassword"
+            ></i>
+          </div>
           <div class="alert-danger" *ngIf="password.errors && f.submitted">
             <div *ngIf="password.errors.required">Hasło jest wymagane</div>
             <div *ngIf="password.errors.minlength">
-              Login musi mieć minimum 6 znaków
+              Hasło musi mieć minimum 6 znaków
             </div>
           </div>
         </div>
