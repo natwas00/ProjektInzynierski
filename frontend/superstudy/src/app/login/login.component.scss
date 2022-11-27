@@ -63,3 +63,19 @@ img {
 .hide {
   display: none;
 }
+
+.input-group {
+  display: flex;
+  align-items: center;
+
+  .eye-icon {
+    margin-left: 10px;
+    padding: 10px;
+    //border: 1px solid black;
+    cursor: pointer;
+    //height: 100%;
+  }
+  .form-control {
+    width: 50%;
+  }
+}
