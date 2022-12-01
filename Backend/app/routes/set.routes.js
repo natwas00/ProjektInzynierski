@@ -34,7 +34,8 @@ module.exports = function(app) {
       [authJwt.verifyToken], upload.single("file"),set_controller.uploadCsvToDatabase)
       app.put("/api/editFlashcard/:id",
       [authJwt.verifyToken,verifySet.check_flashcard],set_controller.editFlashcard)
-      
+      app.get("/api/filter",
+      [authJwt.verifyToken], set_controller.filter)
 
       app.get("/api/csv/download/:id",
       [authJwt.verifyToken], set_controller.downloadCsv);
