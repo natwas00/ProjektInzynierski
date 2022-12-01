@@ -453,11 +453,76 @@ exports.findOneSet = (req, res) => {
       const totalPages = Math.ceil(totalItems / limit);
     
       return { totalItems, sets, totalPages, currentPage };
-    };
+};
+const getPagingData1 = (count,rows, page, limit) => {
+   // const { count: totalItems, rows: sets } = data;
+    const totalItems = count;
+    const sets = rows;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, sets, totalPages, currentPage };
+};
     const getPagination = (page, size) => {
       const limit = size ? +size : 3;
       const offset = page ? page * limit : 0;
     
       return { limit, offset };
     };
-    
+exports.filter = (req, res) => {
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+   
+    UsersAndsets.findAll({ attributes: ['setId'], where: { studentId: req.userId } }).then(data => {
+        console.log(data);
+        console.log("dudgft")
+        array = []
+        for (let i = 0; i < data.length; i++) {
+            console.log(data[i].dataValues.setId)
+            console.log("-------------")
+            array.push(data[i].dataValues.setId)
+
+        }
+        console.log(array)
+        sets = [];
+        Set.findAll({ where: { id: array } }).then(ourSets => {
+            console.log(ourSets)
+            for (let m = 0; m < ourSets.length; m++) {
+                console.log(ourSets[m].points)
+                if (req.body.filter == 1) { //SuperStudy sets
+                    if (ourSets[m].points != 0) {
+                        console.log("------------")
+                        sets.push(ourSets[m])
+
+                    }
+                }
+                if (req.body.filter == 2) {
+                    if (ourSets[m].classId != null) { //Class sets
+                        console.log("------------")
+                        sets.push(ourSets[m])
+
+                    }
+                }
+                if (req.body.filter == 3) {
+                    if (ourSets[m].points == 0 && ourSets[m].classId == null) { //Own user sets
+                        console.log("------------")
+                        sets.push(ourSets[m])
+
+                    }
+                }
+                if (m == ourSets.length - 1) {
+                    console.log(sets);
+                    const response = getPagingData1(sets.length,sets, page, limit);
+                    return(res.send(response))
+                }
+            }
+           
+        })
+       
+            .catch(err => {
+                res.status(500).send({ message: err });
+            });
+
+    })
+
+}
