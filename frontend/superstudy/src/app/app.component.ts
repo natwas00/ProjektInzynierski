@@ -218,7 +218,7 @@ export class AppComponent implements OnInit, OnDestroy {
       })?.length;
       this.newNotificationsCounter = newNotificationsCount ? newNotificationsCount : null;
       console.log(this.newNotificationsCounter);
-      this.notificationsTimerSub = timer(10000).pipe(takeUntil(this.destroyed$))
+      this.notificationsTimerSub = timer(60000).pipe(takeUntil(this.destroyed$))
         .subscribe(t => this.getNotifications());
     });
   }
