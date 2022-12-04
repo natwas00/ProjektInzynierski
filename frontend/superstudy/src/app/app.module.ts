@@ -27,6 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CreateSetComponent } from './create-set/create-set.component';
@@ -94,6 +95,7 @@ import { AddTaskComponent } from './add-task/add-task.component';
     MatSidenavModule,
     MatDividerModule,
     MatDialogModule,
+    MatBadgeModule,
     NgxPaginationModule,
   ],
 

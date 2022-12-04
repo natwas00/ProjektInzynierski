@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 import { FlashcardsService } from './_services/flashcards.service';
 import { StudentsService } from './_services/students.service';
@@ -7,16 +7,19 @@ import { Router } from '@angular/router';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ViewChild } from '@angular/core';
+import { ReplaySubject, Subscription, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: MatDrawer;
   title = 'superstudy';
   public roles: string[] = [];
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
@@ -35,6 +38,9 @@ export class AppComponent implements OnInit {
   classId;
   isTeacher = false;
   setData = {};
+  public notifications = [];
+  public notificationsTimerSub: Subscription;
+  public newNotificationsCounter = null;
   constructor(
     private tokenStorageService: TokenStorageService,
     private modalService: NgbModal,
@@ -54,6 +60,11 @@ export class AppComponent implements OnInit {
     this.loggedIn();
   }
 
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
+
   loggedIn(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     console.log(this.tokenStorageService.getUser());
@@ -71,6 +82,7 @@ export class AppComponent implements OnInit {
       } else {
         this.isTeacher = false;
       }
+      this.getNotifications();
     }
   }
 
@@ -195,5 +207,41 @@ export class AppComponent implements OnInit {
 
   closeDrawer() {
     this.drawer.close();
+  }
+
+  public getNotifications(): void {
+    this.flashcardsService.getNotifications().pipe(takeUntil(this.destroyed$)).subscribe((res) => {
+      console.log(res);
+      this.notifications = res;
+      let newNotificationsCount = this.notifications.filter(notification => {
+        return notification.if_read === "no";
+      })?.length;
+      this.newNotificationsCounter = newNotificationsCount ? newNotificationsCount : null;
+      console.log(this.newNotificationsCounter);
+      this.notificationsTimerSub = timer(10000).pipe(takeUntil(this.destroyed$))
+        .subscribe(t => this.getNotifications());
+    });
+  }
+
+  public readNotification(notification: any): void {
+    if (notification.if_read !== "no") {
+      return;
+    }
+    this.flashcardsService.readNotification(notification.id).pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.notificationsTimerSub.unsubscribe();
+      this.getNotifications();
+    });
+  }
+
+  public deleteNotification(id: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.flashcardsService.deleteNotification(id).pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.notificationsTimerSub.unsubscribe();
+      this.getNotifications();
+    });
+  }
+
+  public mapNotificationFontWeight(notification: any): string {
+    return notification.if_read === 'no' ? 'bold' : 'normal';
   }
 }

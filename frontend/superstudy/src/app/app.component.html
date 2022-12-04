@@ -5,7 +5,24 @@
       <button type="button" mat-button (click)="this.toggleDrawer()">
         <mat-icon>menu</mat-icon>
       </button>
-
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon  [matBadge]="newNotificationsCounter" matBadgeColor="warn">
+          notifications
+        </mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" class="notifications-menu">
+        <div *ngIf="!notifications?.length" class="notification empty">
+          <div class="notification-content">Brak powiadomień</div>
+          </div>
+        <div *ngFor="let notification of notifications;" mat-menu-item class="notification" (click)="readNotification(notification)">
+          <div>
+            <mat-icon (click)="deleteNotification(notification.id, $event)">
+              close
+            </mat-icon>
+          </div>
+          <div class="notification-content" [style.font-weight]="mapNotificationFontWeight(notification)">{{notification.content}}</div>
+          </div>
+      </mat-menu>
       <div class="logo">
         <img
           src="../assets/Login/logo-main.png"

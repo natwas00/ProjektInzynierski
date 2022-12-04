@@ -146,6 +146,10 @@ export class FlashcardComponent implements OnInit, OnDestroy {
   }
 
   public deleteFlashcard(id) {
+    if(this.set.length<5){
+      alert('Twój zestaw nie może zawierać mniej niż 4 fiszki!');
+      return;
+    }
     this.deleteFlashcardSubscription = this.flashcardsService
       .deleteFlashcard(id)
       .subscribe(
