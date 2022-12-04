@@ -100,4 +100,16 @@ export class FlashcardsService {
       httpOptions
     );
   }
+
+  getNotifications(): Observable<any> {
+    return this.http.get(`${baseUrl}/api/all_not`, httpOptions);
+  }
+  
+  readNotification(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/read_not/${id}`, httpOptions);
+  }
+
+  deleteNotification(id: number): Observable<any> {
+    return this.http.delete(`${baseUrl}/api/delete_not/${id}`, httpOptions);
+  }
 }

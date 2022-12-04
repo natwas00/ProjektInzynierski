@@ -78,6 +78,7 @@
       <br /> -->
       <div class="add-csv-btn-warapper">
         <button
+          type='button'
           class="btn btn-primary"
           (click)="sendFile()"
           [disabled]="!selectedFiles"
@@ -85,6 +86,7 @@
           Dodaj plik
         </button>
         <button
+          type='button'
           class="btn btn-primary"
           (click)="removeCSV()"
           [disabled]="!selectedFiles"
@@ -167,7 +169,7 @@
           </td>
         </tr>
       </table>
-      <button class="button-create btn btn-primary" type="submit">
+      <button class="button-create btn btn-primary" type="submit" [attr.disabled]="canAddSet()">
         Dodaj zestaw
       </button>
     </form>
