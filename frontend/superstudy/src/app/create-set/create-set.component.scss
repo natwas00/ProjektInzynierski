@@ -138,7 +138,6 @@ form {
 }
 
 .add-csv-warapper {
-    padding: 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -150,6 +149,10 @@ form {
     height: 70px;
     button {
         margin: 5px;
+    }
+
+    label {
+        padding: 15px;
     }
     
 }

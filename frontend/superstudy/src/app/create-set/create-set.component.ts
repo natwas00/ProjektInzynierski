@@ -41,7 +41,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
     private token: TokenStorageService,
     private route: ActivatedRoute,
     private studentsService: StudentsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user = this.token.getUser();
@@ -174,6 +174,7 @@ export class CreateSetComponent implements OnInit, OnDestroy {
       }
     );
     console.log(this.selectedFiles);
+    this.removeCSV()
   }
 
   public removeCSV() {
@@ -194,5 +195,9 @@ export class CreateSetComponent implements OnInit, OnDestroy {
   public getClassId(id: number) {
     console.log(id);
     this.classId = id;
+  }
+
+  public canAddSet() {
+    return this.flashcardsSet?.length >= 4 ? null : true;
   }
 }
