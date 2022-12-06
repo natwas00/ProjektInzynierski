@@ -3,6 +3,7 @@ const db = require("../models");
 const Group = db.class;
 const User = db.user;
 const Set = db.set
+const class_task = db.class_task;
 const ClassList = db.classList;
 exports.createGroup = (req, res) => {
     Group.findOne({
@@ -25,7 +26,7 @@ exports.createGroup = (req, res) => {
                     name: req.body.name
                 }
             }).then(group => { 
-                res.status(200).send({ 
+                res.status(201).send({ 
                     message: "success" ,
                     classId: group.id
                 });
@@ -45,7 +46,7 @@ exports.delete_class = (req,res) => {
     })
     .then(num => {
       if (num == 1) {
-        res.send({
+        return res.status(200).send({
           message: "Użytkownik został usunięty"
         });
       } else {
@@ -63,7 +64,7 @@ exports.delete_class = (req,res) => {
 exports.class_list = (req,res)=>{
     User.findOne({where:{id:req.userId}}).then(user=>{
         Group.findAll({where:{userId: user.id}}).then(classes =>{
-            return res.send(classes)
+            return res.status(200).send(classes)
         })
     })
    
@@ -72,7 +73,7 @@ exports.class_info = (req,res)=>{
     
     Group.findOne({where:{id: req.params.classId}}).then(info => {
         User.findOne({where: {id: info.userId}}).then(name=>{
-            return res.send({level:info.classLevel, first_name:name.first_name, last_name:name.last_name, name: info.name})
+            return res.status(200).send({level:info.classLevel, first_name:name.first_name, last_name:name.last_name, name: info.name})
         })
     })
 }
@@ -159,4 +160,41 @@ exports.class_rating = (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
+}
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+exports.add_class_task = (req,res)=>{
+    let dat;
+    if(!req.body.finishDate){
+        dat = new Date().addDays(7)
+    }
+    else{
+        dat = req.body.finishDate
+    }
+    class_task.create({classId: req.body.classId,
+    task: req.body.task, finishDate: dat}).then(ok=>{
+        return res.status(200).send({"message":"dodano"})
+    })
+    .catch(error=>{
+        console.log(error)
+    })
+}
+exports.all_tasks = (req,res)=>{
+    class_task.findAll({where: {classId: req.params.classId}}).then(tasks=>{
+        return res.status(200).send(tasks)
+    })
+    .catch(error=>{
+        console.log(error)
+    })
+}
+exports.delete_task = (req,res)=>{
+    class_task.destroy({where: {id: req.params.id}}).then(task=>{
+        return res.status(200).send("usunieto")
+    })
+    .catch(error=>{
+        console.log(error)
+    })
 }

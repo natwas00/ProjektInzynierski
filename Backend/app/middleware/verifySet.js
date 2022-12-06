@@ -36,17 +36,17 @@ check_flashcard = (req,res,next)=>{
         // });
        
         if (data){
-          userAndset.findOne({where: { setId: data.setId}}).then(
+          Set.findOne({where: { id: data.setId}}).then(
             setdata =>{
               console.log(setdata.userId)
               console.log(req.userId)
-              if (setdata.studentId != req.userId){
-                return res.status(401).send({
+              if (setdata.userId != req.userId){
+                return res.status(403).send({
                   message: `Nieautoryzowany dostęp`
                 });
               }
               else if ([1,2,3].includes(parseInt(setdata.setId))){
-                return res.status(401).send({
+                return res.status(403).send({
                   message: `Nieautoryzowany dostęp`
                 });
               }
@@ -74,16 +74,16 @@ check_flashcard = (req,res,next)=>{
 }
 check_set = (req,res,next)=>{
     const id = req.params.setId;
-    userAndset.findOne({where:{setId: id,
-      studentId: req.userId}}).then(data2=>{
+    Set.findOne({where:{id: id,
+      userId: req.userId}}).then(data2=>{
           if (data2 == null){
-            return res.status(401).send({
+            return res.status(403).send({
               message: `Nieautoryzowany dostęp`
             });
             
           }
           else if ([1,2,3].includes(parseInt(id))){
-            return res.status(401).send({
+            return res.status(403).send({
               message: `Nieautoryzowany dostęp`
             });
           }
@@ -118,18 +118,19 @@ check_create_set = (req,res,next)=>{
             //     res.status(400).send({ message: "Brakuje danych" });
             //     return;
             //   }
+            else{
               next();
-
+            }
      
      
       
 }
 check_delete_set = (req,res,next)=>{
-    userAndset.findOne({where:{setId: req.params.setId,
-        studentId: req.userId}})
+    Set.findOne({where:{id: req.params.setId,
+        userId: req.userId}})
         .then(data => {
             if (data==null){
-            res.status(404).send({ message: "Podany zestaw nie istnieje" });
+            res.status(404).send({ message: "Błąd" });
             return;
             }
             else{
@@ -174,7 +175,15 @@ check_access = (req,res,next)=>{
          next()
       }
       else{
-          res.status(401).send("Nie masz dostępu tego zestawu")
+        Set.findOne({where:{id: req.params.setId, userId: req.userId}}).then(data2=>{
+          if(data2){
+             next()
+          }
+          else{
+            res.status(403).send("Nie masz dostępu tego zestawu")
+          }
+        })
+          
       }
      
   })

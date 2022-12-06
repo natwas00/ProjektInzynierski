@@ -8,7 +8,7 @@ exports.buySuperStudySet = (req,res) =>{
     User.findOne({where:{id: req.userId}}).then(user =>{
         Set.findOne({where:{id: req.params.setId}}).then(set=>{
             if (set.points > user.points){
-                return res.status(400).send("Nie posiadasz wystarczająco dużo punktów");
+                return res.status(409).send("Nie posiadasz wystarczająco dużo punktów");
             }
             else{
                 let new_points = parseInt(user.points) - parseInt(set.points);
@@ -17,12 +17,12 @@ exports.buySuperStudySet = (req,res) =>{
                     if (num == 1) {
                     const data = {studentId: req.userId, setId: req.params.setId}
                     UsersAndsets.create(data).then(()=>{
-                        res.send({
+                        res.status(200).send({
                                     message: "Kupiono nowy zestaw!"
                                 })
                     })
                     } else {
-                      res.send({
+                      res.status(400).send({
                         message: `Nie można zaktualizować użytkownika z id=${id}.`
                       });
                     };
@@ -54,7 +54,7 @@ exports.list_superstudy_sets = (req,res)=>{
             //         console.log(set)
             //     }
             // }
-            return res.send(sets_to_send)
+            return res.status(200).send(sets_to_send)
         })
        
     })
