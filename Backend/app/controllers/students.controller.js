@@ -1,9 +1,12 @@
+const sequelize = require("sequelize");
 const db = require("../models");
-const { UsersAndsets } = require("../models");
-const set = db.set
+const { Op } = require("sequelize");
 const ClassList = db.classList;
 const Class = db.class;
 const Users = db.user;
+const set = db.set;
+const notification = db.notification;
+const UsersAndsets = db.UsersAndsets;
 const fiszki = db.fiszki;
 students = [];
 StudentsFoundArray = []
@@ -23,7 +26,7 @@ exports.addStudents = (req, res) => {
     })
     .then(classInDB => {
         if (!classInDB) {
-            return res.status(200).send({ message: "No such class" });
+            return res.status(404).send({ message: "No such class" });
         }
         
         for (let i = 0; i < req.body.students.length; i++) {
@@ -66,16 +69,22 @@ function findStudent(studentLogin, loopCount, studentCount, classId, res) {
 function addStudents(studentIDs, noStudentsFoundArray,StudentsFoundArray, classId, res) {
   array_with_data=[]
   Usernames = []
-  for (i in studentIDs ) {
+
+  for (let i=0; i< studentIDs.length;i++ ) {
    array_with_data.push({studentId: studentIDs[i], classId: classId})
+   notification.create({content: "Zostałeś/aś dodany/a do nowej klasy!", classId: classId, setId: null, userId: studentIDs[i],  if_read:"no"}).then(()=>{
+
+  })
   }
+
+  add_sets_to_students(classId, studentIDs)
   try{
   ClassList.bulkCreate(array_with_data).then(()=>{
     return res.status(200).send({"dodano": StudentsFoundArray, "nie znaleziono": noStudentsFoundArray})
   }
   )
   .catch(info=>{
-    return res.status(400).send(info)
+    return res.status(500).send(info)
   }
  
   )
@@ -97,7 +106,7 @@ exports.getStudentsFromClass = (req, res) => {
   })
   .then( classInDB => {
     if (!classInDB) {
-      return res.status(200).send({ message: "No such class" });
+      return res.status(404).send({ message: "No such class" });
   }
     students = []
     ClassList.findAll({
@@ -124,7 +133,7 @@ exports.getStudentsFromClass = (req, res) => {
             login: student.login
           });
           if (i == dataCount - 1) {
-            return res.send(students)
+            return res.status(200).send(students)
           }
         })
       }
@@ -163,9 +172,7 @@ function sendResponse(res, students) {
 exports.delete_student_from_class = (req, res) => {
 
   ClassList.destroy({ where: { studentId: req.body.studentId, classId: req.body.classId } }).then(info => {
-      if (!info) {
-          return res.status(200).send("No such student or class");
-      }
+  
       return res.send("The student was deleted from the class")
   })
       .catch(error => {
@@ -176,7 +183,7 @@ exports.student_classes = (req, res) => {
   Users.findOne({ where: { id: req.userId } }).then(user => {
       ClassList.findAll({ where: { studentId: user.id } }).then(classes => {            
           if (classes.length == 0) {
-              return res.status(200).send({ message: "No such class" });
+              return res.status(404).send({ message: "No such class" });
           }
           studentsClasses = [];
           for (let i = 0; i < classes.length; i++) {
@@ -184,7 +191,7 @@ exports.student_classes = (req, res) => {
                   studentsClasses.push(ourClass);
                   console.log(studentsClasses);
                   if (i == classes.length - 1) {
-                      return res.send(studentsClasses)
+                      return res.status(200).send(studentsClasses)
                   }
               })
           }
@@ -194,45 +201,49 @@ exports.student_classes = (req, res) => {
   });
 
 }
-
+function add_sets_to_students(classId, students){
+  set.findAll({where: {classId: classId}}).then(data=>{
+    console.log(data.length)
+    for (let i=0;i<data.length;i++){
+      for (let j=0;j<students.length;j++){
+      UsersAndsets.create({studentId: students[j], setId: data[i].id}).then(()=>{
+         console.log("ok dodano")
+      //   res.status(201).send("ok");
+      
+       })
+      }
+    }
+  })
+}
 exports.statistics = (req, res) => {
-    UsersAndsets.findAll({ where: { studentId: req.userId} }).then(userSets => {
-        sets = [];
-        if (userSets.length == 0) {
-            return res.status(200).send({ message: "User has no final tests" });
+  UsersAndsets.findAll({ where: { studentId: req.userId} }).then(userSets => {
+      let sets = [];
+      if (userSets.length == 0) {
+          return res.status(200).send({ message: "User has no final tests" });
+      }
+      for (let i = 0; i < userSets.length; i++) {
+        if (userSets[i].points!=null){
+          sets.push(userSets[i].setId)
         }
-        ownSetsPoints = 0;
-        for (let i = 0; i < userSets.length; i++) {
-            set.findOne({ where: { id: userSets[i].setId } }).then(set => {
+        
+      }
+      fiszki.findAndCountAll({
+        where:{setId:{[Op.in]:sets}}
+      }).then(dat=>{
+        console.log(sets)
+       // res.send(dat)
+       Users.findOne({ where: { id: req.userId } }).then(user => {
 
-                if (userSets[i].points != null) {
-                    fiszki.findAndCountAll({ where: { setId: set.id } }).then(result => {
-                        ownSetsPoints = ownSetsPoints + result.count;
-                    });
-                }
-                if (i == userSets.length - 1) {
-
-                    Users.findOne({ where: { id: req.userId } }).then(user => {
-
-                        if (user.points == null) {
-                            return res.status(200).send({ message: "User does not have points" });
-                        }
-                        
-                        userPoints = parseFloat(user.points);
-                        maxPoints = parseFloat(ownSetsPoints);
-                        
-                        percent = (userPoints / maxPoints) * 100;
-                        
-                        console.log(userPoints);
-                        console.log(ownSetsPoints);
-                        console.log(percent);
-                        return res.send({ percent })
-                    })
-                }
-            })
+        if (user.points == null) {
+          percent = 0
+          return res.send({ percent  })
         }
-    
-    }).catch(err => {
-        res.status(500).send({ message: err });
-    });
+        
+       userPoints = parseFloat(user.points);
+      maxPoints = parseFloat(dat.count);
+      percent = (userPoints / maxPoints) * 100;
+      return res.send({ percent })
+      });
+    })
+  })
 }

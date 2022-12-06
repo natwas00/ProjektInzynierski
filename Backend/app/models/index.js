@@ -20,15 +20,16 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.images = require("./image.model.js")(sequelize, Sequelize);
-
+db.class_task = require("./class_task.model.js")(sequelize, Sequelize);
 db.fiszki = require("./fiszki.model.js")(sequelize, Sequelize);
 db.set = require("./set.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.class = require("../models/class_model.js")(sequelize, Sequelize);
 db.final_test = require("../models/final_test-model.js")(sequelize, Sequelize);
-db.classList = require("../models/ClassList.model")(sequelize, Sequelize);
+db.classList = require("../models/ClassList.model.js")(sequelize, Sequelize);
 db.UsersAndsets = require("../models/users&sets.model.js")(sequelize, Sequelize);
+db.notification = require("../models/notifications.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
@@ -53,11 +54,11 @@ db.user.belongsToMany(db.class,{
   otherKey:"studentId",
   allowNull: false
  })
-//  db.user.hasMany(db.set,{
-//   foreignKey: "userId",
-//   allowNull: false
-//  });
-// db.set.belongsTo(db.user)
+ db.user.hasMany(db.set,{
+  foreignKey: "userId",
+  allowNull: false
+ });
+db.set.belongsTo(db.user)
 db.user.belongsToMany(db.set,{
   through: "users&sets",
   foreignKey: "studentId",
@@ -74,6 +75,7 @@ db.set.hasMany(db.fiszki,{
   foreignKey: "setId",
   allowNull: false
 })
+
 db.fiszki.belongsTo(db.set)
 db.class.hasMany(db.set,{
   foreignKey: "classId"
@@ -95,6 +97,10 @@ db.images.hasOne(db.fiszki, {
   foreignKey:"imageId"
 })
 db.fiszki.belongsTo(db.images)
+db.class.hasMany(db.class_task,{
+  foreignKey: 'classId'
+})
+db.class_task.belongsTo(db.class)
 db.ROLES = ["user", "teacher", "admin"];
 db.SETS=["Owoce"]
 module.exports = db;

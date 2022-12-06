@@ -43,11 +43,26 @@ exports.multipleChoiceTest = (req,res) =>{
                 answers.push(name)
                 
             }
+            let answers2 = []
+            answers2.push(flashcard.first_side)
+            for (let i=0;i<3;i++){
+                let randIndex = Math.floor(Math.random() * keys.length);
+                
+                let randKey = keys[randIndex]
+                while(answers2.includes(flashcards[randKey].first_side  )){
+                    randIndex = Math.floor(Math.random() * keys.length);
+                    randKey = keys[randIndex]
+                }
+                const name = flashcards[randKey].first_side  
+                answers2.push(name)
+                
+            }
             let randNumber = Math.floor(Math.random() * test.length);
-            test.insert(randNumber,{id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, link: flashcard.link, answers: answers.sort()})
+            test.insert(randNumber,{id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, link: flashcard.link, answers: answers.sort(), answers2: answers2.sort()})
             
          }
-         res.send(test)
+         console.log("wysylam")
+         res.status(200).send(test)
          try{
             last_access(setId,req.userId)
 
@@ -59,14 +74,14 @@ exports.multipleChoiceTest = (req,res) =>{
     })
 }
 exports.check_answers = (req, res) => {
-    setId = req.params.setId;
+    let setId = req.params.setId;
     var points = 0
     req.body.forEach(function(item){
         if (item.answer == item.second_side){
             points = points+1
         }
     })
-    UsersAndsets.findOne({where : {setId: setId}}).then(set=>{
+    UsersAndsets.findOne({where : {setId: setId, studentId: req.userId}}).then(set=>{
         let new_points; 
         let data;
         if (points > set.points){
@@ -84,7 +99,7 @@ exports.check_answers = (req, res) => {
                         message: `Nie można zaktualizować użytkownika z id=${id}.`
                       });
                     };
-                    UsersAndsets.update(new_points, {where: {setId: req.params.setId}}) .then(num => {
+                    UsersAndsets.update(new_points, {where: {setId: req.params.setId, studentId: req.userId}}) .then(num => {
                         if (num == 1) {
                            console.log("dodano punkty")
                         } else {
@@ -112,13 +127,13 @@ exports.check_answers = (req, res) => {
             console.log("error")
            }
       
-        return res.json(data)
+        return res.status(200).json(data)
 
     })
 
 }
 exports.TrueFalse = (req,res) => {
-    setId = req.params.setId;
+    let setId = req.params.setId;
     const probability = (Math.random() * (7 - 4 + 1)) + 4;
     var test=[]
     if (req.body.superset){
@@ -159,7 +174,89 @@ exports.TrueFalse = (req,res) => {
            catch{
             console.log("error")
            }
-        return res.json(test)
+        test = test.sort((a, b) => {
+            if (a.first_side < b.first_side ) {
+              return -1;
+            }
+        });
+        return res.status(200).json(test)
 
+    })
+}
+function TrueFalseQuestion(flashcard,flashcards) {
+    var trueOrFalse = Math.floor(Math.random()* 2)
+    if (trueOrFalse == 0){
+        return {method: "trueFalse",id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, trueFalse: true}
+    }
+    else{
+        const keys =  Object.keys(flashcards)
+        let randIndex = Math.floor(Math.random() * keys.length);              
+        let randKey = keys[randIndex]
+        randIndex = Math.floor(Math.random() * keys.length);
+        randKey = keys[randIndex]
+        while(flashcards[randKey].id == flashcard.id  ){
+            randIndex = Math.floor(Math.random() * keys.length);
+            randKey = keys[randIndex]
+        }
+        const name = flashcards[randKey]
+        question = {method: "trueFalse",id:flashcard.id, first_side: flashcard.first_side, second_side: name.second_side,trueFalse: false} 
+        return question
+    }
+    
+}
+function abcd(flashcard,flashcards){
+    const keys =  Object.keys(flashcards)
+    let answers = []
+    answers.push(flashcard.second_side)
+    for (let i=0;i<3;i++){
+        let randIndex = Math.floor(Math.random() * keys.length);
+        
+        let randKey = keys[randIndex]
+        while(answers.includes(flashcards[randKey].second_side  )){
+            randIndex = Math.floor(Math.random() * keys.length);
+            randKey = keys[randIndex]
+        }
+        const name = flashcards[randKey].second_side  
+        answers.push(name)
+        
+    }
+    let answers2 = []
+    answers2.push(flashcard.first_side)
+    for (let i=0;i<3;i++){
+        let randIndex = Math.floor(Math.random() * keys.length);
+        
+        let randKey = keys[randIndex]
+        while(answers2.includes(flashcards[randKey].first_side  )){
+            randIndex = Math.floor(Math.random() * keys.length);
+            randKey = keys[randIndex]
+        }
+        const name = flashcards[randKey].first_side  
+        answers2.push(name)
+        
+    }
+
+    return {method: "abcd",id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, link: flashcard.link, answers: answers.sort(),ansers2: answers2.sort()}
+}
+exports.mixStudy = (req,res)=>{
+    let test = []
+    fiszki.findAll({where:{setId: req.params.setId}}).then(flashcards=>{
+        for (let i=0;i<flashcards.length;i++){
+            var record;
+            let numberMethod = Math.floor(Math.random() * 3);
+            if (numberMethod == 0){
+                record = {method: "write",id:flashcards[i].id, first_side: flashcards[i].first_side, second_side: flashcards[i].second_side} 
+
+            }
+            else if (numberMethod == 1){
+                record = TrueFalseQuestion(flashcards[i],flashcards)
+            }
+            else if (numberMethod == 2){
+                record = abcd(flashcards[i],flashcards)
+            }
+            let randNumber = Math.floor(Math.random() * test.length);
+            test.insert(randNumber,record)
+
+        }
+        return res.status(200).send(test)
     })
 }

@@ -4,7 +4,9 @@ const verifySet = require("./verifySet");
 const imageUploader = require("./imageUploader")
 const csvUploader = require("./csvUploader")
 const verifyOwner = require('./study_access')
+const checkSuperStudySet = require("./superstudySet")
 const checkClassOwner = require('./verifyTeacher')
+const verifyNor = require('./verifyNor')
 module.exports = {
   authJwt,
   verifySignUp,
@@ -12,5 +14,7 @@ module.exports = {
   imageUploader,
   csvUploader,
   verifyOwner,
-  checkClassOwner
+  checkClassOwner,
+  checkSuperStudySet,
+  verifyNor
 };
