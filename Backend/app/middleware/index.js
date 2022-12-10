@@ -7,6 +7,7 @@ const verifyOwner = require('./study_access')
 const checkSuperStudySet = require("./superstudySet")
 const checkClassOwner = require('./verifyTeacher')
 const verifyNor = require('./verifyNor')
+const verifyAccess = require('./verifyAccess')
 module.exports = {
   authJwt,
   verifySignUp,
@@ -16,5 +17,7 @@ module.exports = {
   verifyOwner,
   checkClassOwner,
   checkSuperStudySet,
-  verifyNor
+    verifyNor,
+    verifyAccess
+
 };
