@@ -1,0 +1,191 @@
+.container-fluid {
+    width: 100%;
+
+    .title {
+        text-align: center;
+        font-family: "Poppins", sans-serif;
+        font-size: 36px;
+        color: rgba(0, 0, 0, 0.87);
+        margin-bottom: 35px;
+    }
+
+    .single-question {
+        margin-top: 50px;
+        background-color: #e3f1ff;
+        border-radius: 7px;
+        max-width: 700px;
+        margin: 50px auto 0;
+    }
+
+    .single-question.abcd {
+        background-color: #e3f1ff;
+        margin: 50px auto 0;
+        max-width: 700px;
+        justify-content: center;
+        border-radius: 7px;
+
+        .text {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            .abcd-button {
+                width: 250px;
+                height: 120px;
+                background: #bddcff;
+                border-radius: 15px;
+                border: 0px;
+                margin: 20px;
+                font-size: 30px;
+            }
+        }
+
+        .line {
+            width: 421px;
+            height: 0px;
+            left: 324px;
+            top: 189px;
+            background-color: #363fa0;
+        }
+    }
+
+    .trueFalse {
+        .buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .true-false-button {
+            width: 418px;
+            height: 120px;
+            background: #bddcff;
+            border-radius: 15px;
+            border: 0px;
+            margin: 20px;
+            font-size: 30px;
+        }
+
+        .true-false-text {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 30px;
+
+            div {
+                width: 33%;
+            }
+
+            .first-side {
+                text-align: right;
+            }
+
+            .second-side {
+                text-align: left;
+            }
+
+            .arrow {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .title {
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            font-size: 36px;
+            color: rgba(0, 0, 0, 0.87);
+            margin-bottom: 50px;
+        }
+
+        .back-to-set {
+            font-family: "Poppins", sans-serif;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+    }
+
+    .write {
+        font-size: 35px;
+        display: flex;
+        width: 100%;
+        padding: 20px;
+        //align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+
+        .text-input {
+            font-size: 35px;
+            display: flex;
+            margin-top: 0px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            border-color: #53a0fa;
+        }
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .answer {
+            margin-left: 50px;
+        }
+
+        .question {
+            width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            margin-top: 4px;
+        }
+
+        .button:disabled,
+        button[disabled] {
+            border: 1px solid #999999;
+            background-color: #cccccc;
+            color: #666666;
+        }
+
+        .title {
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            font-size: 36px;
+            color: rgba(0, 0, 0, 0.87);
+            margin-bottom: 50px;
+        }
+
+        .back-to-set {
+            font-family: "Poppins", sans-serif;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+    }
+}
+
+.back-to-set {
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}

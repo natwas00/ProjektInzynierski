@@ -112,4 +112,8 @@ export class FlashcardsService {
   deleteNotification(id: number): Observable<any> {
     return this.http.delete(`${baseUrl}/api/delete_not/${id}`, httpOptions);
   }
+
+  getMixTest(id: number): Observable<any> {
+    return this.http.get(`${baseUrl}/api/mixStudy/${id}`, httpOptions);
+  }
 }
