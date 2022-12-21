@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 import { FlashcardsService } from './_services/flashcards.service';
 import { StudentsService } from './_services/students.service';
@@ -40,13 +40,15 @@ export class AppComponent implements OnInit, OnDestroy {
   setData = {};
   public notifications = [];
   public notificationsTimerSub: Subscription;
+  public getNotificationsSub: Subscription;
   public newNotificationsCounter = null;
   constructor(
     private tokenStorageService: TokenStorageService,
     private modalService: NgbModal,
     private router: Router,
     private flashcardsService: FlashcardsService,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
   selectChangeHandlerLevel(event: any) {
     //update the ui
@@ -210,14 +212,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public getNotifications(): void {
-    this.flashcardsService.getNotifications().pipe(takeUntil(this.destroyed$)).subscribe((res) => {
+    this.notificationsTimerSub?.unsubscribe?.();
+    this.getNotificationsSub = this.flashcardsService.getNotifications().pipe(takeUntil(this.destroyed$)).subscribe((res) => {
       console.log(res);
       this.notifications = res;
       let newNotificationsCount = this.notifications.filter(notification => {
         return notification.if_read === "no";
       })?.length;
       this.newNotificationsCounter = newNotificationsCount ? newNotificationsCount : null;
+      this.changeDetectorRef.detectChanges();
       console.log(this.newNotificationsCounter);
+      this.getNotificationsSub?.unsubscribe?.();
       this.notificationsTimerSub = timer(60000).pipe(takeUntil(this.destroyed$))
         .subscribe(t => this.getNotifications());
     });
@@ -228,7 +233,10 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
     this.flashcardsService.readNotification(notification.id).pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.notificationsTimerSub.unsubscribe();
+      this.notificationsTimerSub?.unsubscribe?.();
+      this.getNotifications();
+    }, (e)=>{
+      this.notificationsTimerSub?.unsubscribe?.();
       this.getNotifications();
     });
   }
@@ -236,7 +244,10 @@ export class AppComponent implements OnInit, OnDestroy {
   public deleteNotification(id: number, event: MouseEvent): void {
     event.stopPropagation();
     this.flashcardsService.deleteNotification(id).pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.notificationsTimerSub.unsubscribe();
+      this.notificationsTimerSub?.unsubscribe?.();
+      this.getNotifications();
+    }, (e)=>{
+      this.notificationsTimerSub?.unsubscribe?.();
       this.getNotifications();
     });
   }

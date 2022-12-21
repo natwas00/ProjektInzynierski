@@ -1,0 +1,74 @@
+<div class="back-to-set" [routerLink]="['/set-menu', id]">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    <span class="back-text">Powrót do zestawu</span>
+  </div>
+  <div class="container-fluid">
+    <div class="title">Test mieszany</div>
+    <div *ngFor="let item of test; let i = index" class="single-question" [ngClass]="item.method">
+      <ng-container [ngSwitch]="item.method">
+        <ng-container *ngSwitchCase="'abcd'">
+            <div class="text">{{ item.first_side }}</div>
+            <hr class="line" />
+            <div class="buttons">
+                <button *ngFor="let answer of item.answers; let ianswer = index" class="abcd-button" (click)="isCorrectABCD(i, answer)"
+                    [style.background]="changeColorABCD(i, answer)" [style.pointerEvents]="item.checked ? 'none' : ''">
+                    {{ answer }}
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'trueFalse'">
+            <div class="true-false-text">
+                <div class="first-side">{{ item.first_side }}</div>
+                <div class="arrow">
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAYAAACinX6EAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD8SURBVHgB5Zk7DoJAFEUf6lY0JOxELajYjsN2qCiMtS7CxMTF6FzDGIN8ZoZq7jsVlOfkBeYjkjj7sjrJAtaSOLu8uG7zQp6P+00iWAkBmYiJnQSKACA2Ak0AEBOBKgAIjUAXAIREoAwAfCPQBgA+EagDgLkI9AHAVAQVAcBYhOxQVi9RhJU1l7ap3buaCXD0J0FdAPAbYSNK6SLonACHlc/UBrATUJ/bxmj9Bnzk8azxL/CV797TJmQd05cHmlaCf/JAy15gUB5o2A2OygP284BJecB8IjQrD1jPBL3kAeOpsLc8YLsXCJIHTDdDwfKA5W4wSp6CY1kZWcAbuoBTnXw1HW8AAAAASUVORK5CYII="
+                  />
+                </div>
+                <div class="second-side">{{ item.second_side }}</div>
+              </div>
+            
+              <div class="buttons">
+                <button
+                  class="true-false-button"
+                  (click)="isCorrectTrueFalse(i, true)"
+                  [style.background]="changeColorTrueFalse(i, true)"
+                  [style.pointerEvents]="item.checked ? 'none' : ''"
+                >
+                  PRAWDA
+                </button>
+                <button
+                  class="true-false-button"
+                  (click)="isCorrectTrueFalse(i, false)"
+                  [style.background]="changeColorTrueFalse(i, false)"
+                  [style.pointerEvents]="item.checked ? 'none' : ''"
+                >
+                  FAŁSZ
+                </button>
+              </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'write'">
+            <div class="question" [title]="item.first_side">{{ item.first_side }}</div>
+            <div class="answer" [style.pointer-events]="item?.checked ? 'none' : ''">
+              <input
+                class="text-input"
+                type="text"
+                [style.background-color]="changeColorWrite(i)"
+                name="answer"
+                [(ngModel)]="item.answer"
+                [readonly]="item.checked"
+                (keyup.enter)="isCorrectWrite(i)"
+              />
+              <button
+                class="btn btn-primary"
+                (click)="isCorrectWrite(i)"
+                [disabled]="item.checked"
+              >
+                Prześlij
+              </button>
+            </div>
+        </ng-container>
+      </ng-container>
+      
+    </div>
+  </div>
+  

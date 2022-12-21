@@ -27,6 +27,7 @@ import { SuperStudySetsComponent } from './super-study-sets/super-study-sets.com
 import { TestWritingComponent } from './test-writing/test-writing.component';
 import { FinalTestComponent } from './final-test/final-test.component';
 import { AddTaskComponent } from './add-task/add-task.component';
+import { TestMixComponent } from './test-mix/test-mix.component';
 
 const routes: Routes = [
   {
@@ -88,6 +89,12 @@ const routes: Routes = [
   {
     path: 'test-writing/:id',
     component: TestWritingComponent,
+    data: { message: false },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'test-mix/:id',
+    component: TestMixComponent,
     data: { message: false },
     canActivate: [AuthGuard],
   },
