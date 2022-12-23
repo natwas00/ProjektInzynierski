@@ -14,9 +14,9 @@ module.exports = function(app) {
       app.get("/set_name/:setId",
       [authJwt.verifyToken,verifySet.check_access],set_controller.find_set_name);
       app.get("/set/:setId",
-        [authJwt.verifyToken,verifySet.check_access],set_controller.findOneSet);
+      [authJwt.verifyToken,verifySet.check_access],set_controller.findOneSet);
       app.post("/api/add_set/:setId",
-      [authJwt.verifyToken, verifySet.check_set],set_controller.add_to_exsist_set)
+      [authJwt.verifyToken, verifySet.check_set, verifySet.if_flashcard_exists],set_controller.add_to_exsist_set)
       app.get("/api/sets",
       [authJwt.verifyToken],set_controller.all_sets)
       app.post("/api/add_set",
@@ -31,13 +31,15 @@ module.exports = function(app) {
       app.post("/api/csv/upload",
       [authJwt.verifyToken], upload.single("file"),set_controller.uploadCsv)
       app.post("/csv/upload/:id",
-      [authJwt.verifyToken], upload.single("file"),set_controller.uploadCsvToDatabase)
+      [authJwt.verifyToken, verifySet.check_access], upload.single("file"),set_controller.uploadCsvToDatabase)
       app.put("/api/editFlashcard/:id",
-      [authJwt.verifyToken,verifySet.check_flashcard],set_controller.editFlashcard)
+      [authJwt.verifyToken,verifySet.check_flashcard, verifySet.check_sides],set_controller.editFlashcard)
       
 
       app.get("/api/csv/download/:id",
-      [authJwt.verifyToken], set_controller.downloadCsv);
+      [authJwt.verifyToken, verifySet.check_access], set_controller.downloadCsv);
       app.get("/api/get_points",
-      [authJwt.verifyToken],set_controller.getPoints)
+        [authJwt.verifyToken], set_controller.getPoints)
+        app.get("/api/filter",
+      [authJwt.verifyToken], set_controller.filter)
 }

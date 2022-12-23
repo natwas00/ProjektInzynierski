@@ -5,15 +5,6 @@ const User = db.user;
 const { verifyOwner, checkSuperStudySet } = require("../middleware");
 const UsersAndsets = db.UsersAndsets;
 const fiszki  = db.fiszki;
-function last_access(setId, userId){
-    date = {last_access : new Date()}
-    UsersAndsets.update(date, {where:{studentId: userId, setId: setId}}).then(()=>{
-        console.log("zmieniono czas ostatniego dostępu")
-    })
-    .catch(()=>{
-        console.log("error")
-    })
-  }
 Array.prototype.insert = function ( index, ...items ) {
     this.splice( index, 0, ...items );
 };
@@ -61,76 +52,69 @@ exports.multipleChoiceTest = (req,res) =>{
             test.insert(randNumber,{id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, link: flashcard.link, answers: answers.sort(), answers2: answers2.sort()})
             
          }
-         console.log("wysylam")
          res.status(200).send(test)
-         try{
-            last_access(setId,req.userId)
-
-           }
-           catch{
-            console.log("error")
-           }
          return
     })
 }
 exports.check_answers = (req, res) => {
     let setId = req.params.setId;
     var points = 0
-    req.body.forEach(function(item){
-        if (item.answer == item.second_side){
-            points = points+1
-        }
-    })
-    UsersAndsets.findOne({where : {setId: setId, studentId: req.userId}}).then(set=>{
-        let new_points; 
-        let data;
-        if (points > set.points){
-            new_points = { points: set.points + (points - set.points)}
-            data = {message: points, record: points}
-            User.findOne({where:{id:req.userId}}).then(p =>{
-                user_points = parseInt(p.points) + (points - set.points)
-                update = {points: user_points}
-                console.log(update)
-                User.update(update,{where: {id: req.userId}}) .then(num => {
-                    if (num == 1) {
-                       console.log("dodano punkty")
-                    } else {
-                      return res.send({
-                        message: `Nie można zaktualizować użytkownika z id=${id}.`
-                      });
-                    };
-                    UsersAndsets.update(new_points, {where: {setId: req.params.setId, studentId: req.userId}}) .then(num => {
-                        if (num == 1) {
-                           console.log("dodano punkty")
-                        } else {
-                          return res.send({
-                            message: `Nie można zaktualizować użytkownika z id=${id}.`
-                          });
-                        };
-                      })
-                      data = {message: points, record: set.points}
-
-                  })
+    try {
+        req.body.forEach(function (item) {
+            fiszki.findOne({ where: { id: item.id } }).then(data => {
+                if (item.answer == item.second_side && data != null && data.second_side == item.second_side) {
+                    points = points + 1
+                }
             })
+     
+        })
+        UsersAndsets.findOne({ where: { setId: setId, studentId: req.userId } }).then(set => {
+            let new_points;
+            let data;
+            if (points > set.points) {
+                new_points = { points: set.points + (points - set.points) }
+                data = { message: points, record: points }
+                User.findOne({ where: { id: req.userId } }).then(p => {
+                    user_points = parseInt(p.points) + (points - set.points)
+                    update = { points: user_points }
+                    console.log(update)
+                    User.update(update, { where: { id: req.userId } }).then(num => {
+                        if (num == 1) {
+                            console.log("dodano punkty")
+                        } else {
+                            return res.send({
+                                message: `Nie można zaktualizować użytkownika z id=${id}.`
+                            });
+                        };
+                        UsersAndsets.update(new_points, { where: { setId: req.params.setId, studentId: req.userId } }).then(num => {
+                            if (num == 1) {
+                                console.log("dodano punkty")
+                            } else {
+                                return res.send({
+                                    message: `Nie można zaktualizować użytkownika z id=${id}.`
+                                });
+                            };
+                        })
+                        data = { message: points, record: set.points }
+
+                    })
+                })
            
          
-        }
-        else{
-            data = {message: points, record: set.points}
+            }
+            else {
+                data = { message: points, record: set.points }
 
-        }
-        try{
-            last_access(setId,req.userId)
-
-           }
-           catch{
-            console.log("error")
-           }
+            }
+     
       
-        return res.status(200).json(data)
+            return res.status(200).json(data)
 
-    })
-
+        })
+    }
+    catch {
+        return res.status(400).send({message:"error"})
+    }
 }
 exports.TrueFalse = (req,res) => {
     let setId = req.params.setId;
@@ -167,13 +151,7 @@ exports.TrueFalse = (req,res) => {
 
             }
         }
-        try{
-            last_access(setId,req.userId)
-
-           }
-           catch{
-            console.log("error")
-           }
+       
         test = test.sort((a, b) => {
             if (a.first_side < b.first_side ) {
               return -1;
@@ -183,7 +161,7 @@ exports.TrueFalse = (req,res) => {
 
     })
 }
-function TrueFalseQuestion(flashcard,flashcards) {
+function trueFalseQuestion(flashcard,flashcards) {
     var trueOrFalse = Math.floor(Math.random()* 2)
     if (trueOrFalse == 0){
         return {method: "trueFalse",id: flashcard.id, first_side: flashcard.first_side,second_side: flashcard.second_side, trueFalse: true}
@@ -204,7 +182,7 @@ function TrueFalseQuestion(flashcard,flashcards) {
     }
     
 }
-function abcd(flashcard,flashcards){
+function abcdQuestion(flashcard,flashcards){
     const keys =  Object.keys(flashcards)
     let answers = []
     answers.push(flashcard.second_side)
@@ -248,10 +226,10 @@ exports.mixStudy = (req,res)=>{
 
             }
             else if (numberMethod == 1){
-                record = TrueFalseQuestion(flashcards[i],flashcards)
+                record = trueFalseQuestion(flashcards[i],flashcards)
             }
             else if (numberMethod == 2){
-                record = abcd(flashcards[i],flashcards)
+                record = abcdQuestion(flashcards[i],flashcards)
             }
             let randNumber = Math.floor(Math.random() * test.length);
             test.insert(randNumber,record)
