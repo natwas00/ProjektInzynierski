@@ -6,34 +6,18 @@ const Set = db.set
 const class_task = db.class_task;
 const ClassList = db.classList;
 exports.createGroup = (req, res) => {
-    Group.findOne({
-        where: {
-            name: req.body.name
-        }
-    })
-    .then(group => {
-        if (group) {
-            return res.status(200).send({ message: "Group with such name already has been created" });
-        }
+   
         Group.create({
             name: req.body.name,
             strudents_number: 0,
             classLevel: req.body.classlevel,
             userId: req.userId
-        }).then(() => {
-            Group.findOne({
-                where: {
-                    name: req.body.name
-                }
-            }).then(group => { 
-                res.status(201).send({ 
-                    message: "success" ,
-                    classId: group.id
-                });
-            })
-          });
-        
-    })
+        }).then(group => {
+            res.status(201).send({
+                message: "success",
+                classId: group.id
+            });
+        })
     .catch(err => {
         res.status(500).send({ message: err.message });
       });
@@ -47,17 +31,17 @@ exports.delete_class = (req,res) => {
     .then(num => {
       if (num == 1) {
         return res.status(200).send({
-          message: "Użytkownik został usunięty"
+          message: "Klasa została usunięta"
         });
       } else {
         res.send({
-          message: `Nie można usunąć użytkownika z id.`
+          message: `Nie można usunąć tej klasy`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Nie można usunąć użytkownika z id=" 
+        message: "Nie można usunąć tej klasy" 
       });
     });
   };
@@ -90,10 +74,6 @@ exports.edit_class_info = (req, res) => {
           id: req.params.classId
       }
   }).then(classInDB => {
-      if (!classInDB) {
-              return res.status(200).send({ message: "No such class" });
-             
-          }
       updatedInfo = { name: groupName, classLevel: groupLevel }
       Group.update({ name: groupName, classLevel: groupLevel }, {
           where: { id: classInDB.id }
@@ -109,9 +89,6 @@ exports.edit_class_info = (req, res) => {
 exports.class_rating = (req, res) => {
     Group.findOne({ where: { id: req.params.classId } }).then(classInDB => {
         ClassList.findAll({ where: { classId: classInDB.id } }).then(students => {
-            if (students.length == 0) {
-                return res.status(200).send("No students in class")
-            }
             Set.findAll({ where: { classId: classInDB.id } }).then(sets => {
                 if (sets.length == 0) {
                     return res.status(200).send("No sets in class")
@@ -171,8 +148,11 @@ exports.add_class_task = (req,res)=>{
     if(!req.body.finishDate){
         dat = new Date().addDays(7)
     }
-    else{
+    else {
         dat = req.body.finishDate
+        if (Date.parse(dat) < new Date()) {
+            return res.status(400).send({ "message": "Zła data" })
+        }
     }
     class_task.create({classId: req.body.classId,
     task: req.body.task, finishDate: dat}).then(ok=>{

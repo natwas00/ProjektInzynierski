@@ -17,7 +17,7 @@ function check_level(level){
     }
     return value
   }
-  function check_subject(subject){
+function check_subject(subject){
     var value=false
     for (element in subjects){
       if (subjects[element] == subject){
@@ -26,26 +26,36 @@ function check_level(level){
       }
     }
     return value
-  }
+}
+if_flashcard_exists = (req, res, next) => {
+  const id = req.params.setId;
+  fiszki.findOne({
+    where: {
+      first_side: req.body.first_side, second_side: req.body.second_side, setId: id
+    }
+  })
+    .then(data => {
+      if (data) {
+        res.status(400).send({message: "Istnieje już taka fiszka"})
+        return
+      }
+      else {
+        next()
+      }
+    })
+}
 check_flashcard = (req,res,next)=>{
     fiszki.findOne({where: {id: req.params.id}}).then(
-      data => {
-        // console.log(data)
-        // return res.status(404).send({
-        //   message: "elo"
-        // });
-       
+      data => {      
         if (data){
-          Set.findOne({where: { id: data.setId}}).then(
+          Set.findOne({where: { id: data.setId, userId: req.userId}}).then(
             setdata =>{
-              console.log(setdata.userId)
-              console.log(req.userId)
-              if (setdata.userId != req.userId){
+              if (!setdata){
                 return res.status(403).send({
                   message: `Nieautoryzowany dostęp`
                 });
               }
-              else if ([1,2,3].includes(parseInt(setdata.setId))){
+              else if (setdata.points>0){
                 return res.status(403).send({
                   message: `Nieautoryzowany dostęp`
                 });
@@ -72,8 +82,15 @@ check_flashcard = (req,res,next)=>{
       });
     })
 }
-check_set = (req,res,next)=>{
-    const id = req.params.setId;
+check_set = (req, res, next) => {
+  var id;
+  if (req.params.setId) {
+     id = req.params.setId;
+  }
+  else {
+    id = req.params.id
+  }
+ 
     Set.findOne({where:{id: id,
       userId: req.userId}}).then(data2=>{
           if (data2 == null){
@@ -82,14 +99,19 @@ check_set = (req,res,next)=>{
             });
             
           }
-          else if ([1,2,3].includes(parseInt(id))){
+          else if (req.body.first_side == null || req.body.second_side == null) {
+            return res.status(403).send({
+              message: 'Brakuje danych'
+            });
+  }
+          else if (data2.points>0){
             return res.status(403).send({
               message: `Nieautoryzowany dostęp`
             });
           }
-          else if(req.body.first_side.length != req.body.second_side.length){
+          else if(req.body.first_side.length != req.body.second_side.length || req.body.first_side.length!=1 ){
             return res.status(400).send({
-              message: `Błąd`
+              message: `Błąd. Zla długość tablicy`
             });
           }
           else{
@@ -101,11 +123,14 @@ check_set = (req,res,next)=>{
     }
 check_create_set = (req,res,next)=>{
 
-            if (req.body.name == null || req.body.name == "" || req.body.level == null || req.body.subject == null){
+            if (req.body.name == null || req.body.name == "" || req.body.level == null || req.body.subject == null ){
                 res.status(400).send({ message: "Brakuje danych" });
                 return;
               }
-            
+            else if (req.body.first_side.length != req.body.second_side.length) {
+              res.status(400).send({ message: "Długość tablic first i second side się nie zgadza" });
+                return;
+            }
             else if (!check_level(req.body.level)){
                 res.status(400).send({ message: "Należy podać odpowiedni poziom" });
                 return;
@@ -126,7 +151,7 @@ check_create_set = (req,res,next)=>{
       
 }
 check_delete_set = (req,res,next)=>{
-    Set.findOne({where:{id: req.params.setId,
+    Set.findOne({where:{id: req.params.id,
         userId: req.userId}})
         .then(data => {
             if (data==null){
@@ -168,14 +193,19 @@ check_delete_card = (req,res,next)=>{
         
 }
 check_access = (req,res,next)=>{
-
-
-  userAndset.findOne({where:{setId: req.params.setId, studentId: req.userId}}).then(data=>{
+  let id;
+  if (req.params.setId) {
+    id = req.params.setId
+  }
+  else {
+    id = req.params.id
+  }
+  userAndset.findOne({where:{setId: id, studentId: req.userId}}).then(data=>{
       if(data){
          next()
       }
       else{
-        Set.findOne({where:{id: req.params.setId, userId: req.userId}}).then(data2=>{
+        Set.findOne({where:{id: id, userId: req.userId}}).then(data2=>{
           if(data2){
              next()
           }
@@ -189,12 +219,22 @@ check_access = (req,res,next)=>{
   })
 
 }
+check_sides = (req, res, next) => {
+  if (!req.body.first_side || !req.body.second_side) {
+    return res.status(400).send({message:"niepełna fiszka"})
+  }
+  else {
+    next()
+  }
+}
 const verifySet = {
     check_set: check_set,
     check_create_set: check_create_set,
     check_delete_set:check_delete_set,
     check_delete_card: check_delete_card,
     check_flashcard: check_flashcard,
-    check_access: check_access
+    check_access: check_access,
+    if_flashcard_exists: if_flashcard_exists,
+    check_sides: check_sides
 }
 module.exports = verifySet;

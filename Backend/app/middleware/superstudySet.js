@@ -19,7 +19,7 @@ check_access = (req,res,next)=>{
            next()
         }
         else{
-            res.status(401).send("Nie masz dostępu tego zestawu")
+            res.status(403).send("Nie masz dostępu tego zestawu")
         }
        
     })

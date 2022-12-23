@@ -18,5 +18,5 @@ module.exports = function(app) {
     ],
     controller.signup
   );
-  app.post("/api/auth/signin", [verifySignUp.checkIfNotNullSignIn], controller.signin);
+  app.post("/api/auth/signin", [verifySignUp.checkIfNotNullSignIn, verifySignUp.check_password_valid], controller.signin);
 };

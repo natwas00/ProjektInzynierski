@@ -7,6 +7,8 @@ const Users = db.user;
 const set = db.set;
 const notification = db.notification;
 const UsersAndsets = db.UsersAndsets;
+
+
 const fiszki = db.fiszki;
 students = [];
 StudentsFoundArray = []
@@ -29,7 +31,7 @@ exports.addStudents = (req, res) => {
             return res.status(404).send({ message: "No such class" });
         }
         
-        for (let i = 0; i < req.body.students.length; i++) {
+      for (let i = 0; i < req.body.students.length; i++) {
           studentLogin = req.body.students[i]
           findStudent(studentLogin, i, req.body.students.length, req.body.classId, res)
         } 
@@ -42,57 +44,62 @@ exports.addStudents = (req, res) => {
 function findStudent(studentLogin, loopCount, studentCount, classId, res) {
   console.log(loopCount, " ", studentCount)
   let data;
-  Users.findOne({
-    where: {
-      login: studentLogin
-  }
-  }).then(student => {
+    Users.findOne({
+      where: {
+        login: studentLogin
+      }
+    }).then(student => {
     
-    if (!student) {
-      noStudentsFoundArray.push(studentLogin)
-    } else {
-      students.push(student.id)
-      StudentsFoundArray.push(studentLogin)
-    }
-    if (loopCount == studentCount - 1) {
-      // data = {noStudentsFoundArray: noStudentsFoundArray, StudentsFoundArray: StudentsFoundArray}
-      // for (i in students){
-      //   console.log("---------------")
-      //   console.log(data)
-      //   data=check_if_student(students[i],data.noStudentsFoundArray,data.StudentsFoundArray)
-        
-      // }
-      addStudents(students, noStudentsFoundArray,StudentsFoundArray, classId, res)
-    }
-  })
-}
+      if (!student) {
+        noStudentsFoundArray.push(studentLogin)
+      } else {
+        students.push(student.id)
+        StudentsFoundArray.push(studentLogin)
+   
+      }
+      if (loopCount == studentCount - 1) {
+
+        addStudents(students, noStudentsFoundArray, StudentsFoundArray, classId, res)
+      }
+    })
+  }
+
+
 function addStudents(studentIDs, noStudentsFoundArray,StudentsFoundArray, classId, res) {
   array_with_data=[]
   Usernames = []
-
   for (let i=0; i< studentIDs.length;i++ ) {
    array_with_data.push({studentId: studentIDs[i], classId: classId})
-   notification.create({content: "Zostałeś/aś dodany/a do nowej klasy!", classId: classId, setId: null, userId: studentIDs[i],  if_read:"no"}).then(()=>{
 
-  })
   }
 
-  add_sets_to_students(classId, studentIDs)
+ 
   try{
-  ClassList.bulkCreate(array_with_data).then(()=>{
+    ClassList.bulkCreate(array_with_data).then(() => {
+    for (let i=0; i< studentIDs.length;i++ ) {
+    notification.create({content: "Zostałeś/aś dodany/a do nowej klasy!", classId: classId, setId: null, userId: studentIDs[i],  if_read:"no"}).then(()=>{
+  })
+
+  }
+
+   add_sets_to_students(classId, studentIDs)
     return res.status(200).send({"dodano": StudentsFoundArray, "nie znaleziono": noStudentsFoundArray})
   }
   )
   .catch(info=>{
-    return res.status(500).send(info)
+    return res.status(500).send("error")
   }
  
   )
+    
+
 }
 catch(error){
-  console.log(error)
-}
-  
+    return res.status(400).send({ "message": "error" })
+    
+  }
+   
+ 
 }
 
 
@@ -105,9 +112,7 @@ exports.getStudentsFromClass = (req, res) => {
       }
   })
   .then( classInDB => {
-    if (!classInDB) {
-      return res.status(404).send({ message: "No such class" });
-  }
+ 
     students = []
     ClassList.findAll({
       where:{
@@ -146,29 +151,7 @@ exports.getStudentsFromClass = (req, res) => {
   }
 };
 
-function sendResponse(res, students) {
-  if (students){
-    res.status(200).send({ students });
-  }
-}
-// function check_if_student(id, noStudentsFoundArray,StudentsFoundArray){
-//   Users.findByPk(id).then(user => {
-//     user.getRoles().then(roles => {
-//       for (let i = 0; i < roles.length; i++) {
-//         if (roles[i].name === "user") {
-         
-//           return {noStudentsFoundArray : noStudentsFoundArray, StudentsFoundArray: StudentsFoundArray};
-//         }
-//       }
-//       StudentsFoundArray = StudentsFoundArray.filter(function(item) {
-//         return item !== id
-//     })
-//       noStudentsFoundArray.push(id)
-//       const data = {noStudentsFoundArray : noStudentsFoundArray, StudentsFoundArray: StudentsFoundArray}
-//       return data
-//     });
-//   });
-// }
+
 exports.delete_student_from_class = (req, res) => {
 
   ClassList.destroy({ where: { studentId: req.body.studentId, classId: req.body.classId } }).then(info => {
@@ -183,7 +166,7 @@ exports.student_classes = (req, res) => {
   Users.findOne({ where: { id: req.userId } }).then(user => {
       ClassList.findAll({ where: { studentId: user.id } }).then(classes => {            
           if (classes.length == 0) {
-              return res.status(404).send({ message: "No such class" });
+              return res.status(404).send({ message: "Brak klas do wyświetlenia" });
           }
           studentsClasses = [];
           for (let i = 0; i < classes.length; i++) {
@@ -239,7 +222,7 @@ exports.statistics = (req, res) => {
           return res.send({ percent  })
         }
         
-       userPoints = parseFloat(user.points);
+      userPoints = parseFloat(user.points);
       maxPoints = parseFloat(dat.count);
       percent = (userPoints / maxPoints) * 100;
       return res.send({ percent })
