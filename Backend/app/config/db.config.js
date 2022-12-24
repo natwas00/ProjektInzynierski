@@ -25,9 +25,9 @@
 //     }
 //   };
 module.exports = {
-    HOST: "sql7.freesqldatabase.com",
-    USER: "sql7586372",
-    PASSWORD: "VtLjIsjtNd",
+  HOST: "mysql-101741-0.cloudclusters.net",
+    USER: "admin",
+    PASSWORD: "KyikqrE9",
     DB: "sql7586372",
     dialect: "mysql",
     pool: {
