@@ -25,7 +25,9 @@
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
+    "node-cron": "^3.0.2",
     "password-validator": "^5.2.1",
-    "sequelize": "^6.17.0"
+    "sequelize": "^6.17.0",
+    "vercel": "^28.10.1"
   }
 }
