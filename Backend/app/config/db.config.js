@@ -25,10 +25,10 @@
 //     }
 //   };
 module.exports = {
-  HOST: "mysql-101741-0.cloudclusters.net",
-    USER: "admin",
-    PASSWORD: "KyikqrE9",
-    DB: "sql7586372",
+  HOST: "storage2100.is.cc",
+    USER: "st28563_superstudy",
+    PASSWORD: "I9TS!6sP1Nf!t1Z^%4P",
+    DB: "st28563_superstudy",
     dialect: "mysql",
     pool: {
       max: 5,
